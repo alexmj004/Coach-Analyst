@@ -5,10 +5,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.io.IOException;
 
 @SpringBootApplication
 public class TfgApplication extends Application {
@@ -24,18 +28,8 @@ public class TfgApplication extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-		var loginScene = new Scene(fxmlLoader.load());
-
-		TextField userField = (TextField) loginScene.lookup("#user");
-		PasswordField passField = (PasswordField) loginScene.lookup("#pass");
-		Button loginButton = (Button) loginScene.lookup("#login_btn");
-
-		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
-
-		stage.setScene(loginScene);
-		stage.setTitle("Inicio de sesión");
-		stage.show();
+		// Cargar la pantalla de Login al iniciar la aplicación
+		showLoginScene(stage);
 	}
 
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
@@ -61,22 +55,132 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
 		var menuScene = new Scene(fxmlLoader.load());
 
-		stage.setScene(menuScene);  // Establece la escena antes de manipular la UI
+		stage.setScene(menuScene);  // Establece la escena del menú
 
-		// Usar Platform.runLater para asegurarse de que la UI esté completamente cargada
-		Platform.runLater(() -> {
-			// Ahora es seguro realizar el lookup, ya que la escena está completamente cargada
-			Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
+		// Asignar los eventos de clic a los botones del menú
+		setMenuClickListener(menuScene);
+		setOutClickListener(menuScene);
 
-			if (nombreCoach != null) {
-				nombreCoach.setText(username); // Actualiza el texto del Label
-			} else {
-				System.out.println("No se ha encontrado el Label 'nombre_coach'.");
-			}
-		});
+		// Asignar los eventos de los botones del menú
+		Button trainingButton = (Button) menuScene.lookup("#training_btn");
+		if (trainingButton != null) {
+			trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
+		}
+
+		Button planningButton = (Button) menuScene.lookup("#planning_btn");
+		if (planningButton != null) {
+			planningButton.setOnAction(e -> handlePlanningButtonAction(stage));
+		}
+
+		// Actualiza el nombre del coach en la interfaz
+		Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
+		if (nombreCoach != null) {
+			nombreCoach.setText(username); // Muestra el nombre del usuario en el label
+		}
 
 		stage.setTitle("Menú");
 		stage.show();
+	}
+
+	// Método para asignar el clic en img_menu en cualquier escena
+	private void setMenuClickListener(Scene scene) {
+		ImageView imgMenu = (ImageView) scene.lookup("#img_menu");
+		if (imgMenu != null) {
+			imgMenu.setOnMouseClicked(this::handleImgMenuClick);
+		}
+	}
+
+	// Método para asignar el clic en img_out en cualquier escena
+	private void setOutClickListener(Scene scene) {
+		ImageView imgOut = (ImageView) scene.lookup("#img_out");
+		if (imgOut != null) {
+			imgOut.setOnMouseClicked(this::handleImgOutClick);
+		}
+	}
+
+	// Este es el método que se llamará cuando se haga clic en img_menu
+	private void handleImgMenuClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en img_menu!");
+		try {
+			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Este es el método que se llamará cuando se haga clic en img_out
+	private void handleImgOutClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en img_out!");
+		try {
+			// Limpiar la sesión (usuario y contraseña)
+			username = null; // Reiniciar la variable username
+			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void showLoginScene(Stage stage) throws IOException {
+		// Cargar el archivo FXML de la pantalla de inicio de sesión
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+		var loginScene = new Scene(fxmlLoader.load());
+
+		// Limpiar los campos de texto (usuario y contraseña)
+		TextField userField = (TextField) loginScene.lookup("#user");
+		PasswordField passField = (PasswordField) loginScene.lookup("#pass");
+		userField.clear();
+		passField.clear();
+
+		// Asignar el controlador de acción para el botón de login
+		Button loginButton = (Button) loginScene.lookup("#login_btn");
+		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
+
+		// Asignar la nueva escena al stage
+		stage.setScene(loginScene);
+		stage.setTitle("Inicio de sesión");
+
+		// Mostrar la nueva escena
+		stage.show();
+	}
+
+	public void showTrainingScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
+		var trainingScene = new Scene(fxmlLoader.load());
+		stage.setScene(trainingScene);
+
+		setMenuClickListener(trainingScene);
+		setOutClickListener(trainingScene);
+
+		stage.setTitle("Training");
+		stage.show();
+	}
+
+	private void handleTrainingButtonAction(Stage stage) {
+		try {
+			showTrainingScene(stage);  // Llama a la escena de Training
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void showPlanningScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Planning.fxml"));
+		var planningScene = new Scene(fxmlLoader.load());
+		stage.setScene(planningScene);
+
+		setMenuClickListener(planningScene);
+		setOutClickListener(planningScene);
+
+		stage.setTitle("Planning");
+		stage.show();
+	}
+
+	private void handlePlanningButtonAction(Stage stage) {
+		try {
+			showPlanningScene(stage);  // Llama a la escena de Planning
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
