@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.298" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
       <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
@@ -28,53 +28,41 @@
                   </ImageView>
                   <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets bottom="200.0" top="10.0" />
                      </VBox.margin>
                      <padding>
-                        <Insets left="10.0" right="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" />
                      </padding>
                   </Label>
-                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="158.0" spacing="10.0">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                     <children>
-                        <ImageView fx:id="img_menu" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/home.png" />
-                           </image>
-                           <HBox.margin>
-                              <Insets right="55.0" />
-                           </HBox.margin>
-                        </ImageView>
-                     </children>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
+                  <ImageView fx:id="img_menu" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/home.png" />
+                     </image>
                      <VBox.margin>
-                        <Insets top="200.0" />
+                        <Insets bottom="15.0" />
                      </VBox.margin>
-                  </HBox>
-                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="158.0" spacing="10.0">
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                     <children>
-                        <ImageView fx:id="img_out" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@images/log_out.png" />
-                           </image>
-                        </ImageView>
-                        <Label text="Log out" textFill="#f4f2f2" />
-                     </children>
-                  </HBox>
+                  </ImageView>
+                  <ImageView fx:id="img_out" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/log_out.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
+                  </ImageView>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </VBox>
          </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </AnchorPane>
       <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="200.0" layoutX="18.0" layoutY="175.0" stroke="#fffcfc" strokeType="INSIDE" width="381.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="200.0" layoutX="18.0" layoutY="175.0" stroke="#fffcfc" strokeType="INSIDE" style="-fx-font-style: italic; -fx-font-weight: bold;" width="381.0" />
             <Line endX="-28.399986267089844" endY="-59.0" layoutX="100.0" layoutY="275.0" startX="-28.399986267089844" startY="53.0" stroke="#fffcfc" />
             <Line endX="12.800025939941406" layoutX="60.0" layoutY="215.0" startX="-39.199974060058594" stroke="#fffcfc" />
             <Line endX="12.800025939941406" layoutX="60.0" layoutY="328.0" startX="-39.199974060058594" stroke="#fffcfc" />
@@ -105,6 +93,31 @@
                   </Label>
                </children>
             </HBox>
+            <Label layoutX="33.0" layoutY="263.0" text="GK">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="101.0" layoutY="181.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="LI" />
+            <Label layoutX="101.0" layoutY="288.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
+            <Label layoutX="101.0" layoutY="238.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
+            <Label layoutX="101.0" layoutY="347.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="LD" />
+            <Label layoutX="182.0" layoutY="262.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
+            <Label layoutX="225.0" layoutY="288.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
+            <Label layoutX="225.0" layoutY="238.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
+            <Label layoutX="343.0" layoutY="263.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DC">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label layoutX="320.0" layoutY="318.0" text="ED">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font></Label>
+            <Label layoutX="320.0" layoutY="206.0" text="EI">
+               <font>
+                  <Font name="System Bold Italic" size="12.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
