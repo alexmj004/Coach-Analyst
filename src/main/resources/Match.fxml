@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.QuadCurve?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <items>
+      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="158.0">
+               <children>
+                  <ImageView fx:id="foto_perfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@images/agregar-usuario.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="158.0" spacing="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="img_menu" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/home.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="55.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <VBox.margin>
+                        <Insets top="200.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="90.0" prefWidth="158.0" spacing="10.0">
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <children>
+                        <ImageView fx:id="img_out" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/log_out.png" />
+                           </image>
+                        </ImageView>
+                        <Label text="Log out" textFill="#f4f2f2" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="200.0" layoutX="18.0" layoutY="175.0" stroke="#fffcfc" strokeType="INSIDE" width="381.0" />
+            <Line endX="-28.399986267089844" endY="-59.0" layoutX="100.0" layoutY="275.0" startX="-28.399986267089844" startY="53.0" stroke="#fffcfc" />
+            <Line endX="12.800025939941406" layoutX="60.0" layoutY="215.0" startX="-39.199974060058594" stroke="#fffcfc" />
+            <Line endX="12.800025939941406" layoutX="60.0" layoutY="328.0" startX="-39.199974060058594" stroke="#fffcfc" />
+            <QuadCurve controlX="-14.199974060058594" controlY="-25.20001220703125" endX="-50.000022888183594" endY="-50.0" fill="#346b3f" layoutX="122.0" layoutY="297.0" startX="-50.0" stroke="#fffcfc" strokeType="INSIDE" />
+            <QuadCurve controlX="-114.19998168945312" controlY="-22.800018310546875" endX="-50.000030517578125" endY="-73.20001220703125" fill="#346b3f" layoutX="448.0" layoutY="290.0" startX="-50.000030517578125" startY="35.600006103515625" stroke="#fffcfc" strokeType="INSIDE" />
+            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="62.0" prefHeight="64.0" prefWidth="382.0" spacing="5.0">
+               <children>
+                  <ComboBox prefWidth="150.0" promptText="GK" />
+                  <ComboBox prefWidth="150.0" promptText="DF" />
+                  <ComboBox prefWidth="150.0" promptText="MD" />
+                  <ComboBox prefWidth="150.0" promptText="DC" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="5.0" prefHeight="42.0" prefWidth="382.0" spacing="5.0">
+               <children>
+                  <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="NEXT MATCH VS">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="50.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Label prefHeight="30.0" prefWidth="201.0" text="Real Madrid" textFill="#f4f2f2">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </AnchorPane>
+   </items>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</SplitPane>
