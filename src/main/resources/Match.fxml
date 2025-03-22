@@ -62,13 +62,18 @@
       </AnchorPane>
       <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
+            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="360.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/logo.png" />
+               </image>
+            </ImageView>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="200.0" layoutX="18.0" layoutY="175.0" stroke="#fffcfc" strokeType="INSIDE" style="-fx-font-style: italic; -fx-font-weight: bold;" width="381.0" />
             <Line endX="-28.399986267089844" endY="-59.0" layoutX="100.0" layoutY="275.0" startX="-28.399986267089844" startY="53.0" stroke="#fffcfc" />
             <Line endX="12.800025939941406" layoutX="60.0" layoutY="215.0" startX="-39.199974060058594" stroke="#fffcfc" />
             <Line endX="12.800025939941406" layoutX="60.0" layoutY="328.0" startX="-39.199974060058594" stroke="#fffcfc" />
             <QuadCurve controlX="-14.199974060058594" controlY="-25.20001220703125" endX="-50.000022888183594" endY="-50.0" fill="#346b3f" layoutX="122.0" layoutY="297.0" startX="-50.0" stroke="#fffcfc" strokeType="INSIDE" />
             <QuadCurve controlX="-114.19998168945312" controlY="-22.800018310546875" endX="-50.000030517578125" endY="-73.20001220703125" fill="#346b3f" layoutX="448.0" layoutY="290.0" startX="-50.000030517578125" startY="35.600006103515625" stroke="#fffcfc" strokeType="INSIDE" />
-            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="62.0" prefHeight="64.0" prefWidth="382.0" spacing="5.0">
+            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="79.0" prefHeight="64.0" prefWidth="382.0" spacing="5.0">
                <children>
                   <ComboBox prefWidth="150.0" promptText="GK" />
                   <ComboBox prefWidth="150.0" promptText="DF" />
@@ -76,27 +81,34 @@
                   <ComboBox prefWidth="150.0" promptText="DC" />
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="5.0" prefHeight="42.0" prefWidth="382.0" spacing="5.0">
+            <HBox prefHeight="42.0" prefWidth="342.0" spacing="5.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="NEXT MATCH VS">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="50.0" />
+                        <Insets />
                      </HBox.margin>
                   </Text>
                   <Label prefHeight="30.0" prefWidth="201.0" text="Real Madrid" textFill="#f4f2f2">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Label>
                </children>
+               <padding>
+                  <Insets left="15.0" />
+               </padding>
             </HBox>
             <Label layoutX="33.0" layoutY="263.0" text="GK">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
-               </font></Label>
+               </font>
+            </Label>
             <Label layoutX="101.0" layoutY="181.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="LI" />
             <Label layoutX="101.0" layoutY="288.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
             <Label layoutX="101.0" layoutY="238.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
@@ -112,7 +124,8 @@
             <Label layoutX="320.0" layoutY="318.0" text="ED">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
-               </font></Label>
+               </font>
+            </Label>
             <Label layoutX="320.0" layoutY="206.0" text="EI">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
