@@ -79,6 +79,9 @@
                         <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" />
                         <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" />
                      </children>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
                   </HBox>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="27.0" prefWidth="318.0" spacing="110.0">
                      <VBox.margin>
