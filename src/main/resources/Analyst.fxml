@@ -104,13 +104,16 @@
                         <Insets bottom="40.0" right="100.0" top="-40.0" />
                      </VBox.margin>
                   </HBox>
-                  <BarChart style="-fx-background-color: #7c87a0;" title="SCORERS">
+                  <BarChart prefHeight="274.0" prefWidth="351.0" style="-fx-background-color: #7c87a0;" title="SCORERS">
                     <xAxis>
                       <CategoryAxis label="Players" side="BOTTOM" tickLabelFill="#f4f2f2" />
                     </xAxis>
                     <yAxis>
                       <NumberAxis label="Goals" side="LEFT" style="-fx-tick-label-font-weight: bold;" tickLabelFill="#f4f2f2" upperBound="50.0" />
                     </yAxis>
+                     <VBox.margin>
+                        <Insets right="15.0" />
+                     </VBox.margin>
                   </BarChart>
                </children>
                <padding>
