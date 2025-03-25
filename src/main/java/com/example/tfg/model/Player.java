@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Getter
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 
 @Entity
-@Table (name = "player")
+@Table (name = "players")
 public class Player implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -23,28 +24,36 @@ public class Player implements Serializable {
     @Column
     private String name;
     @Column
+    private String surname;
+    @Column
     private String position;
     @Column
-    private LocalDate birthDate;
-    @Column
-    private double height;
-    @Column
-    private double weight;
-    @Column
-    private String nationality;
+    private java.sql.Date birthDate;
     @Column
     private String contactInfo;
+    @Column
+    private int goals;
+    @Column
+    private int assists;
+    @Column
+    private int yellowCards;
+    @Column
+    private int redCards;
 
-    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL)
-    private PlayerStatistics playerStatistics;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
-    public Player(String name, String position, LocalDate birthDate, double height, double weight, String nationality, String contactInfo) {
+
+    public Player(String name, String surname, String position, Date birthDate, String contactInfo, int goals, int assists, int yellowCards, int redCards) {
         this.name = name;
+        this.surname = surname;
         this.position = position;
         this.birthDate = birthDate;
-        this.height = height;
-        this.weight = weight;
-        this.nationality = nationality;
         this.contactInfo = contactInfo;
+        this.goals = goals;
+        this.assists = assists;
+        this.yellowCards = yellowCards;
+        this.redCards = redCards;
     }
 }

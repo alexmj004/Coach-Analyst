@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.cglib.core.Local;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,17 +18,13 @@ import java.time.LocalTime;
 @AllArgsConstructor
 
 @Entity
-@Table (name = "training")
+@Table (name = "trainings")
 public class Training implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private int id;
     @Column
-    private LocalDate date;
-    @Column
-    private LocalTime startTime;
-    @Column
-    private LocalTime endTime;
+    private java.sql.Date date;
     @Column
     private String location;
     @Column
@@ -35,13 +32,10 @@ public class Training implements Serializable {
     @Column
     private String notes;
 
-    public Training(LocalDate date, LocalTime startTime, LocalTime endTime, String location, String objective, String notes) {
+    public Training(Date date, String location, String objective, String notes) {
         this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
         this.location = location;
         this.objective = objective;
         this.notes = notes;
     }
-
 }

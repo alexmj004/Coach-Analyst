@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,33 +17,30 @@ import java.time.LocalTime;
 @AllArgsConstructor
 
 @Entity
-@Table (name = "schedule")
-public class Schedule implements Serializable {
+@Table (name = "calendar")
+public class Calendar implements Serializable {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Id
     private int id;
     @Column
     private String title;
     @Column
-    private LocalDate date;
+    private String description;
     @Column
-    private LocalTime startTime;
+    private java.sql.Timestamp start;
     @Column
-    private LocalTime endTime;
-    @Column
-    private String type;
+    private java.sql.Timestamp end;
     @Column
     private String location;
     @Column
-    private String description;
+    private String category;
 
-    public Schedule(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String type, String location, String description) {
+    public Calendar(String title, String description, Timestamp start, Timestamp end, String location, String category) {
         this.title = title;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.type = type;
-        this.location = location;
         this.description = description;
+        this.start = start;
+        this.end = end;
+        this.location = location;
+        this.category = category;
     }
 }
