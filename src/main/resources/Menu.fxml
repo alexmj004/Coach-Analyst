@@ -12,47 +12,50 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.298" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-<items>
-    <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <items>
+      <!-- AnchorPane de la izquierda (Perfil) -->
+      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="158.0">
+            <!-- Contenido del perfil: imagen y texto -->
+            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="158.0">
                <children>
-                  <ImageView fx:id="foto_perfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/agregar-usuario.png" />
-                     </image></ImageView>
+                     </image>
+                  </ImageView>
                   <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
                      <VBox.margin>
                         <Insets bottom="60.0" top="10.0" />
                      </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" />
-                     </padding>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                      <children>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_menu" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/home.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_calendar" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/calendario.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_out" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/log_out.png" />
                                  </image>
@@ -60,103 +63,112 @@
                            </children>
                         </StackPane>
                      </children>
+                     <VBox.margin>
+                        <Insets top="125.0" />
+                     </VBox.margin>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </VBox>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding></AnchorPane>
-    <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      </AnchorPane>
+
+      <!-- AnchorPane de la derecha (Main Content) -->
+      <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1420.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="11.0" prefHeight="374.0" prefWidth="390.0">
+            <VBox alignment="TOP_CENTER" layoutY="2.0" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0">
                <children>
-                  <HBox prefHeight="54.0" prefWidth="370.0">
+                  <!-- Título y logo -->
+                  <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0">
                      <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="293.0" style="-fx-font-family: sans serif; -fx-font-weight: bold;" text="COACH ANALYST" textFill="#f4f2f2">
-                           <font>
-                              <Font name="Sans Serif Collection" size="28.0" />
-                           </font>
+                        <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
-                              <Insets right="-10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ImageView fitHeight="44.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets left="90.0" />
+                              <Insets right="400.0" top="25.0" />
                            </HBox.margin>
                            <image>
                               <Image url="@images/logo.png" />
                            </image>
                         </ImageView>
                      </children>
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
                      <VBox.margin>
-                        <Insets bottom="40.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
-                  <VBox prefHeight="289.0" prefWidth="370.0" spacing="20.0">
+
+                  <!-- Opciones del menú -->
+                  <VBox alignment="CENTER" prefHeight="1026.0" prefWidth="1720.0">
                      <children>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                        <HBox alignment="CENTER" prefHeight="277.0" prefWidth="1370.0" spacing="50.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="250.0">
                                  <children>
-                                    <ImageView fitHeight="125.0" fitWidth="160.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="250.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/trainning.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="training_btn" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Training" />
+                                    <Button fx:id="training_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="600.0" text="Training">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="250.0">
                                  <children>
-                                    <ImageView fitHeight="125.0" fitWidth="160.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="250.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/match.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="match_btn" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Match" />
+                                    <Button fx:id="match_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="600.0" text="Match">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+
+                        <HBox alignment="CENTER" prefHeight="400.0" prefWidth="1370.0" spacing="50.0">
                            <children>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="250.0">
                                  <children>
-                                    <ImageView fitHeight="125.0" fitWidth="160.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="250.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/analyst.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="analyst_btn" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Analyst" />
+                                    <Button fx:id="analyst_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="600.0" text="Analyst">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
-                              <VBox prefHeight="200.0" prefWidth="100.0">
+                              <VBox alignment="CENTER" prefHeight="400.0" prefWidth="250.0">
                                  <children>
-                                    <ImageView fitHeight="125.0" fitWidth="160.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fitHeight="250.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@images/tournament.png" />
                                        </image>
                                     </ImageView>
-                                    <Button fx:id="tournament_btn" mnemonicParsing="false" prefHeight="26.0" prefWidth="174.0" text="Tournament" />
+                                    <Button fx:id="tournament_btn" mnemonicParsing="false" prefHeight="25.0" prefWidth="600.0" text="Tournament">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
                            </children>
+                           <VBox.margin>
+                              <Insets bottom="250.0" />
+                           </VBox.margin>
                         </HBox>
                      </children>
+                     <VBox.margin>
+                        <Insets right="350.0" />
+                     </VBox.margin>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </VBox>
-         </children></AnchorPane>
-  </items>
+         </children>
+      </AnchorPane>
+   </items>
 </SplitPane>
