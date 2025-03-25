@@ -35,4 +35,13 @@ public class Training implements Serializable {
     @Column
     private String notes;
 
+    public Training(LocalDate date, LocalTime startTime, LocalTime endTime, String location, String objective, String notes) {
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.location = location;
+        this.objective = objective;
+        this.notes = notes;
+    }
+
 }

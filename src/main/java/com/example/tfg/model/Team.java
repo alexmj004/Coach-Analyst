@@ -25,4 +25,10 @@ public class Team implements Serializable {
     private String category;
     @Column
     private String season;
+
+    public Team(String name, String category, String season) {
+        this.name = name;
+        this.category = category;
+        this.season = season;
+    }
 }

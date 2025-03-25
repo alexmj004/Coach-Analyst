@@ -28,4 +28,11 @@ public class Analysis implements Serializable {
     private String description;
     @Column
     private String analysisType;
+
+    public Analysis(LocalDate creationDate, String title, String description, String analysisType) {
+        this.creationDate = creationDate;
+        this.title = title;
+        this.description = description;
+        this.analysisType = analysisType;
+    }
 }

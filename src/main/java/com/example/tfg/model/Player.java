@@ -34,4 +34,17 @@ public class Player implements Serializable {
     private String nationality;
     @Column
     private String contactInfo;
+
+    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL)
+    private PlayerStatistics playerStatistics;
+
+    public Player(String name, String position, LocalDate birthDate, double height, double weight, String nationality, String contactInfo) {
+        this.name = name;
+        this.position = position;
+        this.birthDate = birthDate;
+        this.height = height;
+        this.weight = weight;
+        this.nationality = nationality;
+        this.contactInfo = contactInfo;
+    }
 }

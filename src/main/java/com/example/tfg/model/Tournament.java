@@ -30,4 +30,12 @@ public class Tournament implements Serializable {
     private String type;
     @Column
     private String location;
+
+    public Tournament(String name, LocalDate startDate, LocalDate endDate, String type, String location) {
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.type = type;
+        this.location = location;
+    }
 }

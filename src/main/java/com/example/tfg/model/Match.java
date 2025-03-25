@@ -35,4 +35,14 @@ public class Match implements Serializable {
     private String competition;
     @Column
     private String notes;
+
+    public Match (LocalDate date, LocalTime time, String location, String homeTeam, String awayTeam, String competition, String notes) {
+        this.date = date;
+        this.time = time;
+        this.location = location;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.competition = competition;
+        this.notes = notes;
+    }
 }

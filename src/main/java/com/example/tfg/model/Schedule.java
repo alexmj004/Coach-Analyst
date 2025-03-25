@@ -35,4 +35,14 @@ public class Schedule implements Serializable {
     private String location;
     @Column
     private String description;
+
+    public Schedule(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String type, String location, String description) {
+        this.title = title;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.type = type;
+        this.location = location;
+        this.description = description;
+    }
 }

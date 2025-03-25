@@ -29,4 +29,12 @@ public class Exercise  implements Serializable {
     private String category;
     @Column
     private String equipment;
+
+    public Exercise(String name, String description, int duration, String category, String equipment) {
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.category = category;
+        this.equipment = equipment;
+    }
 }
