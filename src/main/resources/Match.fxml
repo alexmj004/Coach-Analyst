@@ -16,13 +16,13 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.298" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="158.0">
+            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="158.0" AnchorPane.topAnchor="25.0">
                <children>
-                  <ImageView fx:id="foto_perfil" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/agregar-usuario.png" />
                      </image>
@@ -31,33 +31,33 @@
                      <VBox.margin>
                         <Insets bottom="60.0" top="10.0" />
                      </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" />
-                     </padding>
+                     <font>
+                        <Font size="20.0" />
+                     </font>
                   </Label>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                      <children>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_menu" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/home.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_calendar" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/calendario.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                            <children>
-                              <ImageView fx:id="img_out" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@images/log_out.png" />
                                  </image>
@@ -65,95 +65,73 @@
                            </children>
                         </StackPane>
                      </children>
+                     <VBox.margin>
+                        <Insets top="125.0" />
+                     </VBox.margin>
                   </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </VBox>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
       </AnchorPane>
-      <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <AnchorPane fx:id="section_training" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1420.0">
          <children>
-            <ImageView fitHeight="44.0" fitWidth="55.0" layoutX="360.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@images/logo.png" />
-               </image>
-            </ImageView>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="200.0" layoutX="18.0" layoutY="175.0" stroke="#fffcfc" strokeType="INSIDE" style="-fx-font-style: italic; -fx-font-weight: bold;" width="381.0" />
-            <Line endX="-28.399986267089844" endY="-59.0" layoutX="100.0" layoutY="275.0" startX="-28.399986267089844" startY="53.0" stroke="#fffcfc" />
-            <Line endX="12.800025939941406" layoutX="60.0" layoutY="215.0" startX="-39.199974060058594" stroke="#fffcfc" />
-            <Line endX="12.800025939941406" layoutX="60.0" layoutY="328.0" startX="-39.199974060058594" stroke="#fffcfc" />
-            <QuadCurve controlX="-14.199974060058594" controlY="-25.20001220703125" endX="-50.000022888183594" endY="-50.0" fill="#346b3f" layoutX="122.0" layoutY="297.0" startX="-50.0" stroke="#fffcfc" strokeType="INSIDE" />
-            <QuadCurve controlX="-114.19998168945312" controlY="-22.800018310546875" endX="-50.000030517578125" endY="-73.20001220703125" fill="#346b3f" layoutX="448.0" layoutY="290.0" startX="-50.000030517578125" startY="35.600006103515625" stroke="#fffcfc" strokeType="INSIDE" />
-            <HBox alignment="TOP_CENTER" layoutX="17.0" layoutY="79.0" prefHeight="64.0" prefWidth="382.0" spacing="5.0">
+            <VBox alignment="CENTER" layoutX="-26.0" layoutY="4.0" prefHeight="374.0" prefWidth="1420.0" spacing="20.0" AnchorPane.topAnchor="-25.0">
                <children>
-                  <ComboBox prefWidth="150.0" promptText="GK" />
-                  <ComboBox prefWidth="150.0" promptText="DF" />
-                  <ComboBox prefWidth="150.0" promptText="MD" />
-                  <ComboBox prefWidth="150.0" promptText="DC" />
-               </children>
-            </HBox>
-            <HBox prefHeight="42.0" prefWidth="342.0" spacing="5.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="NEXT MATCH VS">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <HBox.margin>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0">
+                     <children>
+                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" text="NEXT MATCH VS">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Text>
+                        <Label prefHeight="30.0" prefWidth="201.0" text="Real Madrid" textFill="#f4f2f2">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" right="350.0" top="5.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <HBox.margin>
+                              <Insets right="90.0" />
+                           </HBox.margin>
+                           <image>
+                              <Image url="@images/logo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
                         <Insets />
-                     </HBox.margin>
-                  </Text>
-                  <Label prefHeight="30.0" prefWidth="201.0" text="Real Madrid" textFill="#f4f2f2">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Label>
+                     </VBox.margin>
+                  </HBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="382.0" spacing="5.0">
+                           <children>
+                              <ComboBox prefHeight="30.0" prefWidth="250.0" promptText="Goalkeepers" />
+                              <ComboBox prefHeight="30.0" prefWidth="250.0" promptText="Defenders" />
+                              <ComboBox prefHeight="30.0" prefWidth="250.0" promptText="Midfielders" />
+                              <ComboBox prefHeight="30.0" prefWidth="250.0" promptText="Forwards" />
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="30.0" top="40.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets left="15.0" />
-               </padding>
-            </HBox>
-            <Label layoutX="33.0" layoutY="263.0" text="GK">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="101.0" layoutY="181.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="LI" />
-            <Label layoutX="101.0" layoutY="288.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
-            <Label layoutX="101.0" layoutY="238.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DFC" />
-            <Label layoutX="101.0" layoutY="347.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="LD" />
-            <Label layoutX="182.0" layoutY="262.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
-            <Label layoutX="225.0" layoutY="288.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
-            <Label layoutX="225.0" layoutY="238.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="MD" />
-            <Label layoutX="343.0" layoutY="263.0" style="-fx-font-style: italic; -fx-font-weight: bold;" text="DC">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="320.0" layoutY="318.0" text="ED">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
-            <Label layoutX="320.0" layoutY="206.0" text="EI">
-               <font>
-                  <Font name="System Bold Italic" size="12.0" />
-               </font>
-            </Label>
+            </VBox>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#346b3f" height="500.0" layoutX="166.0" layoutY="274.0" stroke="#fffcfc" strokeType="INSIDE" style="-fx-stroke: white;" width="1020.0" />
+            <Line endX="35.0" endY="155.60003662109375" layoutX="302.0" layoutY="499.0" startX="35.0" startY="-117.99993896484375" style="-fx-stroke: white;" />
+            <Line endX="100.0" layoutX="237.0" layoutY="380.0" startX="-70.0" style="-fx-stroke: white;" />
+            <Line endX="100.0" layoutX="238.0" layoutY="656.0" startX="-70.0" style="-fx-stroke: white;" />
+            <QuadCurve controlX="235.800048828125" controlY="-104.5999755859375" endX="100.0" endY="-208.39999389648438" fill="#346b3f" layoutX="239.0" layoutY="621.0" startX="100.0" startY="6.000061100351562" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: white;" />
+            <Line endX="5.0" layoutX="264.0" layoutY="437.0" startX="-100.0" stroke="WHITE" />
+            <Line endX="5.0" layoutX="265.0" layoutY="599.0" startX="-100.0" stroke="WHITE" />
+            <Line endX="-73.79995727539062" endY="112.00006103515625" layoutX="344.0" layoutY="485.0" startX="-73.79995727539062" startY="-46.39996337890625" stroke="WHITE" />
+            <QuadCurve controlX="-56.199951171875" controlY="-125.5999755859375" endX="100.0" endY="-208.39999389648438" fill="#346b3f" layoutX="1083.0" layoutY="621.0" startX="100.0" startY="6.000061100351562" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: white;" />
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
       </AnchorPane>
    </items>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
 </SplitPane>
