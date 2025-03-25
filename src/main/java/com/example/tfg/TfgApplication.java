@@ -1,7 +1,6 @@
 package com.example.tfg;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -30,6 +29,9 @@ public class TfgApplication extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		showLoginScene(stage);
+
+		// Maximizar la ventana al iniciar
+		stage.setMaximized(true); // Esto maximiza la ventana cuando se abre
 	}
 
 	// Definir el stage de la interfaz login.
@@ -109,7 +111,6 @@ public class TfgApplication extends Application {
 		if (tournamentButton != null) {
 			tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
 		}
-
 
 		// Actualizar el nombre del coach en la interfaz
 		Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
