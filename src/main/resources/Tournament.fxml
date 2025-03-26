@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane fx:controller="com.example.tfg.TfgApplication" dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
       <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
          <children>
@@ -71,7 +71,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <AnchorPane fx:id="section_tournament" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <VBox prefHeight="1080.0" prefWidth="1420.0">
                <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
@@ -85,18 +85,21 @@
                <!-- Contenido superior con logo y botones -->
                <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1200.0" spacing="200.0">
                   <children>
-                     <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
+                     <Text fx:id="clasificationText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true" onMouseClicked="#handleClasificationClick">
                         <font>
                            <Font size="30.0" />
-                        </font></Text>
-                     <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
+                        </font>
+                     </Text>
+                     <Text fx:id="resultsText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true" onMouseClicked="#handleResultsClick">
                         <font>
                            <Font size="30.0" />
-                        </font></Text>
-                     <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
+                        </font>
+                     </Text>
+                     <Text fx:id="teamsText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true" onMouseClicked="#handleTeamsClick">
                         <font>
                            <Font size="30.0" />
-                        </font></Text>
+                        </font>
+                     </Text>
                   </children>
                   <VBox.margin>
                      <Insets bottom="60.0" top="-50.0" />
@@ -121,8 +124,6 @@
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                   </columnResizePolicy>
                </TableView>
-
-
             </VBox>
          </children>
       </AnchorPane>

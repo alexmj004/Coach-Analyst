@@ -69,7 +69,7 @@
             </VBox>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="section_menu" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+      <AnchorPane fx:id="section_results" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <VBox prefHeight="1080.0" prefWidth="1420.0">
                <children>
@@ -83,17 +83,18 @@
                   </ImageView>
                   <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1200.0" spacing="200.0">
                      <children>
-                        <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
+                        <!-- Asignar ID a estos textos para navegación -->
+                        <Text fx:id="clasificationText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Text>
-                        <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
+                        <Text fx:id="resultsText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
                            <font>
                               <Font size="30.0" />
                            </font>
                         </Text>
-                        <Text fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
+                        <Text fx:id="teamsText" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
                            <font>
                               <Font size="30.0" />
                            </font>
@@ -103,7 +104,7 @@
                         <Insets bottom="100.0" top="-50.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label text="J1" textFill="#f4f2f2">
+                  <Label fx:id="num_jornada" text="J1" textFill="#f4f2f2">
                      <VBox.margin>
                         <Insets left="350.0" />
                      </VBox.margin>
@@ -113,96 +114,15 @@
                   </Label>
                   <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="50.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
                      <children>
-                        <Label text="Team A">
+                        <Label fx:id="teamA" text="Team A">
                            <font>
                               <Font size="20.0" />
                            </font></Label>
-                        <Label style="-fx-font-weight: bolder;" text="0:0">
+                        <Label fx:id="result_match" style="-fx-font-weight: bolder;" text="0:0">
                            <font>
                               <Font size="20.0" />
                            </font></Label>
-                        <Label alignment="CENTER" text="Team B">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="40.0" left="350.0" right="50.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Label text="J2" textFill="#f4f2f2">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="350.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="50.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
-                     <children>
-                        <Label text="Team A">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label style="-fx-font-weight: bolder;" text="0:0">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label alignment="CENTER" text="Team B">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="40.0" left="350.0" right="50.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Label text="J3" textFill="#f4f2f2">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="350.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="50.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
-                     <children>
-                        <Label text="Team A">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label style="-fx-font-weight: bolder;" text="0:0">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label alignment="CENTER" text="Team B">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="40.0" left="350.0" right="50.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <Label text="J4" textFill="#f4f2f2">
-                     <font>
-                        <Font name="System Bold" size="20.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets left="350.0" />
-                     </VBox.margin>
-                  </Label>
-                  <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="50.0" prefWidth="600.0" spacing="50.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;">
-                     <children>
-                        <Label text="Team A">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label style="-fx-font-weight: bolder;" text="0:0">
-                           <font>
-                              <Font size="20.0" />
-                           </font></Label>
-                        <Label alignment="CENTER" text="Team B">
+                        <Label fx:id="teamB" alignment="CENTER" text="Team B">
                            <font>
                               <Font size="20.0" />
                            </font></Label>
