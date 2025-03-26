@@ -28,7 +28,7 @@ public class TfgApplication extends Application {
 	// Cargar la pantalla de Login al iniciar la aplicación
 	@Override
 	public void start(Stage stage) throws Exception {
-		showMatchScene(stage);
+		showTournamentScene(stage);
 
 		// Maximizar la ventana al iniciar
 		stage.setMaximized(true); // Esto maximiza la ventana cuando se abre
