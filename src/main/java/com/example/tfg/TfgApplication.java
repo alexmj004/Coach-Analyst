@@ -22,18 +22,18 @@ public class TfgApplication extends Application {
 	private String username;
 
 	public static void main(String[] args) {
-		// Primero, iniciar Spring Boot y luego JavaFX
+		// Primero, iniciar Spring Boot y luego JavaFX.
 		context = SpringApplication.run(TfgApplication.class, args);
-		launch(args); // Lanza la aplicación de JavaFX
+		launch(args); // Lanza la aplicación de JavaFX.
 	}
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		// Cargar la pantalla de Login al iniciar la aplicación
+		// Cargar la pantalla de Login al iniciar la aplicación.
 		showLoginScene(stage);
 
-		// Maximizar la ventana al iniciar
-		stage.setMaximized(true); // Esto maximiza la ventana cuando se abre
+		// Maximizar la ventana al iniciar.
+		stage.setMaximized(true);
 	}
 
 	// Definir el stage de la interfaz login.
@@ -47,22 +47,209 @@ public class TfgApplication extends Application {
 		userField.clear();
 		passField.clear();
 
-		// Asignar el controlador de acción para el botón de login
+		// Asignar el controlador de acción para el botón de login.
 		Button loginButton = (Button) loginScene.lookup("#login_btn");
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
 
-		// Asignar la nueva escena al stage
+		// Asignar la nueva escena al stage.
 		stage.setScene(loginScene);
 		stage.setTitle("Inicio de sesión");
 
-		// Mostrar la nueva escena
+		// Mostrar la nueva escena.
 		stage.show();
 	}
 
+	// Definir el stage de la interfaz menú.
+	public void showMenu(Stage stage) throws Exception {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
+		var menuScene = new Scene(fxmlLoader.load());
+		stage.setScene(menuScene);
+
+		// Asignar eventos de la interfaz.
+		setMenuClickListener(menuScene); // icono menú.
+		setOutClickListener(menuScene); // icono log out.
+
+		// Botón calendario.
+		Button calendarButton = (Button) menuScene.lookup("#calendar_btn");
+		if (calendarButton != null) {
+			calendarButton.setOnAction(e -> handleCalendarButtonAction(stage));
+		}
+		// Botón training.
+		Button trainingButton = (Button) menuScene.lookup("#training_btn");
+		if (trainingButton != null) {
+			trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
+		}
+		// Botón match.
+		Button matchButton = (Button) menuScene.lookup("#match_btn");
+		if (matchButton != null) {
+			matchButton.setOnAction(e -> handleMatchButtonAction(stage));
+		}
+		// Botón analyst.
+		Button analystButton = (Button) menuScene.lookup("#analyst_btn");
+		if (analystButton != null) {
+			analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
+		}
+		// Botón tournament.
+		Button tournamentButton = (Button) menuScene.lookup("#tournament_btn");
+		if (tournamentButton != null) {
+			tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
+		}
+
+		// Asociar nombre usuario introducido en el login, al label de la interfaz.
+		Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
+		if (nombreCoach != null) {
+			nombreCoach.setText(username);
+		}
+
+		stage.setTitle("Menú");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz calendar.
+	public void showCalendarScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
+		var calendarScene = new Scene(fxmlLoader.load());
+		stage.setScene(calendarScene);
+
+		setMenuClickListener(calendarScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(calendarScene);
+
+		stage.setTitle("Calendario");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz training.
+	public void showTrainingScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
+		var trainingScene = new Scene(fxmlLoader.load());
+		stage.setScene(trainingScene);
+
+		setMenuClickListener(trainingScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(trainingScene);
+
+		stage.setTitle("Entrenamientos");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz match.
+	public void showMatchScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Match.fxml"));
+		var matchScene = new Scene(fxmlLoader.load());
+		stage.setScene(matchScene);
+
+		setMenuClickListener(matchScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(matchScene);
+
+		stage.setTitle("Partidos");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz analyst.
+	public void showAnalystScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
+		var analystScene = new Scene(fxmlLoader.load());
+		stage.setScene(analystScene);
+
+		// Asignar eventos de la interfaz
+		setNavigationClickListeners(analystScene);
+		setMenuClickListener(analystScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(analystScene);
+
+		stage.setTitle("Analistas");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz assists.
+	public void showAssistsScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Assists.fxml"));
+		var assistsScene = new Scene(fxmlLoader.load());
+		stage.setScene(assistsScene);
+
+		// Asignar eventos de la interfaz.
+		setNavigationClickListeners(assistsScene);
+		setMenuClickListener(assistsScene);
+		setOutClickListener(assistsScene);
+		stage.setTitle("Asistencias");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz cards.
+	public void showCardsScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Cards.fxml"));
+		var cardsScene = new Scene(fxmlLoader.load());
+		stage.setScene(cardsScene);
+
+		// Asignar eventos de la interfaz.
+		setNavigationClickListeners(cardsScene);
+		setMenuClickListener(cardsScene);
+		setOutClickListener(cardsScene);
+		stage.setTitle("Tarjetas");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz saves.
+	public void showSavesScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Saves.fxml"));
+		var savesScene = new Scene(fxmlLoader.load());
+		stage.setScene(savesScene);
+
+		// Asignar eventos de la interfaz.
+		setNavigationClickListeners(savesScene);
+		setMenuClickListener(savesScene);
+		setOutClickListener(savesScene);
+		stage.setTitle("Paradas");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz tournament.
+	public void showTournamentScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
+		var tournamentScene = new Scene(fxmlLoader.load());
+		stage.setScene(tournamentScene);
+
+		// Asignar eventos de la interfaz
+		setNavigationClickListeners(tournamentScene);
+		setMenuClickListener(tournamentScene);
+		setOutClickListener(tournamentScene);
+
+		stage.setTitle("Tournament");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz results.
+	public void showResultsScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
+		var resultsScene = new Scene(fxmlLoader.load());
+		stage.setScene(resultsScene);
+
+		// Asignar eventos de la interfaz.
+		setNavigationClickListeners(resultsScene);
+		setMenuClickListener(resultsScene);
+		setOutClickListener(resultsScene);
+		stage.setTitle("Resultados");
+		stage.show();
+	}
+
+	// Definir el stage de la interfaz teams.
+	public void showTeamsScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
+		var teamsScene = new Scene(fxmlLoader.load());
+		stage.setScene(teamsScene);
+
+		// Asignar eventos de la interfaz.
+		setNavigationClickListeners(teamsScene);
+		setMenuClickListener(teamsScene);
+		setOutClickListener(teamsScene);
+		stage.setTitle("Equipos");
+		stage.show();
+	}
+
+
+	// Funcionalidad evento btn login.
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
 		username = userField.getText();
 		String password = passField.getText();
-
+		// Comprobación credenciales.
 		if (username.equals("alex_mtz004") && password.equals("1234")) {
 			try {
 				showMenu(stage);  // Cambiar a la ventana del menú si las credenciales son correctas
@@ -78,82 +265,7 @@ public class TfgApplication extends Application {
 		}
 	}
 
-	// Método para mostrar la interfaz de menú
-	public void showMenu(Stage stage) throws Exception {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
-		var menuScene = new Scene(fxmlLoader.load());
-
-		stage.setScene(menuScene);
-
-		// Asignar eventos del menú
-		setMenuClickListener(menuScene);
-		setOutClickListener(menuScene);
-
-		// Botones de funcionalidad en el menú
-		Button calendarButton = (Button) menuScene.lookup("#calendar_btn");
-		if (calendarButton != null) {
-			calendarButton.setOnAction(e -> handleCalendarButtonAction(stage));
-		}
-
-		// Otros botones
-		Button trainingButton = (Button) menuScene.lookup("#training_btn");
-		if (trainingButton != null) {
-			trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
-		}
-		Button matchButton = (Button) menuScene.lookup("#match_btn");
-		if (matchButton != null) {
-			matchButton.setOnAction(e -> handleMatchButtonAction(stage));
-		}
-		Button analystButton = (Button) menuScene.lookup("#analyst_btn");
-		if (analystButton != null) {
-			analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
-		}
-		Button tournamentButton = (Button) menuScene.lookup("#tournament_btn");
-		if (tournamentButton != null) {
-			tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
-		}
-
-		// Actualizar el nombre del coach en la interfaz
-		Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
-		if (nombreCoach != null) {
-			nombreCoach.setText(username); // Muestra el nombre del usuario en el label
-		}
-
-		stage.setTitle("Menú");
-		stage.show();
-	}
-
-	// Métodos eventos click
-	private void setMenuClickListener(Scene scene) {
-		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
-		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
-	}
-
-	private void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
-		ImageView imageView = (ImageView) scene.lookup(fxId);
-		if (imageView != null) {
-			imageView.setOnMouseClicked(handler);
-		}
-	}
-
-	private void handleTournamentButtonAction(Stage stage) {
-		try {
-			showTournamentScene(stage);  // Llama a la escena del torneo
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Método para manejar el clic en "img_calendar"
-	private void handleImgCalendarClick(MouseEvent event) {
-		try {
-			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Método para manejar el clic en "img_menu"
+	// Funcionalidad evento img menú.
 	private void handleImgMenuClick(MouseEvent event) {
 		try {
 			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
@@ -162,14 +274,16 @@ public class TfgApplication extends Application {
 		}
 	}
 
-	// Método para asignar evento botón de log out.
-	private void setOutClickListener(Scene scene) {
-		ImageView imgOut = (ImageView) scene.lookup("#img_out");
-		if (imgOut != null) {
-			imgOut.setOnMouseClicked(this::handleImgOutClick);
+	// Funcionalidad evento img calendar.
+	private void handleImgCalendarClick(MouseEvent event) {
+		try {
+			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
+	// Funcionalidad evento img log out.
 	private void handleImgOutClick(MouseEvent event) {
 		try {
 			username = null; // Reiniciar la variable username
@@ -180,46 +294,113 @@ public class TfgApplication extends Application {
 		}
 	}
 
-	// Mostrar escena de la interfaz Tournament.
-	public void showTournamentScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
-		var tournamentScene = new Scene(fxmlLoader.load());
-		stage.setScene(tournamentScene);
-
-		// Asignar los manejadores de clics para la navegación dentro de Tournament
-		setNavigationClickListeners(tournamentScene);
-		setMenuClickListener(tournamentScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(tournamentScene);   // Asignar el evento de logout
-
-		stage.setTitle("Tournament");
-		stage.show();
+	// Funcionalidad evento btn training.
+	private void handleTrainingButtonAction(Stage stage) {
+		try {
+			showTrainingScene(stage);  // Llama a la escena de entrenamiento
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void showResultsScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
-		var resultsScene = new Scene(fxmlLoader.load());
-		stage.setScene(resultsScene);
-
-		setNavigationClickListeners(resultsScene);
-		setMenuClickListener(resultsScene);  // Añadir funcionalidad de menú
-		setOutClickListener(resultsScene);// Añadir funcionalidad de logout
-		stage.setTitle("Resultados");
-		stage.show();
+	// Funcionalidad evento btn match.
+	private void handleMatchButtonAction(Stage stage) {
+		try {
+			showMatchScene(stage);  // Llama a la escena de partidos
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public void showTeamsScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
-		var teamsScene = new Scene(fxmlLoader.load());
-		stage.setScene(teamsScene);
-
-		setNavigationClickListeners(teamsScene);
-		setMenuClickListener(teamsScene);  // Añadir funcionalidad de menú
-		setOutClickListener(teamsScene);   // Añadir funcionalidad de logout
-		stage.setTitle("Equipos");
-		stage.show();
+	// Funcionalidad evento btn analyst.
+	private void handleAnalystButtonAction(Stage stage) {
+		try {
+			showAnalystScene(stage);  // Llama a la escena de analistas
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
+	// Funcionalidad evento text clasification.
+	public void handleScoresClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Goleadores!");
+		try {
+			showAnalystScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+	// Funcionalidad evento btn assists.
+	public void handleAssiststClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Asistencias!");
+		try {
+			showAssistsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento btn cards.
+	public void handleCardsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Tarjetas!");
+		try {
+			showCardsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento btn saves.
+	public void handleSavesClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Paradas!");
+		try {
+			showSavesScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento btn tournament.
+	private void handleTournamentButtonAction(Stage stage) {
+		try {
+			showTournamentScene(stage);  // Llama a la escena del torneo
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento text clasification.
+	public void handleClasificationClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Clasificación!");
+		try {
+			showTournamentScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento text results.
+	public void handleResultsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Resultados!");
+		try {
+			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Funcionalidad evento text teams.
+	public void handleTeamsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Equipos!");
+		try {
+			showTeamsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Método para establecer la navegación a través de los text.
 	public void setNavigationClickListeners(Scene scene) {
 		// Asocia los eventos de clic a los textos correspondientes
 		Text clasificationText = (Text) scene.lookup("#clasificationText");
@@ -236,33 +417,28 @@ public class TfgApplication extends Application {
 		if (teamsText != null) {
 			teamsText.setOnMouseClicked(this::handleTeamsClick);
 		}
-	}
 
-	public void handleClasificationClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Clasificación!");
-		try {
-			showTournamentScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
+		Text scoresText = (Text) scene.lookup("#scores");
+		if (scoresText != null) {
+			scoresText.setOnMouseClicked(this::handleScoresClick);  // Asignamos el evento para navegar a Tournament
 		}
-	}
 
-	public void handleResultsClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Resultados!");
-		try {
-			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
+		Text assistsText = (Text) scene.lookup("#assists");
+		if (assistsText != null) {
+			assistsText.setOnMouseClicked(this::handleAssiststClick);  // Asignamos el evento para navegar a Assists
 		}
-	}
 
-	public void handleTeamsClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Equipos!");
-		try {
-			showTeamsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
+		Text cardsText = (Text) scene.lookup("#cards");
+		if (cardsText != null) {
+			cardsText.setOnMouseClicked(this::handleCardsClick);  // Asignamos el evento para navegar a Cards
 		}
+
+		Text savesText = (Text) scene.lookup("#saves");
+		if (savesText != null) {
+			savesText.setOnMouseClicked(this::handleSavesClick);  // Asignamos el evento para navegar a Saves
+		}
+
+
 	}
 
 
@@ -274,82 +450,24 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-
-	private void handleTrainingButtonAction(Stage stage) {
-		try {
-			showTrainingScene(stage);  // Llama a la escena de entrenamiento
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void setMenuClickListener(Scene scene) {
+		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
+		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
+	}
+	private void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
+		ImageView imageView = (ImageView) scene.lookup(fxId);
+		if (imageView != null) {
+			imageView.setOnMouseClicked(handler);
+		}
+	}
+	private void setOutClickListener(Scene scene) {
+		ImageView imgOut = (ImageView) scene.lookup("#img_out");
+		if (imgOut != null) {
+			imgOut.setOnMouseClicked(this::handleImgOutClick);
 		}
 	}
 
-	private void handleMatchButtonAction(Stage stage) {
-		try {
-			showMatchScene(stage);  // Llama a la escena de partidos
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	private void handleAnalystButtonAction(Stage stage) {
-		try {
-			showAnalystScene(stage);  // Llama a la escena de analistas
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Método para mostrar la escena del calendario
-	public void showCalendarScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
-		var calendarScene = new Scene(fxmlLoader.load());
-		stage.setScene(calendarScene);
-
-		setMenuClickListener(calendarScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(calendarScene);
-
-		stage.setTitle("Calendario");
-		stage.show();
-	}
-
-	// Método para mostrar la escena de Entrenamientos
-	public void showTrainingScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
-		var trainingScene = new Scene(fxmlLoader.load());
-		stage.setScene(trainingScene);
-
-		setMenuClickListener(trainingScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(trainingScene);
-
-		stage.setTitle("Entrenamientos");
-		stage.show();
-	}
-
-	// Método para mostrar la escena de Partidos
-	public void showMatchScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Match.fxml"));
-		var matchScene = new Scene(fxmlLoader.load());
-		stage.setScene(matchScene);
-
-		setMenuClickListener(matchScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(matchScene);
-
-		stage.setTitle("Partidos");
-		stage.show();
-	}
-
-	// Método para mostrar la escena de Analistas
-	public void showAnalystScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
-		var analystScene = new Scene(fxmlLoader.load());
-		stage.setScene(analystScene);
-
-		setMenuClickListener(analystScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(analystScene);
-
-		stage.setTitle("Analistas");
-		stage.show();
-	}
 
 	@Override
 	public void stop() {
