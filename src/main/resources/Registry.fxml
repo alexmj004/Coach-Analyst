@@ -24,7 +24,7 @@
                         <Insets />
                      </HBox.margin>
                   </Text>
-                  <TextField fx:id="user_registry" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
+                  <TextField fx:id="name_registry" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -38,7 +38,7 @@
                         <Font name="System Italic" size="20.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="user_registry1" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
+                  <TextField fx:id="surname_registry1" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -52,7 +52,7 @@
                         <Font name="System Italic" size="20.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="user_registry2" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
+                  <TextField fx:id="email_registry2" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -66,7 +66,7 @@
                         <Font name="System Italic" size="20.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="user_registry3" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
+                  <TextField fx:id="userName_registry3" maxWidth="600.0" minWidth="500.0" prefHeight="43.0" prefWidth="286.0" style="-fx-font-size: 20px;">
                      <font>
                         <Font size="20.0" />
                      </font>
@@ -87,7 +87,7 @@
                   </PasswordField>
                </children>
             </HBox>
-            <Button fx:id="login_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px;" text="Registry" />
+            <Button fx:id="registry_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px;" text="Registry" />
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

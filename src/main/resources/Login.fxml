@@ -51,7 +51,7 @@
                <Insets bottom="10.0" />
             </VBox.margin>
          </Button>
-         <Button fx:id="login_btn1" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px;" text="New user" />
+         <Button fx:id="newUser_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px;" text="New user" />
       </VBox>
    </children>
 
