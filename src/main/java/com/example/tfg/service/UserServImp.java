@@ -12,6 +12,11 @@ public class UserServImp implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User addUser(User user) {
+        return userRepository.save(user);
+    }
+
+    @Override
     public boolean login(String name, String password) {
         User user = userRepository.findByNameAndPassword(name, password);
         return user != null;
