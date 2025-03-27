@@ -17,20 +17,9 @@ public class PruebaController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private CalendarService calendarService;
-
-    // comprobar que hace login contra la base de datos http://localhost:8080/api/auth/login
-    @GetMapping("/login")
-    public ResponseEntity<?> login(@RequestParam String name, @RequestParam String password) {
-        boolean isValid = userService.login(name, password);
-
-        if (isValid) {
-            return ResponseEntity.ok().body(Map.of("message", "Login exitoso"));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Credenciales incorrectas"));
-        }
-    }
 
     // comprobar que guarda un calendario en la base de datos http://localhost:8080/api/auth/calendar
     //JSON del body: {
@@ -46,5 +35,18 @@ public class PruebaController {
 
         return new ResponseEntity<>(calendarService.save(calendar), HttpStatus.OK);
     }
+
+    // comprobar que hace login contra la base de datos http://localhost:8080/api/auth/login
+    @GetMapping("/login")
+    public ResponseEntity<?> login(@RequestParam String name, @RequestParam String password) {
+        boolean isValid = userService.login(name, password);
+
+        if (isValid) {
+            return ResponseEntity.ok().body(Map.of("message", "Login exitoso"));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "Credenciales incorrectas"));
+        }
+    }
+
 }
 
