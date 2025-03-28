@@ -21,4 +21,10 @@ public class UserServImp implements UserService {
         User user = userRepository.findByNameAndPassword(name, password);
         return user != null;
     }
+
+    @Override
+    public User findByUserName(String username) {
+        return userRepository.findByUserName(username);
+    }
+
 }

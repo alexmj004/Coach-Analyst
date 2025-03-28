@@ -1,5 +1,7 @@
 package com.example.tfg;
 
+import com.example.tfg.model.User;
+import com.example.tfg.service.UserService;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +21,8 @@ import java.io.IOException;
 public class TfgApplication extends Application {
 
 	private static ConfigurableApplicationContext context;
-	private String username;
+	private String inputUserName;
+	private String inputPassword;
 
 	public static void main(String[] args) {
 		// Primero, iniciar Spring Boot y luego JavaFX.
@@ -37,69 +40,64 @@ public class TfgApplication extends Application {
 	}
 
 	// Definir el stage de la interfaz login.
-	private void showLoginScene(Stage stage) throws IOException {
+	public void showLoginScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		var loginScene = new Scene(fxmlLoader.load());
 
-		// Limpiar los campos de texto (usuario y contraseña)
 		TextField userField = (TextField) loginScene.lookup("#user");
 		PasswordField passField = (PasswordField) loginScene.lookup("#pass");
-		userField.clear();
-		passField.clear();
 
-		// Asignar el controlador de acción para el botón de login.
 		Button loginButton = (Button) loginScene.lookup("#login_btn");
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
 
-		// Asignar la nueva escena al stage.
+		Button newUserButton = (Button) loginScene.lookup("#newUser_btn");
+		newUserButton.setOnAction(e -> handleNewUserButtonAction(stage));
+
 		stage.setScene(loginScene);
 		stage.setTitle("Inicio de sesión");
+		stage.show();
+	}
 
-		// Mostrar la nueva escena.
+	// Definir el stage de la interfaz registry.
+	public void showRegistryScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
+		var registryScene = new Scene(fxmlLoader.load());
+
+		TextField nameField = (TextField) registryScene.lookup("#name_field");
+		TextField surnameField = (TextField) registryScene.lookup("#surname_field");
+		TextField emailField = (TextField) registryScene.lookup("#email_field");
+		TextField usernameField = (TextField) registryScene.lookup("#username_field");
+		PasswordField passwordField = (PasswordField) registryScene.lookup("#password_field");
+
+		Button registryButton = (Button) registryScene.lookup("#registry_btn");
+		registryButton.setOnAction(e -> handleRegistryButtonAction(nameField, surnameField, emailField, usernameField, passwordField, stage));
+
+		stage.setScene(registryScene);
+		stage.setTitle("Registro de Usuario");
 		stage.show();
 	}
 
 	// Definir el stage de la interfaz menú.
-	public void showMenu(Stage stage) throws Exception {
+	public void showMenu(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
 		var menuScene = new Scene(fxmlLoader.load());
 		stage.setScene(menuScene);
 
-		// Asignar eventos de la interfaz.
-		setMenuClickListener(menuScene); // icono menú.
-		setOutClickListener(menuScene); // icono log out.
+		setMenuClickListener(menuScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(menuScene);
 
-		// Botón calendario.
-		Button calendarButton = (Button) menuScene.lookup("#calendar_btn");
-		if (calendarButton != null) {
-			calendarButton.setOnAction(e -> handleCalendarButtonAction(stage));
-		}
-		// Botón training.
+
 		Button trainingButton = (Button) menuScene.lookup("#training_btn");
-		if (trainingButton != null) {
-			trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
-		}
-		// Botón match.
-		Button matchButton = (Button) menuScene.lookup("#match_btn");
-		if (matchButton != null) {
-			matchButton.setOnAction(e -> handleMatchButtonAction(stage));
-		}
-		// Botón analyst.
-		Button analystButton = (Button) menuScene.lookup("#analyst_btn");
-		if (analystButton != null) {
-			analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
-		}
-		// Botón tournament.
-		Button tournamentButton = (Button) menuScene.lookup("#tournament_btn");
-		if (tournamentButton != null) {
-			tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
-		}
+		trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
 
-		// Asociar nombre usuario introducido en el login, al label de la interfaz.
-		Label nombreCoach = (Label) menuScene.lookup("#nombre_coach");
-		if (nombreCoach != null) {
-			nombreCoach.setText(username);
-		}
+		Button matchButton = (Button) menuScene.lookup("#match_btn");
+		matchButton.setOnAction(e -> handleMatchButtonAction(stage));
+
+		Button analystButton = (Button) menuScene.lookup("#analyst_btn");
+		analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
+
+		Button tournamentButton = (Button) menuScene.lookup("#tournament_btn");
+		tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
 
 		stage.setTitle("Menú");
 		stage.show();
@@ -244,24 +242,53 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 
-
-	// Funcionalidad evento btn login.
+	// Funcionalidad para manejar el botón de login
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
-		username = userField.getText();
-		String password = passField.getText();
-		// Comprobación credenciales.
-		if (username.equals("alex_mtz004") && password.equals("1234")) {
-			try {
-				showMenu(stage);  // Cambiar a la ventana del menú si las credenciales son correctas
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
+
+		inputUserName = userField.getText();  // Se captura el valor del TextField para el nombre de usuario
+		inputPassword = passField.getText();
+
+		// Comprobar si los campos de usuario y contraseña están vacíos
+		if (inputUserName.isEmpty() || inputPassword.isEmpty()) {
 			Alert alert = new Alert(Alert.AlertType.ERROR);
 			alert.setTitle("Error de inicio de sesión");
-			alert.setHeaderText("Credenciales inválidas");
-			alert.setContentText("Por favor, ingrese un usuario y contraseña válidos.");
+			alert.setHeaderText("Campos Vacíos");
+			alert.setContentText("Por favor, ingrese un usuario y contraseña.");
 			alert.showAndWait();
+		} else {
+			// Obtener el servicio de usuarios desde el contexto de Spring
+			UserService userService = context.getBean(UserService.class);
+
+			// Buscar al usuario por su nombre de usuario
+			User user = userService.findByUserName(inputUserName); // Usamos inputUserName para la búsqueda
+
+			// Verificar si el usuario existe y la contraseña es correcta
+			if (user != null && user.getPassword().equals(inputPassword)) {
+				try {
+					System.out.println("Usuario encontrado: " + user.getUserName());
+					// Si las credenciales son correctas, mostrar el menú principal
+					showMenu(stage);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				// Si no se encuentra el usuario o las credenciales son incorrectas
+				System.out.println("No se encontró el usuario con el nombre: " + inputUserName);
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Error de inicio de sesión");
+				alert.setHeaderText("Credenciales inválidas");
+				alert.setContentText("Por favor, ingrese un usuario y contraseña válidos.");
+				alert.showAndWait();
+			}
+		}
+	}
+
+	// Funcionalidad para manejar el botón de nuevo usuario
+	private void handleNewUserButtonAction(Stage stage) {
+		try {
+			showRegistryScene(stage);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -286,8 +313,9 @@ public class TfgApplication extends Application {
 	// Funcionalidad evento img log out.
 	private void handleImgOutClick(MouseEvent event) {
 		try {
-			username = null; // Reiniciar la variable username
-			context.close(); // Asegúrate de cerrar el contexto de Spring al hacer log-out
+			inputUserName = null; // Reiniciar la variable username
+			inputPassword = null; // Reiniciar la variable username
+			
 			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -443,6 +471,49 @@ public class TfgApplication extends Application {
 
 
 	// Métodos para manejar los clics en los botones de las diferentes secciones
+	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
+		String name = nameField.getText();
+		String surname = surnameField.getText();
+		String email = emailField.getText();
+		String username = usernameField.getText();
+		String password = passwordField.getText();
+
+		if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error de Registro");
+			alert.setHeaderText("Campos Vacíos");
+			alert.setContentText("Por favor, complete todos los campos.");
+			alert.showAndWait();
+		} else {
+			// Crear el objeto User
+			User user = new User(name, surname, username, email, password);
+
+			// Intentar agregar el usuario a la base de datos
+			try {
+				// Inyectar el servicio UserService y llamar al método para guardar al usuario
+				UserService userService = context.getBean(UserService.class);
+				userService.addUser(user); // Guardar el usuario en la base de datos
+
+				// Mostrar mensaje de éxito
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Registro Exitoso");
+				alert.setHeaderText("El usuario ha sido registrado correctamente.");
+				alert.setContentText("Puede iniciar sesión ahora.");
+				alert.showAndWait();
+
+				// Volver a la pantalla de login
+				showLoginScene(stage);
+			} catch (Exception e) {
+				// Manejar excepciones si ocurre algún error al guardar el usuario
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Error de Registro");
+				alert.setHeaderText("No se pudo registrar al usuario");
+				alert.setContentText("Hubo un error al guardar los datos. Intente de nuevo.");
+				alert.showAndWait();
+			}
+		}
+	}
+
 	private void handleCalendarButtonAction(Stage stage) {
 		try {
 			showCalendarScene(stage);  // Llama a la escena del calendario
@@ -450,22 +521,26 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+
 	private void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
 	}
+
 	private void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
 		ImageView imageView = (ImageView) scene.lookup(fxId);
 		if (imageView != null) {
 			imageView.setOnMouseClicked(handler);
 		}
 	}
+
 	private void setOutClickListener(Scene scene) {
 		ImageView imgOut = (ImageView) scene.lookup("#img_out");
 		if (imgOut != null) {
 			imgOut.setOnMouseClicked(this::handleImgOutClick);
 		}
 	}
+
 
 
 

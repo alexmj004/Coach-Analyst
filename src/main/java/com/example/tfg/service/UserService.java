@@ -6,4 +6,5 @@ public interface UserService {
     User addUser(User user);
     boolean login(String name, String password);
 
+    User findByUserName(String username);
 }
