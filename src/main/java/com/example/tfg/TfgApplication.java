@@ -2,11 +2,9 @@ package com.example.tfg;
 
 import com.example.tfg.model.Player;
 import com.example.tfg.model.User;
-import com.example.tfg.service.PlayerService;
 import com.example.tfg.service.PlayerServiceImpl;
 import com.example.tfg.service.UserService;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,18 +13,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
 
 @SpringBootApplication
 public class TfgApplication extends Application {
@@ -51,6 +45,12 @@ public class TfgApplication extends Application {
 
 		// Maximizar la ventana al iniciar.
 		stage.setMaximized(true);
+	}
+
+	@Override
+	public void init() throws Exception {
+		// Obtener los beans de Spring antes de que inicie JavaFX
+		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
 	}
 
 	// Definir el stage de la interfaz login.
@@ -160,98 +160,142 @@ public class TfgApplication extends Application {
 	}
 
 	private void setupMatchComboboxes(Scene matchScene) {
-		// Verificar que los componentes existen
-		ComboBox<String> gk = lookupComboBox(matchScene, "#box_gk");
-		ComboBox<String> wards = lookupComboBox(matchScene, "#box_wards");
-		ComboBox<String> pivot = lookupComboBox(matchScene, "#box_piv");
+		// Asegurar que el servicio está disponible
+		if (playerServiceImpl == null) {
+			playerServiceImpl = context.getBean(PlayerServiceImpl.class);
+		}
 
-		if (gk != null) loadPlayersByPosition(gk, "GK");
-		if (wards != null) loadWardsPlayers(wards);
-		if (pivot != null) loadPlayersByPosition(pivot, "PIV");
+		// Configurar ComboBox de Porteros (GK)
+		setupPositionComboBox(matchScene, "#box_gk", "GK", "#label_gk");
+
+		// Configurar ComboBox de Defensas (DF)
+		setupPositionComboBox(matchScene, "#box_df", "DF", "#label_df");
+
+		// Configurar ComboBox de Wingers (LW/RW)
+		ComboBox<String> wardsComboBox = (ComboBox<String>) matchScene.lookup("#box_wards");
+		if (wardsComboBox != null) {
+			wardsComboBox.setPromptText("Select Winger (LW/RW)");
+			loadWardsPlayers(wardsComboBox);
+
+			Label labelLw = (Label) matchScene.lookup("#label_lw");
+			Label labelRw = (Label) matchScene.lookup("#label_rw");
+			if (labelLw != null && labelRw != null) {
+				wardsComboBox.setOnAction(e -> updateWardsLabel(wardsComboBox, labelLw, labelRw));
+			}
+		}
+
+		// Configurar ComboBox de Pivotes (PIV)
+		setupPositionComboBox(matchScene, "#box_pivot", "PIV", "#label_piv");
 	}
-	private ComboBox<String> lookupComboBox(Scene scene, String selector) {
+	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId) {
+		ComboBox<String> comboBox = (ComboBox<String>) scene.lookup(comboId);
+		if (comboBox != null) {
+			comboBox.setPromptText(position.equals("GK") ? "GoalKeepers" :
+					position.equals("DF") ? "Defenders" :
+							position.equals("PIV") ? "Pivots" : position);
+			loadPlayersByPosition(comboBox, position);
+
+			Label label = (Label) scene.lookup(labelId);
+			if (label != null) {
+				comboBox.setOnAction(e -> updateLabel(comboBox, label));
+			}
+		}
+	}
+
+	private void loadWardsPlayers(ComboBox<String> comboBox) {
 		try {
-			return (ComboBox<String>) scene.lookup(selector);
+			// Obtener LW y RW por separado
+			List<Player> lwPlayers = playerServiceImpl.findByPosition("LW");
+			List<Player> rwPlayers = playerServiceImpl.findByPosition("RW");
+
+			comboBox.getItems().clear();
+
+			// Agregar LW con identificación
+			for (Player player : lwPlayers) {
+				comboBox.getItems().add(player.getName() + " " + player.getSurname() + " (LW)");
+			}
+
+			// Agregar RW con identificación
+			for (Player player : rwPlayers) {
+				comboBox.getItems().add(player.getName() + " " + player.getSurname() + " (RW)");
+			}
+
+			if (comboBox.getItems().isEmpty()) {
+				comboBox.setPromptText("No wingers available");
+			}
 		} catch (Exception e) {
-			logger.warn("No se encontró ComboBox con selector {}", selector);
-			return null;
+			logger.error("Error loading wingers", e);
+			comboBox.setPromptText("Error loading wingers");
 		}
 	}	private void loadPlayersByPosition(ComboBox<String> comboBox, String position) {
 		try {
 			List<Player> players = playerServiceImpl.findByPosition(position);
+			comboBox.getItems().clear();
 
-			Platform.runLater(() -> {
-				comboBox.getItems().clear();
-				if (players != null && !players.isEmpty()) {
-					players.forEach(player ->
-							comboBox.getItems().add(formatPlayerName(player))
-					);
-					comboBox.getSelectionModel().selectFirst();
-				} else {
-					comboBox.setPromptText("No hay jugadores para " + position);
+			if (players != null && !players.isEmpty()) {
+				for (Player player : players) {
+					String displayText = String.format("%s %s (%s)",
+							player.getName(),
+							player.getSurname(),
+							position);
+					comboBox.getItems().add(displayText);
 				}
-			});
-
-			logger.info("Cargados {} jugadores para {}", players.size(), position);
+			} else {
+				comboBox.setPromptText("No " + getPositionName(position) + " available");
+			}
 		} catch (Exception e) {
-			logger.error("Error cargando jugadores", e);
-			Platform.runLater(() ->
-					comboBox.setPromptText("Error cargando datos")
-			);
+			logger.error("Error loading players for position: " + position, e);
+			comboBox.setPromptText("Error loading " + getPositionName(position));
 		}
 	}
-	private void loadWardsPlayers(ComboBox<String> comboBox) {
-		try {
-			Map<String, List<Player>> wingers = playerServiceImpl.getWingers();
 
-			Platform.runLater(() -> {
-				comboBox.getItems().clear();
-
-				wingers.getOrDefault("LW", Collections.emptyList())
-						.forEach(p -> comboBox.getItems().add(formatPlayerName(p) + " - LW"));
-
-				wingers.getOrDefault("RW", Collections.emptyList())
-						.forEach(p -> comboBox.getItems().add(formatPlayerName(p) + " - RW"));
-
-				if (comboBox.getItems().isEmpty()) {
-					comboBox.setPromptText("No hay wingers disponibles");
-				}
-			});
-
-		} catch (Exception e) {
-			logger.error("Error cargando wingers", e);
+	private String getPositionName(String positionCode) {
+		switch (positionCode) {
+			case "GK": return "GoalKeepers";
+			case "DF": return "Defenders";
+			case "PIV": return "Pivots";
+			case "LW": return "Left Wingers";
+			case "RW": return "Right Wingers";
+			default: return positionCode;
 		}
-	}
-	private String formatPlayerName(Player player) {
-		return String.format("%s %s (%s)",
-				player.getName(),
-				player.getSurname(),
-				player.getPosition());
 	}
 	private void updateLabel(ComboBox<String> comboBox, Label label) {
-		String selected = comboBox.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			Platform.runLater(() -> label.setText(selected.split("\\(")[0].trim()));
+		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
+		if (selectedPlayer != null && label != null) {
+			// Quitar la posición entre paréntesis para el label
+			label.setText(selectedPlayer.replaceAll("\\(.*\\)", "").trim());
 		}
 	}
-
 	private void updateWardsLabel(ComboBox<String> comboBox, Label labelLw, Label labelRw) {
-		String selected = comboBox.getSelectionModel().getSelectedItem();
-		if (selected != null) {
-			Platform.runLater(() -> {
-				if (selected.contains("LW")) {
-					labelLw.setText(selected.split("-")[0].trim());
-					labelRw.setText("");
-				} else if (selected.contains("RW")) {
-					labelRw.setText(selected.split("-")[0].trim());
-					labelLw.setText("");
+		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
+		if (selectedPlayer != null) {
+			String playerName = selectedPlayer.replaceAll(" \\((LW|RW)\\)", "");
+
+			if (selectedPlayer.contains("(LW)")) {
+				// Verificar si el jugador ya está en RW
+				if (playerName.equals(labelRw.getText())) {
+					showAlert("Jugador ya seleccionado", "Este jugador ya está como Right Winger");
+					return;
 				}
-			});
+				labelLw.setText(playerName);
+			} else if (selectedPlayer.contains("(RW)")) {
+				// Verificar si el jugador ya está en LW
+				if (playerName.equals(labelLw.getText())) {
+					showAlert("Jugador ya seleccionado", "Este jugador ya está como Left Winger");
+					return;
+				}
+				labelRw.setText(playerName);
+			}
 		}
 	}
 
-	// Definir el stage de la interfaz analyst.
-	public void showAnalystScene(Stage stage) throws IOException {
+	private void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+	}	public void showAnalystScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
 		var analystScene = new Scene(fxmlLoader.load());
 		stage.setScene(analystScene);

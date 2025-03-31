@@ -112,28 +112,30 @@
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#20163f" height="200.0" layoutX="70.0" layoutY="417.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" width="101.0" />
             <Label fx:id="label_lw" layoutX="677.0" layoutY="288.0" text="LW">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <Label fx:id="label_rw" layoutX="672.0" layoutY="692.0" text="RW">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
+            <Circle fill="WHITE" layoutX="536.0" layoutY="513.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
             <Label fx:id="label_df" layoutX="426.0" layoutY="481.0" text="DF">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
+            <QuadCurve controlX="-180.5999755859375" controlY="-63.99993896484375" endX="-50.0" endY="-140.80001831054688" fill="#ff8a37" layoutX="1235.0" layoutY="576.0" startX="-50.0" startY="43.20001220703125" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
             <Label fx:id="label_piv" layoutX="924.0" layoutY="484.0" text="PIV">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <QuadCurve controlX="273.0" controlY="-76.60000610351562" endX="-50.000030517578125" endY="-237.39999389648438" fill="#ff8a37" layoutX="220.0" layoutY="587.0" startX="-50.000030517578125" startY="101.00006103515625" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
             <Label fx:id="label_gk" layoutX="199.0" layoutY="480.0" text="GK">
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font name="System Bold" size="30.0" />
                </font>
             </Label>
             <VBox layoutX="167.0" layoutY="129.0" prefHeight="120.0" prefWidth="1016.0">
@@ -151,10 +153,8 @@
                   </HBox>
                </children>
             </VBox>
-            <QuadCurve controlX="-180.5999755859375" controlY="-63.99993896484375" endX="-50.0" endY="-140.80001831054688" fill="#ff8a37" layoutX="1235.0" layoutY="576.0" startX="-50.0" startY="43.20001220703125" stroke="WHITE" strokeType="INSIDE" strokeWidth="5.0" />
             <Line endX="-19.199981689453125" endY="-9.999969482421875" layoutX="216.0" layoutY="275.0" startX="-52.000030517578125" startY="19.399993896484375" stroke="WHITE" />
             <Line endX="-23.533294677734375" endY="28.0" layoutX="215.0" layoutY="737.0" startX="-51.000030517578125" startY="-0.4666748046875" stroke="WHITE" />
-            <Circle fill="WHITE" layoutX="536.0" layoutY="513.0" radius="15.0" stroke="WHITE" strokeType="INSIDE" />
          </children>
       </AnchorPane>
    </items>
