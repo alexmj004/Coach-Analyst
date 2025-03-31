@@ -2,17 +2,19 @@ package com.example.tfg.service;
 
 import com.example.tfg.model.Player;
 import com.example.tfg.repository.PlayerRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class PlayerServiceImpl implements PlayerService{
+    private static final Logger logger = LoggerFactory.getLogger(PlayerServiceImpl.class);
     @Autowired
     PlayerRepository playerRepository;
+
 
     @Override
     public Player addPlayer(Player player) {
@@ -27,7 +29,31 @@ public class PlayerServiceImpl implements PlayerService{
 
     @Override
     public List<Player> findByPosition(String position) {
-        return playerRepository.findByPosition(position);
+        try {
+            // Normaliza la posición (mayúsculas, sin espacios)
+            String normalizedPosition = position.toUpperCase().trim();
+            logger.info("Buscando jugadores para posición: {}", normalizedPosition);
+
+            List<Player> players = playerRepository.findByPosition(normalizedPosition);
+            logger.info("Jugadores encontrados: {}", players.size());
+
+            return players;
+        } catch (Exception e) {
+            logger.error("Error al buscar jugadores por posición", e);
+            return Collections.emptyList();
+        }
+    }
+    // Método específico para wingers (LW y RW)
+    public Map<String, List<Player>> getWingers() {
+        Map<String, List<Player>> wingers = new HashMap<>();
+
+        List<Player> lwPlayers = findByPosition("LW");
+        List<Player> rwPlayers = findByPosition("RW");
+
+        wingers.put("LW", lwPlayers);
+        wingers.put("RW", rwPlayers);
+
+        return wingers;
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.example.tfg;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.User;
 import com.example.tfg.service.PlayerService;
+import com.example.tfg.service.PlayerServiceImpl;
 import com.example.tfg.service.UserService;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,19 +16,27 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class TfgApplication extends Application {
 
+	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
 	private String inputUserName;
 	private String inputPassword;
+	private PlayerServiceImpl playerServiceImpl;
+
 
 	public static void main(String[] args) {
 		// Primero, iniciar Spring Boot y luego JavaFX.
@@ -139,8 +149,8 @@ public class TfgApplication extends Application {
 		var matchScene = new Scene(fxmlLoader.load());
 		stage.setScene(matchScene);
 
-		// Cargar jugadores en los ComboBox
-		loadPlayersToComboBoxes(matchScene);
+		// Configurar los ComboBox con jugadores por posición
+		setupMatchComboboxes(matchScene);
 
 		setMenuClickListener(matchScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
 		setOutClickListener(matchScene);
@@ -148,155 +158,96 @@ public class TfgApplication extends Application {
 		stage.setTitle("Partidos");
 		stage.show();
 	}
-	private void loadPlayersToComboBoxes(Scene scene) {
-		PlayerService playerService = context.getBean(PlayerService.class);
 
-		// Obtener jugadores por posición
-		List<Player> goalkeepers = playerService.findByPosition("GK");
-		List<Player> leftBacks = playerService.findByPosition("LI");
-		List<Player> rightBacks = playerService.findByPosition("LD");
-		List<Player> centerBacks = playerService.findByPosition("DFC");
-		List<Player> midfielders = playerService.findByPosition("MC");
-		List<Player> leftWingers = playerService.findByPosition("EI");
-		List<Player> rightWingers = playerService.findByPosition("ED");
-		List<Player> centerForwards = playerService.findByPosition("DC");
+	private void setupMatchComboboxes(Scene matchScene) {
+		// Verificar que los componentes existen
+		ComboBox<String> gk = lookupComboBox(matchScene, "#box_gk");
+		ComboBox<String> wards = lookupComboBox(matchScene, "#box_wards");
+		ComboBox<String> pivot = lookupComboBox(matchScene, "#box_piv");
 
-		// Obtener los ComboBox de la escena
-		ComboBox<Player> gkComboBox = (ComboBox<Player>) scene.lookup("#box_gk");
-		ComboBox<Player> dfComboBox = (ComboBox<Player>) scene.lookup("#box_df");
-		ComboBox<Player> mdComboBox = (ComboBox<Player>) scene.lookup("#box_md");
-		ComboBox<Player> fwComboBox = (ComboBox<Player>) scene.lookup("#box_fw");
+		if (gk != null) loadPlayersByPosition(gk, "GK");
+		if (wards != null) loadWardsPlayers(wards);
+		if (pivot != null) loadPlayersByPosition(pivot, "PIV");
+	}
+	private ComboBox<String> lookupComboBox(Scene scene, String selector) {
+		try {
+			return (ComboBox<String>) scene.lookup(selector);
+		} catch (Exception e) {
+			logger.warn("No se encontró ComboBox con selector {}", selector);
+			return null;
+		}
+	}	private void loadPlayersByPosition(ComboBox<String> comboBox, String position) {
+		try {
+			List<Player> players = playerServiceImpl.findByPosition(position);
 
-		// Obtener las etiquetas específicas de posición
-		Label gkLabel = (Label) scene.lookup("#gk");
-		Label liLabel = (Label) scene.lookup("#li");
-		Label ldLabel = (Label) scene.lookup("#ld");
-		Label df1Label = (Label) scene.lookup("#df1");
-		Label df2Label = (Label) scene.lookup("#df2");
-		Label mc1Label = (Label) scene.lookup("#mc1");
-		Label mc2Label = (Label) scene.lookup("#mc2");
-		Label mc3Label = (Label) scene.lookup("#mc3");
-		Label eiLabel = (Label) scene.lookup("#ei");
-		Label edLabel = (Label) scene.lookup("#ed");
-		Label dcLabel = (Label) scene.lookup("#dc");
-
-		// Configurar cómo se muestra el nombre del jugador en los ComboBox
-		Callback<ListView<Player>, ListCell<Player>> cellFactory = param -> new ListCell<Player>() {
-			@Override
-			protected void updateItem(Player player, boolean empty) {
-				super.updateItem(player, empty);
-				if (empty || player == null) {
-					setText(null);
+			Platform.runLater(() -> {
+				comboBox.getItems().clear();
+				if (players != null && !players.isEmpty()) {
+					players.forEach(player ->
+							comboBox.getItems().add(formatPlayerName(player))
+					);
+					comboBox.getSelectionModel().selectFirst();
 				} else {
-					setText(player.getName() + " " + player.getSurname() + " (" + player.getPosition() + ")");
+					comboBox.setPromptText("No hay jugadores para " + position);
 				}
-			}
-		};
+			});
 
-		gkComboBox.setButtonCell(new ListCell<Player>() {
-			@Override
-			protected void updateItem(Player player, boolean empty) {
-				super.updateItem(player, empty);
-				if (empty || player == null) {
-					setText(null);
-				} else {
-					setText(player.getName() + " " + player.getSurname());
+			logger.info("Cargados {} jugadores para {}", players.size(), position);
+		} catch (Exception e) {
+			logger.error("Error cargando jugadores", e);
+			Platform.runLater(() ->
+					comboBox.setPromptText("Error cargando datos")
+			);
+		}
+	}
+	private void loadWardsPlayers(ComboBox<String> comboBox) {
+		try {
+			Map<String, List<Player>> wingers = playerServiceImpl.getWingers();
+
+			Platform.runLater(() -> {
+				comboBox.getItems().clear();
+
+				wingers.getOrDefault("LW", Collections.emptyList())
+						.forEach(p -> comboBox.getItems().add(formatPlayerName(p) + " - LW"));
+
+				wingers.getOrDefault("RW", Collections.emptyList())
+						.forEach(p -> comboBox.getItems().add(formatPlayerName(p) + " - RW"));
+
+				if (comboBox.getItems().isEmpty()) {
+					comboBox.setPromptText("No hay wingers disponibles");
 				}
-			}
-		});
+			});
 
-		gkComboBox.setCellFactory(cellFactory);
-		gkComboBox.setButtonCell(cellFactory.call(null));
-
-		dfComboBox.setCellFactory(cellFactory);
-		dfComboBox.setButtonCell(cellFactory.call(null));
-
-		mdComboBox.setCellFactory(cellFactory);
-		mdComboBox.setButtonCell(cellFactory.call(null));
-
-		fwComboBox.setCellFactory(cellFactory);
-		fwComboBox.setButtonCell(cellFactory.call(null));
-
-		// Añadir los jugadores a los ComboBox correspondientes
-		gkComboBox.getItems().addAll(goalkeepers);
-		dfComboBox.getItems().addAll(leftBacks);
-		dfComboBox.getItems().addAll(rightBacks);
-		dfComboBox.getItems().addAll(centerBacks);
-		mdComboBox.getItems().addAll(midfielders);
-		fwComboBox.getItems().addAll(leftWingers);
-		fwComboBox.getItems().addAll(rightWingers);
-		fwComboBox.getItems().addAll(centerForwards);
-
-		// Asignar jugadores específicos a las etiquetas de posición
-		assignPlayersToPositionLabels(scene, playerService);
+		} catch (Exception e) {
+			logger.error("Error cargando wingers", e);
+		}
+	}
+	private String formatPlayerName(Player player) {
+		return String.format("%s %s (%s)",
+				player.getName(),
+				player.getSurname(),
+				player.getPosition());
+	}
+	private void updateLabel(ComboBox<String> comboBox, Label label) {
+		String selected = comboBox.getSelectionModel().getSelectedItem();
+		if (selected != null) {
+			Platform.runLater(() -> label.setText(selected.split("\\(")[0].trim()));
+		}
 	}
 
-	private void assignPlayersToPositionLabels(Scene scene, PlayerService playerService) {
-		// Obtener las etiquetas de posición
-		Label gkLabel = (Label) scene.lookup("#gk");
-		Label liLabel = (Label) scene.lookup("#li");
-		Label ldLabel = (Label) scene.lookup("#ld");
-		Label df1Label = (Label) scene.lookup("#df1");
-		Label df2Label = (Label) scene.lookup("#df2");
-		Label mc1Label = (Label) scene.lookup("#mc1");
-		Label mc2Label = (Label) scene.lookup("#mc2");
-		Label mc3Label = (Label) scene.lookup("#mc3");
-		Label dcLabel = (Label) scene.lookup("#dc");
-		Label edLabel = (Label) scene.lookup("#ed");
-		Label eiLabel = (Label) scene.lookup("#ei");
-
-		// Inicializar contadores para posiciones múltiples
-		final int[] mcCount = {0};
-
-		// Asignar jugadores por defecto o cargados desde BD
-		List<Player> defaultPlayers = playerService.findDefaultPlayers();
-
-
-
-		defaultPlayers.forEach(player -> {
-			switch(player.getPosition()) {
-				case "GK":
-					gkLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-				case "LI":
-					liLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-				case "LD":
-					ldLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-				case "DFC":
-					// Asignar a df1 o df2 según necesidad
-					if (df1Label.getText().equals("DFC")) {
-						df1Label.setText(player.getName() + " " + player.getSurname());
-					} else {
-						df2Label.setText(player.getName() + " " + player.getSurname());
-					}
-					break;
-				case "MC":
-					switch (mcCount[0]) {
-						case 0:
-							mc1Label.setText(player.getName() + " " + player.getSurname());
-							break;
-						case 1:
-							mc2Label.setText(player.getName() + " " + player.getSurname());
-							break;
-						case 2:
-							mc3Label.setText(player.getName() + " " + player.getSurname());
-							break;
-					}
-					mcCount[0]++;
-					break;
-				case "EI":
-					eiLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-				case "ED":
-					edLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-				case "DC":
-					dcLabel.setText(player.getName() + " " + player.getSurname());
-					break;
-			}
-		});
+	private void updateWardsLabel(ComboBox<String> comboBox, Label labelLw, Label labelRw) {
+		String selected = comboBox.getSelectionModel().getSelectedItem();
+		if (selected != null) {
+			Platform.runLater(() -> {
+				if (selected.contains("LW")) {
+					labelLw.setText(selected.split("-")[0].trim());
+					labelRw.setText("");
+				} else if (selected.contains("RW")) {
+					labelRw.setText(selected.split("-")[0].trim());
+					labelLw.setText("");
+				}
+			});
+		}
 	}
 
 	// Definir el stage de la interfaz analyst.
