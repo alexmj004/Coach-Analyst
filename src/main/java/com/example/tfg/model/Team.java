@@ -24,7 +24,7 @@ public class Team implements Serializable {
     @Column
     private String name;
     @Column
-    private String category;
+    private String competition;
     @Column
     private String season;
 
@@ -40,9 +40,9 @@ public class Team implements Serializable {
     @ManyToMany(mappedBy = "teams")
     private List<Tournament> tournaments = new ArrayList<>();
 
-    public Team(String name, String category, String season) {
+    public Team(String name, String competition, String season) {
         this.name = name;
-        this.category = category;
+        this.competition = competition;
         this.season = season;
     }
 

@@ -131,57 +131,57 @@
             <Line endX="5.0" layoutX="265.0" layoutY="599.0" startX="-100.0" stroke="WHITE" />
             <Line endX="-73.79995727539062" endY="112.00006103515625" layoutX="344.0" layoutY="485.0" startX="-73.79995727539062" startY="-46.39996337890625" stroke="WHITE" />
             <QuadCurve controlX="-56.199951171875" controlY="-125.5999755859375" endX="100.0" endY="-208.39999389648438" fill="#346b3f" layoutX="1083.0" layoutY="621.0" startX="100.0" startY="6.000061100351562" stroke="BLACK" strokeType="INSIDE" style="-fx-stroke: white;" />
-            <Label fx:id="gk" layoutX="204.0" layoutY="509.0" text="Label">
+            <Label fx:id="gk" layoutX="204.0" layoutY="509.0" text="GK">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="li" layoutX="427.0" layoutY="320.0" text="Label">
+            <Label fx:id="li" layoutX="427.0" layoutY="320.0" text="LI">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="ld" layoutX="432.0" layoutY="709.0" text="Label">
+            <Label fx:id="ld" layoutX="432.0" layoutY="709.0" text="LD">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="df1" layoutX="384.0" layoutY="578.0" text="Label">
+            <Label fx:id="df1" layoutX="384.0" layoutY="578.0" text="DFC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="df2" layoutX="397.0" layoutY="421.0" text="Label">
+            <Label fx:id="df2" layoutX="397.0" layoutY="421.0" text="DFC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="mc1" layoutX="692.0" layoutY="614.0" text="Label">
+            <Label fx:id="mc1" layoutX="692.0" layoutY="614.0" text="MC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="mc2" layoutX="702.0" layoutY="399.0" text="Label">
+            <Label fx:id="mc2" layoutX="702.0" layoutY="399.0" text="MC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="mc3" layoutX="579.0" layoutY="502.0" text="Label">
+            <Label fx:id="mc3" layoutX="579.0" layoutY="502.0" text="MC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="dc" layoutX="1011.0" layoutY="498.0" text="Label">
+            <Label fx:id="dc" layoutX="1011.0" layoutY="498.0" text="DC">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="ed" layoutX="919.0" layoutY="701.0" text="Label">
+            <Label fx:id="ed" layoutX="919.0" layoutY="701.0" text="ED">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <Label fx:id="ei" layoutX="913.0" layoutY="324.0" text="Label">
+            <Label fx:id="ei" layoutX="913.0" layoutY="324.0" text="EI">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
