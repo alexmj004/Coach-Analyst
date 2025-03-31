@@ -9,6 +9,8 @@ public interface PlayerService {
     Player addPlayer(Player player);
     // Obtener jugador por nombre.
     List<Player> findByName(String name);
+    // Obtener jugador por posición.
+    List<Player> findByPosition(String position);
     // Obtener todos.
     List<Player> findAll();
     // Obtener un jugador por su ID
@@ -17,4 +19,6 @@ public interface PlayerService {
     Boolean deleteById(int id);
     // Actualizar un jugador
     Boolean update(Player player);
+    // Obtiene los jugadores que están marcados como titulares por defecto
+    List<Player> findDefaultPlayers();
 }

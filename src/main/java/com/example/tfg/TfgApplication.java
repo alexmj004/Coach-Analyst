@@ -1,6 +1,8 @@
 package com.example.tfg;
 
+import com.example.tfg.model.Player;
 import com.example.tfg.model.User;
+import com.example.tfg.service.PlayerService;
 import com.example.tfg.service.UserService;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -11,11 +13,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import java.io.IOException;
+import java.util.List;
 
 @SpringBootApplication
 public class TfgApplication extends Application {
@@ -135,11 +139,164 @@ public class TfgApplication extends Application {
 		var matchScene = new Scene(fxmlLoader.load());
 		stage.setScene(matchScene);
 
+		// Cargar jugadores en los ComboBox
+		loadPlayersToComboBoxes(matchScene);
+
 		setMenuClickListener(matchScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
 		setOutClickListener(matchScene);
 
 		stage.setTitle("Partidos");
 		stage.show();
+	}
+	private void loadPlayersToComboBoxes(Scene scene) {
+		PlayerService playerService = context.getBean(PlayerService.class);
+
+		// Obtener jugadores por posición
+		List<Player> goalkeepers = playerService.findByPosition("GK");
+		List<Player> leftBacks = playerService.findByPosition("LI");
+		List<Player> rightBacks = playerService.findByPosition("LD");
+		List<Player> centerBacks = playerService.findByPosition("DFC");
+		List<Player> midfielders = playerService.findByPosition("MC");
+		List<Player> leftWingers = playerService.findByPosition("EI");
+		List<Player> rightWingers = playerService.findByPosition("ED");
+		List<Player> centerForwards = playerService.findByPosition("DC");
+
+		// Obtener los ComboBox de la escena
+		ComboBox<Player> gkComboBox = (ComboBox<Player>) scene.lookup("#box_gk");
+		ComboBox<Player> dfComboBox = (ComboBox<Player>) scene.lookup("#box_df");
+		ComboBox<Player> mdComboBox = (ComboBox<Player>) scene.lookup("#box_md");
+		ComboBox<Player> fwComboBox = (ComboBox<Player>) scene.lookup("#box_fw");
+
+		// Obtener las etiquetas específicas de posición
+		Label gkLabel = (Label) scene.lookup("#gk");
+		Label liLabel = (Label) scene.lookup("#li");
+		Label ldLabel = (Label) scene.lookup("#ld");
+		Label df1Label = (Label) scene.lookup("#df1");
+		Label df2Label = (Label) scene.lookup("#df2");
+		Label mc1Label = (Label) scene.lookup("#mc1");
+		Label mc2Label = (Label) scene.lookup("#mc2");
+		Label mc3Label = (Label) scene.lookup("#mc3");
+		Label eiLabel = (Label) scene.lookup("#ei");
+		Label edLabel = (Label) scene.lookup("#ed");
+		Label dcLabel = (Label) scene.lookup("#dc");
+
+		// Configurar cómo se muestra el nombre del jugador en los ComboBox
+		Callback<ListView<Player>, ListCell<Player>> cellFactory = param -> new ListCell<Player>() {
+			@Override
+			protected void updateItem(Player player, boolean empty) {
+				super.updateItem(player, empty);
+				if (empty || player == null) {
+					setText(null);
+				} else {
+					setText(player.getName() + " " + player.getSurname() + " (" + player.getPosition() + ")");
+				}
+			}
+		};
+
+		gkComboBox.setButtonCell(new ListCell<Player>() {
+			@Override
+			protected void updateItem(Player player, boolean empty) {
+				super.updateItem(player, empty);
+				if (empty || player == null) {
+					setText(null);
+				} else {
+					setText(player.getName() + " " + player.getSurname());
+				}
+			}
+		});
+
+		gkComboBox.setCellFactory(cellFactory);
+		gkComboBox.setButtonCell(cellFactory.call(null));
+
+		dfComboBox.setCellFactory(cellFactory);
+		dfComboBox.setButtonCell(cellFactory.call(null));
+
+		mdComboBox.setCellFactory(cellFactory);
+		mdComboBox.setButtonCell(cellFactory.call(null));
+
+		fwComboBox.setCellFactory(cellFactory);
+		fwComboBox.setButtonCell(cellFactory.call(null));
+
+		// Añadir los jugadores a los ComboBox correspondientes
+		gkComboBox.getItems().addAll(goalkeepers);
+		dfComboBox.getItems().addAll(leftBacks);
+		dfComboBox.getItems().addAll(rightBacks);
+		dfComboBox.getItems().addAll(centerBacks);
+		mdComboBox.getItems().addAll(midfielders);
+		fwComboBox.getItems().addAll(leftWingers);
+		fwComboBox.getItems().addAll(rightWingers);
+		fwComboBox.getItems().addAll(centerForwards);
+
+		// Asignar jugadores específicos a las etiquetas de posición
+		assignPlayersToPositionLabels(scene, playerService);
+	}
+
+	private void assignPlayersToPositionLabels(Scene scene, PlayerService playerService) {
+		// Obtener las etiquetas de posición
+		Label gkLabel = (Label) scene.lookup("#gk");
+		Label liLabel = (Label) scene.lookup("#li");
+		Label ldLabel = (Label) scene.lookup("#ld");
+		Label df1Label = (Label) scene.lookup("#df1");
+		Label df2Label = (Label) scene.lookup("#df2");
+		Label mc1Label = (Label) scene.lookup("#mc1");
+		Label mc2Label = (Label) scene.lookup("#mc2");
+		Label mc3Label = (Label) scene.lookup("#mc3");
+		Label dcLabel = (Label) scene.lookup("#dc");
+		Label edLabel = (Label) scene.lookup("#ed");
+		Label eiLabel = (Label) scene.lookup("#ei");
+
+		// Inicializar contadores para posiciones múltiples
+		final int[] mcCount = {0};
+
+		// Asignar jugadores por defecto o cargados desde BD
+		List<Player> defaultPlayers = playerService.findDefaultPlayers();
+
+
+
+		defaultPlayers.forEach(player -> {
+			switch(player.getPosition()) {
+				case "GK":
+					gkLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+				case "LI":
+					liLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+				case "LD":
+					ldLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+				case "DFC":
+					// Asignar a df1 o df2 según necesidad
+					if (df1Label.getText().equals("DFC")) {
+						df1Label.setText(player.getName() + " " + player.getSurname());
+					} else {
+						df2Label.setText(player.getName() + " " + player.getSurname());
+					}
+					break;
+				case "MC":
+					switch (mcCount[0]) {
+						case 0:
+							mc1Label.setText(player.getName() + " " + player.getSurname());
+							break;
+						case 1:
+							mc2Label.setText(player.getName() + " " + player.getSurname());
+							break;
+						case 2:
+							mc3Label.setText(player.getName() + " " + player.getSurname());
+							break;
+					}
+					mcCount[0]++;
+					break;
+				case "EI":
+					eiLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+				case "ED":
+					edLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+				case "DC":
+					dcLabel.setText(player.getName() + " " + player.getSurname());
+					break;
+			}
+		});
 	}
 
 	// Definir el stage de la interfaz analyst.

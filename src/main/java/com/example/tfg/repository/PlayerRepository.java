@@ -11,4 +11,9 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
     // Método buscar por nombre jugador.
     @Query("SELECT p FROM Player p WHERE p.name = :name")
     List<Player> findByName(@Param("name") String name);
+    // Método buscar por posición jugador.
+    @Query("SELECT p FROM Player p WHERE p.position = :position")
+    List<Player> findByPosition(@Param("position") String position);
+    // Busca jugadores marcados como titulares por defecto
+    List<Player> findByIsDefaultTrue();
 }

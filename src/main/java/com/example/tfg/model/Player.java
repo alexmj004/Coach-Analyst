@@ -39,6 +39,8 @@ public class Player implements Serializable {
     private int yellowCards;
     @Column
     private int redCards;
+    @Column(name="is_default")
+    private boolean isDefault = false;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
