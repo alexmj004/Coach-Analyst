@@ -41,7 +41,8 @@ public class Team implements Serializable {
     private int pe;
     @Column
     private int pp;
-
+    @OneToOne(mappedBy = "team")
+    private User user;
 
     @OneToMany (mappedBy = "homeTeam", cascade = CascadeType.ALL)
     private List<Match> homeMatches = new ArrayList<>();

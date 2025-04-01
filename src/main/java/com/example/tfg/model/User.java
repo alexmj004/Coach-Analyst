@@ -29,6 +29,9 @@ public class User implements Serializable {
     private String email;
     @Column
     private String password;
+    @OneToOne
+    @JoinColumn(name="team_id")
+    private Team team;
 
     public User(String name, String surname,String userName,String email, String password) {
         this.name = name;
