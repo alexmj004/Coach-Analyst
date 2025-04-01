@@ -27,6 +27,21 @@ public class Team implements Serializable {
     private String competition;
     @Column
     private String season;
+    @Column
+    private int position;
+    @Column
+    private int points;
+    @Column
+    private int gf;
+    @Column
+    private int gc;
+    @Column
+    private int pg;
+    @Column
+    private int pe;
+    @Column
+    private int pp;
+
 
     @OneToMany (mappedBy = "homeTeam", cascade = CascadeType.ALL)
     private List<Match> homeMatches = new ArrayList<>();
