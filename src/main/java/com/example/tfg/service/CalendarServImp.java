@@ -11,26 +11,26 @@ import java.util.List;
 
 @Service
 public class CalendarServImp implements CalendarService {
+    private final CalendarRepository calendarRepository;
+
     @Autowired
-    CalendarRepository calendarRepository;
+    public CalendarServImp(CalendarRepository calendarRepository) {
+        this.calendarRepository = calendarRepository;
+    }
 
     @Override
     public void saveCalendar(Calendar calendar) {
         calendarRepository.save(calendar);
     }
 
-
-
     @Override
     public List<Calendar> findByDay(LocalDate date) {
         Timestamp startOfDay = Timestamp.valueOf(date.atStartOfDay());
         Timestamp endOfDay = Timestamp.valueOf(date.plusDays(1).atStartOfDay());
 
-
         try {
             return calendarRepository.findByStartBetween(startOfDay, endOfDay);
         } catch (Exception e) {
-            // Fallback usando filtrado manual si el método no está disponible
             return calendarRepository.findAll().stream()
                     .filter(event -> {
                         Timestamp eventStart = event.getStart();

@@ -1,7 +1,10 @@
 package com.example.tfg;
 
+import com.example.tfg.controller.CalendarController;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.User;
+import com.example.tfg.service.CalendarServImp;
+import com.example.tfg.service.CalendarService;
 import com.example.tfg.service.PlayerServiceImpl;
 import com.example.tfg.service.UserService;
 import javafx.application.Application;
@@ -30,6 +33,7 @@ public class TfgApplication extends Application {
 	private String inputUserName;
 	private String inputPassword;
 	private PlayerServiceImpl playerServiceImpl;
+	private CalendarService calendarService;
 
 
 	public static void main(String[] args) {
@@ -51,6 +55,7 @@ public class TfgApplication extends Application {
 	public void init() throws Exception {
 		// Obtener los beans de Spring antes de que inicie JavaFX
 		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
+		calendarService = context.getBean(CalendarServImp.class);
 	}
 
 	// Definir el stage de la interfaz login.
@@ -122,6 +127,9 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
 		var calendarScene = new Scene(fxmlLoader.load());
 		stage.setScene(calendarScene);
+
+		CalendarController calendarController = new CalendarController(calendarService);
+		calendarController.setupCalendarComponents(calendarScene);
 
 		setMenuClickListener(calendarScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
 		setOutClickListener(calendarScene);
