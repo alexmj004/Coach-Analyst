@@ -1,6 +1,7 @@
 package com.example.tfg.service;
 
 import com.example.tfg.model.Player;
+import com.example.tfg.model.Team;
 import com.example.tfg.repository.PlayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,4 +108,11 @@ public class PlayerServiceImpl implements PlayerService{
     public Player findByApodo(String apodo) {
         return playerRepository.findByApodo(apodo);
     }
+
+    @Override
+    public List<Player> findByPositionAndTeamName(String position, Team team) {
+        return playerRepository.findByPositionAndTeam(position,team);
+    }
+
+
 }

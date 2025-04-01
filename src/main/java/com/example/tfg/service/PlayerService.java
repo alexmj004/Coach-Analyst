@@ -1,6 +1,8 @@
 package com.example.tfg.service;
 
 import com.example.tfg.model.Player;
+import com.example.tfg.model.Team;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -23,4 +25,5 @@ public interface PlayerService {
     List<Player> findDefaultPlayers();
     // Obtener jugador por apodo
     Player findByApodo(String apodo);
+    List<Player> findByPositionAndTeamName(String position, Team team);
 }

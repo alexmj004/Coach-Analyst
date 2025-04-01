@@ -2,6 +2,7 @@ package com.example.tfg;
 
 import com.example.tfg.controller.CalendarController;
 import com.example.tfg.model.Player;
+import com.example.tfg.model.Team;
 import com.example.tfg.model.User;
 import com.example.tfg.service.CalendarServImp;
 import com.example.tfg.service.CalendarService;
@@ -34,6 +35,8 @@ public class TfgApplication extends Application {
 	private String inputPassword;
 	private PlayerServiceImpl playerServiceImpl;
 	private CalendarService calendarService;
+	private User loggedInUser;
+
 
 
 	public static void main(String[] args) {
@@ -168,22 +171,23 @@ public class TfgApplication extends Application {
 	}
 
 	private void setupMatchComboboxes(Scene matchScene) {
-		// Asegurar que el servicio está disponible
 		if (playerServiceImpl == null) {
 			playerServiceImpl = context.getBean(PlayerServiceImpl.class);
 		}
 
-		// Configurar ComboBox de Porteros (GK)
-		setupPositionComboBox(matchScene, "#box_gk", "GK", "#label_gk");
+		// Obtener el equipo del entrenador logueado
+		Team team = loggedInUser != null ? loggedInUser.getTeam() : null;
 
-		// Configurar ComboBox de Defensas (DF)
-		setupPositionComboBox(matchScene, "#box_df", "DF", "#label_df");
+		// Configurar ComboBox con filtro de equipo
+		setupPositionComboBox(matchScene, "#box_gk", "GK", "#label_gk", team);
+		setupPositionComboBox(matchScene, "#box_df", "DF", "#label_df", team);
+		setupPositionComboBox(matchScene, "#box_pivot", "PIV", "#label_piv", team);
 
-		// Configurar ComboBox de Wingers (LW/RW)
+		// Configurar ComboBox de Wingers
 		ComboBox<String> wardsComboBox = (ComboBox<String>) matchScene.lookup("#box_wards");
 		if (wardsComboBox != null) {
-			wardsComboBox.setPromptText("Select Winger (LW/RW)");
-			loadWardsPlayers(wardsComboBox);
+			wardsComboBox.setPromptText("Wingers (LW/RW)");
+			loadWardsPlayers(wardsComboBox, team);
 
 			Label labelLw = (Label) matchScene.lookup("#label_lw");
 			Label labelRw = (Label) matchScene.lookup("#label_rw");
@@ -191,17 +195,11 @@ public class TfgApplication extends Application {
 				wardsComboBox.setOnAction(e -> updateWardsLabel(wardsComboBox, labelLw, labelRw));
 			}
 		}
-
-		// Configurar ComboBox de Pivotes (PIV)
-		setupPositionComboBox(matchScene, "#box_pivot", "PIV", "#label_piv");
-	}
-	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId) {
+	}	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId, Team team) {
 		ComboBox<String> comboBox = (ComboBox<String>) scene.lookup(comboId);
 		if (comboBox != null) {
-			comboBox.setPromptText(position.equals("GK") ? "GoalKeepers" :
-					position.equals("DF") ? "Defenders" :
-							position.equals("PIV") ? "Pivots" : position);
-			loadPlayersByPosition(comboBox, position);
+			comboBox.setPromptText(getPositionName(position));
+			loadPlayersByPosition(comboBox, position, team);
 
 			Label label = (Label) scene.lookup(labelId);
 			if (label != null) {
@@ -209,20 +207,22 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
-
-	private void loadWardsPlayers(ComboBox<String> comboBox) {
+	private void loadWardsPlayers(ComboBox<String> comboBox, Team team) {
 		try {
-			List<Player> lwPlayers = playerServiceImpl.findByPosition("LW");
-			List<Player> rwPlayers = playerServiceImpl.findByPosition("RW");
+			List<Player> lwPlayers = team != null ?
+					playerServiceImpl.findByPositionAndTeamName("LW", team) :
+					playerServiceImpl.findByPosition("LW");
+
+			List<Player> rwPlayers = team != null ?
+					playerServiceImpl.findByPositionAndTeamName("RW", team) :
+					playerServiceImpl.findByPosition("RW");
 
 			comboBox.getItems().clear();
 
-			// Agregar LW con identificación
 			for (Player player : lwPlayers) {
 				comboBox.getItems().add(player.getApodo() + " (LW)");
 			}
 
-			// Agregar RW con identificación
 			for (Player player : rwPlayers) {
 				comboBox.getItems().add(player.getApodo() + " (RW)");
 			}
@@ -235,14 +235,17 @@ public class TfgApplication extends Application {
 			comboBox.setPromptText("Error loading wingers");
 		}
 	}
-	private void loadPlayersByPosition(ComboBox<String> comboBox, String position) {
+
+	private void loadPlayersByPosition(ComboBox<String> comboBox, String position, Team team) {
 		try {
-			List<Player> players = playerServiceImpl.findByPosition(position);
+			List<Player> players = team != null ?
+					playerServiceImpl.findByPositionAndTeamName(position, team) :
+					playerServiceImpl.findByPosition(position);
+
 			comboBox.getItems().clear();
 
 			if (players != null && !players.isEmpty()) {
 				for (Player player : players) {
-					// Solo mostrar apodo en el ComboBox
 					comboBox.getItems().add(player.getApodo());
 				}
 			} else {
@@ -252,17 +255,7 @@ public class TfgApplication extends Application {
 			logger.error("Error loading players for position: " + position, e);
 			comboBox.setPromptText("Error loading " + getPositionName(position));
 		}
-	}	private String getPositionName(String positionCode) {
-		switch (positionCode) {
-			case "GK": return "GoalKeepers";
-			case "DF": return "Defenders";
-			case "PIV": return "Pivots";
-			case "LW": return "Left Wingers";
-			case "RW": return "Right Wingers";
-			default: return positionCode;
-		}
-	}
-	private void updateLabel(ComboBox<String> comboBox, Label label) {
+	}	private void updateLabel(ComboBox<String> comboBox, Label label) {
 		String selectedApodo = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedApodo != null && label != null) {
 			// Buscar el jugador por su apodo para obtener el dorsal
@@ -410,46 +403,27 @@ public class TfgApplication extends Application {
 
 	// Funcionalidad para manejar el botón de login
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
-
-		inputUserName = userField.getText();  // Se captura el valor del TextField para el nombre de usuario
+		inputUserName = userField.getText();
 		inputPassword = passField.getText();
 
-		// Comprobar si los campos de usuario y contraseña están vacíos
 		if (inputUserName.isEmpty() || inputPassword.isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error de inicio de sesión");
-			alert.setHeaderText("Campos Vacíos");
-			alert.setContentText("Por favor, ingrese un usuario y contraseña.");
-			alert.showAndWait();
+			showAlert("Error de inicio de sesión", "Campos Vacíos, por favor, ingrese un usuario y contraseña.");
 		} else {
-			// Obtener el servicio de usuarios desde el contexto de Spring
 			UserService userService = context.getBean(UserService.class);
+			User user = userService.findByUserName(inputUserName);
 
-			// Buscar al usuario por su nombre de usuario
-			User user = userService.findByUserName(inputUserName); // Usamos inputUserName para la búsqueda
-
-			// Verificar si el usuario existe y la contraseña es correcta
 			if (user != null && user.getPassword().equals(inputPassword)) {
+				this.loggedInUser = user; // Guardar el usuario logueado
 				try {
-					System.out.println("Usuario encontrado: " + user.getUserName());
-					// Si las credenciales son correctas, mostrar el menú principal
 					showMenu(stage);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				// Si no se encuentra el usuario o las credenciales son incorrectas
-				System.out.println("No se encontró el usuario con el nombre: " + inputUserName);
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error de inicio de sesión");
-				alert.setHeaderText("Credenciales inválidas");
-				alert.setContentText("Por favor, ingrese un usuario y contraseña válidos.");
-				alert.showAndWait();
+				showAlert("Error de inicio de sesión", "Credenciales inválidas por favor, ingrese un usuario y contraseña válidos.");
 			}
 		}
-	}
-
-	// Funcionalidad para manejar el botón de nuevo usuario
+	}	// Funcionalidad para manejar el botón de nuevo usuario
 	private void handleNewUserButtonAction(Stage stage) {
 		try {
 			showRegistryScene(stage);
@@ -707,7 +681,22 @@ public class TfgApplication extends Application {
 		}
 	}
 
-
+	private String getPositionName(String positionCode) {
+		switch (positionCode) {
+			case "GK":
+				return "Goalkeepers";
+			case "DF":
+				return "Defenders";
+			case "PIV":
+				return "Pivots";
+			case "LW":
+				return "Left Winger";
+			case "RW":
+				return "Right Winger";
+			default:
+				return positionCode; // Si no coincide con ninguno, devuelve el código original
+		}
+	}
 
 
 	@Override

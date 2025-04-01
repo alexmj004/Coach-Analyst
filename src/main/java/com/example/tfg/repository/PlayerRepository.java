@@ -1,6 +1,7 @@
 package com.example.tfg.repository;
 
 import com.example.tfg.model.Player;
+import com.example.tfg.model.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +20,7 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
     // Método buscar por apodo jugador.
     @Query("SELECT p FROM Player p WHERE p.apodo = :apodo")
     Player findByApodo(@Param("apodo") String apodo);
+    @Query("SELECT p FROM Player p WHERE p.team = :team AND p.position = :position")
+    List<Player> findByPositionAndTeam(@Param("position") String position,
+                                       @Param("team") Team team);
 }

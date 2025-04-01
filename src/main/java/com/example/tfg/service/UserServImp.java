@@ -26,9 +26,10 @@ public class UserServImp implements UserService {
     }
 
     @Override
-    public User findByUserName(String username) {
-        return userRepository.findByUserName(username);
+    public User findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
     }
+
 
     @Override
     public List<User> findAll() {

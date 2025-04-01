@@ -1,6 +1,5 @@
 package com.example.tfg.service;
 
-import com.example.tfg.model.Player;
 import com.example.tfg.model.User;
 
 import java.util.List;
@@ -12,7 +11,7 @@ public interface UserService {
     // Logear usuario
     boolean login(String name, String password);
     // Obtener jugador por nombre.
-    User findByUserName(String username);
+    User findByUserName(String userName);
     // Obtener todos.
     List<User> findAll();
     // Obtener un usuario por su ID
