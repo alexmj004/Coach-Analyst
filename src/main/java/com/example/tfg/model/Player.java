@@ -26,6 +26,10 @@ public class Player implements Serializable {
     @Column
     private String surname;
     @Column
+    private String apodo;
+    @Column
+    private int dorsal;
+    @Column
     private String position;
     @Column
     private java.sql.Date birthDate;
@@ -47,9 +51,11 @@ public class Player implements Serializable {
     private Team team;
 
 
-    public Player(String name, String surname, String position, Date birthDate, String contactInfo, int goals, int assists, int yellowCards, int redCards) {
+    public Player(String name, String surname, String apodo,int dorsal,String position, Date birthDate, String contactInfo, int goals, int assists, int yellowCards, int redCards) {
         this.name = name;
         this.surname = surname;
+        this.apodo = apodo;
+        this.dorsal = dorsal;
         this.position = position;
         this.birthDate = birthDate;
         this.contactInfo = contactInfo;
