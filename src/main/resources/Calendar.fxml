@@ -96,12 +96,12 @@
                      <children>
                         <VBox prefHeight="934.0" prefWidth="1111.0" spacing="10.0">
                            <children>
-                              <DatePicker maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" promptText="Appointmen day">
+                              <DatePicker fx:id="date" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" promptText="Appointmen day">
                                  <VBox.margin>
                                     <Insets bottom="40.0" />
                                  </VBox.margin>
                               </DatePicker>
-                              <TextField alignment="TOP_LEFT" prefHeight="100.0" prefWidth="354.0" promptText="Enter an appointment">
+                              <TextField fx:id="input" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="354.0" promptText="Enter an appointment">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -109,7 +109,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </TextField>
-                              <Button mnemonicParsing="false" text="Add">
+                              <Button fx:id="add" mnemonicParsing="false" text="Add">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
@@ -125,12 +125,12 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <TextArea prefHeight="300.0" prefWidth="354.0" wrapText="true">
+                              <TextArea fx:id="results" prefHeight="300.0" prefWidth="354.0" wrapText="true">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
                               </TextArea>
-                              <Button mnemonicParsing="false" text="Reset">
+                              <Button fx:id="reset" mnemonicParsing="false" text="Reset">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
