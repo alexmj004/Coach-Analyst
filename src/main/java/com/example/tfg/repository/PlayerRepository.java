@@ -16,4 +16,7 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
     List<Player> findByPosition(@Param("position") String position);
     // Busca jugadores marcados como titulares por defecto
     List<Player> findByIsDefaultTrue();
+    // Método buscar por apodo jugador.
+    @Query("SELECT p FROM Player p WHERE p.apodo = :apodo")
+    Player findByApodo(@Param("apodo") String apodo);
 }

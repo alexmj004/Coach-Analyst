@@ -102,4 +102,9 @@ public class PlayerServiceImpl implements PlayerService{
         });
         return defaultPlayers;
     }
+
+    @Override
+    public Player findByApodo(String apodo) {
+        return playerRepository.findByApodo(apodo);
+    }
 }

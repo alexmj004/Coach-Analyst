@@ -21,4 +21,6 @@ public interface PlayerService {
     Boolean update(Player player);
     // Obtiene los jugadores que están marcados como titulares por defecto
     List<Player> findDefaultPlayers();
+    // Obtener jugador por apodo
+    Player findByApodo(String apodo);
 }

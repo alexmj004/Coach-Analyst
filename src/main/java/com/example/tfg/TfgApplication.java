@@ -212,7 +212,6 @@ public class TfgApplication extends Application {
 
 	private void loadWardsPlayers(ComboBox<String> comboBox) {
 		try {
-			// Obtener LW y RW por separado
 			List<Player> lwPlayers = playerServiceImpl.findByPosition("LW");
 			List<Player> rwPlayers = playerServiceImpl.findByPosition("RW");
 
@@ -220,12 +219,12 @@ public class TfgApplication extends Application {
 
 			// Agregar LW con identificación
 			for (Player player : lwPlayers) {
-				comboBox.getItems().add(player.getName() + " " + player.getSurname() + " (LW)");
+				comboBox.getItems().add(player.getApodo() + " (LW)");
 			}
 
 			// Agregar RW con identificación
 			for (Player player : rwPlayers) {
-				comboBox.getItems().add(player.getName() + " " + player.getSurname() + " (RW)");
+				comboBox.getItems().add(player.getApodo() + " (RW)");
 			}
 
 			if (comboBox.getItems().isEmpty()) {
@@ -235,18 +234,16 @@ public class TfgApplication extends Application {
 			logger.error("Error loading wingers", e);
 			comboBox.setPromptText("Error loading wingers");
 		}
-	}	private void loadPlayersByPosition(ComboBox<String> comboBox, String position) {
+	}
+	private void loadPlayersByPosition(ComboBox<String> comboBox, String position) {
 		try {
 			List<Player> players = playerServiceImpl.findByPosition(position);
 			comboBox.getItems().clear();
 
 			if (players != null && !players.isEmpty()) {
 				for (Player player : players) {
-					String displayText = String.format("%s %s (%s)",
-							player.getName(),
-							player.getSurname(),
-							position);
-					comboBox.getItems().add(displayText);
+					// Solo mostrar apodo en el ComboBox
+					comboBox.getItems().add(player.getApodo());
 				}
 			} else {
 				comboBox.setPromptText("No " + getPositionName(position) + " available");
@@ -255,9 +252,7 @@ public class TfgApplication extends Application {
 			logger.error("Error loading players for position: " + position, e);
 			comboBox.setPromptText("Error loading " + getPositionName(position));
 		}
-	}
-
-	private String getPositionName(String positionCode) {
+	}	private String getPositionName(String positionCode) {
 		switch (positionCode) {
 			case "GK": return "GoalKeepers";
 			case "DF": return "Defenders";
@@ -268,42 +263,53 @@ public class TfgApplication extends Application {
 		}
 	}
 	private void updateLabel(ComboBox<String> comboBox, Label label) {
-		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
-		if (selectedPlayer != null && label != null) {
-			// Quitar la posición entre paréntesis para el label
-			label.setText(selectedPlayer.replaceAll("\\(.*\\)", "").trim());
+		String selectedApodo = comboBox.getSelectionModel().getSelectedItem();
+		if (selectedApodo != null && label != null) {
+			// Buscar el jugador por su apodo para obtener el dorsal
+			Player player = playerServiceImpl.findByApodo(selectedApodo);
+			if (player != null) {
+				// Mostrar "Apodo (Dorsal)" en el Label
+				label.setText(String.format("%s (%d)", player.getApodo(), player.getDorsal()));
+			}
 		}
 	}
 	private void updateWardsLabel(ComboBox<String> comboBox, Label labelLw, Label labelRw) {
 		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedPlayer != null) {
-			String playerName = selectedPlayer.replaceAll(" \\((LW|RW)\\)", "");
+			// Extraer solo el apodo (eliminando "(LW)" o "(RW)")
+			String apodo = selectedPlayer.replace(" (LW)", "").replace(" (RW)", "");
 
-			if (selectedPlayer.contains("(LW)")) {
-				// Verificar si el jugador ya está en RW
-				if (playerName.equals(labelRw.getText())) {
-					showAlert("Jugador ya seleccionado", "Este jugador ya está como Right Winger");
-					return;
+			// Buscar el jugador completo
+			Player player = playerServiceImpl.findByApodo(apodo);
+			if (player != null) {
+				String fullDisplay = String.format("%s (%d)", player.getApodo(), player.getDorsal());
+
+				if (selectedPlayer.contains("(LW)")) {
+					// Verificar si el jugador ya está en RW
+					if (player.getApodo().equals(labelRw.getText().split(" ")[0])) {
+						showAlert("Jugador ya seleccionado", "Este jugador ya está como Right Winger");
+						return;
+					}
+					labelLw.setText(fullDisplay);
+				} else if (selectedPlayer.contains("(RW)")) {
+					// Verificar si el jugador ya está en LW
+					if (player.getApodo().equals(labelLw.getText().split(" ")[0])) {
+						showAlert("Jugador ya seleccionado", "Este jugador ya está como Left Winger");
+						return;
+					}
+					labelRw.setText(fullDisplay);
 				}
-				labelLw.setText(playerName);
-			} else if (selectedPlayer.contains("(RW)")) {
-				// Verificar si el jugador ya está en LW
-				if (playerName.equals(labelLw.getText())) {
-					showAlert("Jugador ya seleccionado", "Este jugador ya está como Left Winger");
-					return;
-				}
-				labelRw.setText(playerName);
 			}
 		}
 	}
-
 	private void showAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();
-	}	public void showAnalystScene(Stage stage) throws IOException {
+	}
+	public void showAnalystScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
 		var analystScene = new Scene(fxmlLoader.load());
 		stage.setScene(analystScene);
@@ -475,7 +481,7 @@ public class TfgApplication extends Application {
 		try {
 			inputUserName = null; // Reiniciar la variable username
 			inputPassword = null; // Reiniciar la variable username
-			
+
 			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
 		} catch (Exception e) {
 			e.printStackTrace();
