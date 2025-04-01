@@ -2,8 +2,10 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
@@ -101,6 +103,26 @@
                                     <Insets bottom="40.0" />
                                  </VBox.margin>
                               </DatePicker>
+                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Category">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <ChoiceBox fx:id="categoria" prefHeight="27.0" prefWidth="190.0" />
+                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font>
+                              </Text>
+                              <TextField fx:id="location" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="190.0" promptText="soccer field...">
+                                 <VBox.margin>
+                                    <Insets right="250.0" />
+                                 </VBox.margin>
+                              </TextField>
+                              <Separator opacity="0.0" prefWidth="200.0">
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding></Separator>
                               <TextField fx:id="input" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="354.0" promptText="Enter an appointment">
                                  <VBox.margin>
                                     <Insets />
@@ -125,7 +147,7 @@
                                     <Font size="20.0" />
                                  </font>
                               </Text>
-                              <TextArea fx:id="results" prefHeight="300.0" prefWidth="354.0" wrapText="true">
+                              <TextArea fx:id="results" prefHeight="250.0" prefWidth="354.0" wrapText="true">
                                  <VBox.margin>
                                     <Insets />
                                  </VBox.margin>
@@ -147,6 +169,9 @@
                      <padding>
                         <Insets left="40.0" top="20.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </VBox>
                </children>
             </VBox>

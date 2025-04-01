@@ -24,13 +24,27 @@ public class CalendarController {
         TextArea appointmentsArea = (TextArea) calendarScene.lookup("#results");
         Button addButton = (Button) calendarScene.lookup("#add");
         Button resetButton = (Button) calendarScene.lookup("#reset");
+        ChoiceBox<String> categoriaBox = (ChoiceBox<String>) calendarScene.lookup("#categoria");
+        TextField locationField = (TextField) calendarScene.lookup("#location");
+
+        //agregar categorias al CHoiceBox
+        categoriaBox.getItems().addAll("Match", "Training", "Meeting", "Other");
+
+        // mostrar la fecha actual en el DatePicker
+        LocalDate today = LocalDate.now();
+        datePicker.setValue(today);
+
+        //cargar los appointments del dia actual
+        loadAppointmentsByDate(today, appointmentsArea);
 
         addButton.setOnAction(e -> {
             String appointmentText = appointmentField.getText();
             LocalDate selectedDate = datePicker.getValue();
+            String category = categoriaBox.getValue();
+            String location = locationField.getText();
 
             if (!appointmentText.isEmpty() && selectedDate != null) {
-                addAppointment(appointmentText, selectedDate, appointmentsArea);
+                addAppointment(appointmentText, selectedDate, appointmentsArea, category, location);
                 appointmentField.clear();
             } else {
                 showAlert("Datos incompletos", "Por favor seleccione una fecha y escriba una descripción");
@@ -50,8 +64,8 @@ public class CalendarController {
             }
         });
     }
-// TODO: implementa la hora de inicio y fin y un desplegable para seleccionar la categoria y la localizacion
-    private void addAppointment(String description, LocalDate date, TextArea appointmentsArea) {
+// TODO: implementa la hora de inicio y fin
+    private void addAppointment(String description, LocalDate date, TextArea appointmentsArea, String category, String location) {
         try {
             Calendar newEvent = new Calendar();
             newEvent.setTitle("Evento");
@@ -60,8 +74,8 @@ public class CalendarController {
             newEvent.setStart(startTimestamp);
             Timestamp endTimestamp = Timestamp.valueOf(date.atStartOfDay().plusDays(1));
             newEvent.setEnd(endTimestamp);
-            newEvent.setCategory("Appointment");
-            newEvent.setLocation("Club");
+            newEvent.setCategory(category);
+            newEvent.setLocation(location);
 
             calendarService.saveCalendar(newEvent);
             loadAppointmentsByDate(date, appointmentsArea);
@@ -83,10 +97,10 @@ public class CalendarController {
                 for (Calendar event : events) {
                     sb.append("Título: ").append(event.getTitle()).append("\n");
                     sb.append("Descripción: ").append(event.getDescription()).append("\n");
-                    sb.append("Hora inicio: ").append(event.getStart().toLocalDateTime().toLocalTime()).append("\n");
-                    if (event.getEnd() != null) {
-                        sb.append("Hora fin: ").append(event.getEnd().toLocalDateTime().toLocalTime()).append("\n");
-                    }
+                    sb.append("Fecha: ").append(event.getStart().toLocalDateTime().toLocalDate()).append("\n");
+
+                    sb.append("Categoría: ").append(event.getCategory()).append("\n");
+                    sb.append("Localización: ").append(event.getLocation()).append("\n");
                     sb.append("-----------------------------------\n");
                 }
                 appointmentsArea.setText(sb.toString());
