@@ -81,7 +81,7 @@ public class CalendarController {
             }
         });
     }
-// TODO: implementa la hora de inicio y fin
+
     private void addAppointment(String description, LocalDate date,String startTime,String endTime, TextArea appointmentsArea, String category, String location) {
         try {
             Calendar newEvent = new Calendar();
@@ -102,7 +102,7 @@ public class CalendarController {
             showAlert("Error", "No se pudo añadir el evento: " + e.getMessage());
         }
     }
-//TODO implementar lo mismo que en la insercion hora de inicio y hora de fin
+
     private void loadAppointmentsByDate(LocalDate date, TextArea appointmentsArea) {
         try {
             List<Calendar> events = calendarService.findByDay(date);

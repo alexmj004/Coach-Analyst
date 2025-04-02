@@ -112,16 +112,6 @@
                                     <Insets bottom="40.0" />
                                  </VBox.margin>
                               </DatePicker>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="location" prefHeight="26.0" prefWidth="354.0" promptText="Lugar del entrenamiento.">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </TextField>
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Objective">
                                  <VBox.margin>
                                     <Insets />
@@ -131,21 +121,12 @@
                                  </font>
                               </Text>
                               <TextField fx:id="objective_training" prefHeight="26.0" prefWidth="354.0" promptText="Trabajar transiciones con y sin balón.">
-                                 
+                                 <VBox.margin>
+                                    <Insets bottom="40.0" />
+                                 </VBox.margin>
                                  <font>
                                     <Font size="20.0" />
                                  </font>
-                              </TextField>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Notes">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="notes" prefHeight="26.0" prefWidth="354.0" promptText="Comentarios, aclaraciones...">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-
                               </TextField>
 
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Description">
