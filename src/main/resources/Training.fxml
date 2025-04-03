@@ -136,17 +136,6 @@
                                     <Font size="20.0" />
                                  </font>
                               </TextField>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Notes">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <TextField fx:id="notes" prefHeight="26.0" prefWidth="354.0" promptText="Comentarios, aclaraciones...">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-
-                              </TextField>
 
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Description">
                                  <VBox.margin>
