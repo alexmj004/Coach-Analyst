@@ -8,26 +8,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 public class TrainingController {
     @Autowired
     private TrainingService trainingService;
 
-    //TODO implementar un metodo que permita visualizar todos los entrenamientos y preguntar para que sirve el boton "Modificar"
-
     public void setupTrainingComponents(Scene trainingScene) {
         DatePicker datePicker = (DatePicker) trainingScene.lookup("#calendar_training");
         TextField locationField = (TextField) trainingScene.lookup("#location");
         TextField objectiveField = (TextField) trainingScene.lookup("#objective_training");
-        //TextField notesField = (TextField) trainingScene.lookup("#notes");
         TextArea trainingDescription = (TextArea) trainingScene.lookup("#description_training");
         Button addButton = (Button) trainingScene.lookup("#accept_btn");
         Button modifyButton = (Button) trainingScene.lookup("#modify_btn");
 
-        // mostrar la fecha actual en el DatePicker
+        // Desactivar campos por defecto
+        locationField.setDisable(true);
+        objectiveField.setDisable(true);
+        trainingDescription.setDisable(true);
+
+        // Mostrar la fecha actual en el DatePicker
         LocalDate today = LocalDate.now();
         datePicker.setValue(today);
+
+        // Cargar el entrenamiento del día actual
+        loadTrainingByDate(today, locationField, objectiveField, trainingDescription);
 
         addButton.setOnAction(e -> {
             String location = locationField.getText();
@@ -36,28 +42,72 @@ public class TrainingController {
             String description = trainingDescription.getText();
 
             if (!location.isEmpty() && eventDate != null && !objective.isEmpty() && !description.isEmpty()) {
-                addTraining(location, eventDate, objective, description);
-                showAlert("Entrenamiento agregado", "El entrenamiento se ha añadido correctamente");
+                addOrUpdateTraining(location, eventDate, objective, description);
+                showAlert("Entrenamiento guardado", "El entrenamiento se ha guardado correctamente");
+                // Desactivar campos por defecto
+                locationField.setDisable(true);
+                objectiveField.setDisable(true);
+                trainingDescription.setDisable(true);
             } else {
                 showAlert("Datos incompletos", "Por favor seleccione una fecha y escriba una descripción");
             }
         });
+
+        modifyButton.setOnAction(e -> {
+            // Habilitar campos para edición
+            locationField.setDisable(false);
+            objectiveField.setDisable(false);
+            trainingDescription.setDisable(false);
+        });
+
+        datePicker.setOnAction(e -> {
+            LocalDate selectedDate = datePicker.getValue();
+            if (selectedDate != null) {
+                loadTrainingByDate(selectedDate, locationField, objectiveField, trainingDescription);
+            }
+        });
     }
 
-    private void addTraining(String location, LocalDate eventDate, String objective, String description) {
+    private void loadTrainingByDate(LocalDate date, TextField locationField, TextField objectiveField, TextArea trainingDescription) {
+        Optional<Training> trainingOpt = trainingService.findByDate(java.sql.Date.valueOf(date));
+        if (trainingOpt.isPresent()) {
+            Training training = trainingOpt.get();
+            locationField.setText(training.getLocation());
+            objectiveField.setText(training.getObjective());
+            trainingDescription.setText(training.getNotes());
+        } else {
+            locationField.clear();
+            objectiveField.clear();
+            trainingDescription.clear();
+            showAlert("No hay entrenamiento", "No hay entrenamiento programado para esta fecha");
+        }
+    }
+
+    private void addOrUpdateTraining(String location, LocalDate eventDate, String objective, String description) {
         try {
-            Training newTraining = new Training();
-            newTraining.setLocation(location);
             java.sql.Date sqlDate = java.sql.Date.valueOf(eventDate);
-            newTraining.setDate(sqlDate);
-            newTraining.setObjective(objective);
-            newTraining.setNotes(description);
+            Optional<Training> trainingOpt = trainingService.findByDate(sqlDate);
 
-            trainingService.saveTraining(newTraining);
-
+            Training training;
+            if (trainingOpt.isPresent()) {
+                training = trainingOpt.get();
+                training.setLocation(location);
+                training.setObjective(objective);
+                training.setNotes(description);
+                trainingService.updateTraining(training);
+                showAlert("Entrenamiento modificado", "El entrenamiento existente se ha modificado correctamente");
+            } else {
+                training = new Training();
+                training.setDate(sqlDate);
+                training.setLocation(location);
+                training.setObjective(objective);
+                training.setNotes(description);
+                trainingService.saveTraining(training);
+                showAlert("Entrenamiento agregado", "El entrenamiento se ha añadido correctamente");
+            }
         } catch (Exception e) {
-            showAlert("Error", "No se ha podido añadir el entrenamiento");
-            System.out.println("Error al añadir entrenamiento: " + e.getMessage());
+            showAlert("Error", "No se ha podido añadir o modificar el entrenamiento");
+            System.out.println("Error al añadir o modificar entrenamiento: " + e.getMessage());
         }
     }
 
