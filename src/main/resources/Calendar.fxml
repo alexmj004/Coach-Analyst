@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -18,7 +19,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.ComboBox?>
 <SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
       <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
@@ -80,7 +80,7 @@
          <children>
             <VBox alignment="CENTER" layoutY="2.0" prefHeight="1080.0" prefWidth="1420.0" spacing="20.0">
                <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="180.0">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
@@ -92,7 +92,7 @@
                         </ImageView>
                      </children>
                      <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets left="1000.0" top="25.0" />
                      </VBox.margin>
                   </HBox>
                   <VBox prefHeight="985.0" prefWidth="1198.0">
@@ -101,41 +101,63 @@
                            <children>
                               <DatePicker fx:id="date" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" promptText="Appointmen day">
                                  <VBox.margin>
-                                    <Insets bottom="40.0" />
+                                    <Insets bottom="20.0" />
                                  </VBox.margin>
                               </DatePicker>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Start time">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-
-                              <ComboBox fx:id="startTime" prefHeight="27.0" prefWidth="190.0" />
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="End time">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <ComboBox fx:id="endTime" prefHeight="27.0" prefWidth="190.0" />
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Category">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-
-
-
-
-
-                              <ChoiceBox fx:id="categoria" prefHeight="27.0" prefWidth="190.0" />
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Start time">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+            
+                                          <ComboBox fx:id="startTime" prefHeight="27.0" prefWidth="190.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="End time">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <ComboBox fx:id="endTime" prefHeight="27.0" prefWidth="190.0" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="100.0">
+                                       <children>
+                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Category">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+            
+            
+            
+            
+            
+                                          <ChoiceBox fx:id="categoria" prefHeight="27.0" prefWidth="146.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="-30.0" />
+                                 </VBox.margin>
+                              </HBox>
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
+                                 <VBox.margin>
+                                    <Insets top="10.0" />
+                                 </VBox.margin>
                               </Text>
                               <TextField fx:id="location" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="190.0" promptText="soccer field...">
                                  <VBox.margin>
-                                    <Insets right="250.0" />
+                                    <Insets bottom="-40.0" right="250.0" />
                                  </VBox.margin>
                               </TextField>
                               <Separator opacity="0.0" prefWidth="200.0">
@@ -155,7 +177,7 @@
                                     <Font size="20.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="965.0" />
+                                    <Insets left="965.0" top="-5.0" />
                                  </VBox.margin>
                               </Button>
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Appointments">
@@ -176,7 +198,7 @@
                                     <Font size="20.0" />
                                  </font>
                                  <VBox.margin>
-                                    <Insets left="950.0" />
+                                    <Insets left="950.0" top="-5.0" />
                                  </VBox.margin>
                               </Button>
                            </children>
@@ -186,7 +208,7 @@
                         </VBox>
                      </children>
                      <padding>
-                        <Insets left="40.0" top="20.0" />
+                        <Insets left="40.0" top="-50.0" />
                      </padding>
                      <VBox.margin>
                         <Insets />
