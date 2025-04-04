@@ -86,9 +86,14 @@ public class TrainingController {
     private void addOrUpdateTraining(String location, LocalDate eventDate, String objective, String description) {
         try {
             java.sql.Date sqlDate = java.sql.Date.valueOf(eventDate);
+
+            //este método busca si ya existe un entrenamiento para la fecha seleccionada, si lo encuentra solo lo modifica
+            //si no lo encuentra, crea uno nuevo.  el valor de trainingOpt puede ser un objeto Training o null
             Optional<Training> trainingOpt = trainingService.findByDate(sqlDate);
 
             Training training;
+
+            // el valor de trainingOpt.isPresent() es true si existe un entrenamiento para la fecha seleccionada
             if (trainingOpt.isPresent()) {
                 training = trainingOpt.get();
                 training.setLocation(location);
