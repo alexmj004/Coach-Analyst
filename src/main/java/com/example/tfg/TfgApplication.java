@@ -30,6 +30,7 @@ public class TfgApplication extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
 	private String inputUserName;
+	private Label nombre_coach;
 	private String inputPassword;
 	private PlayerServiceImpl playerServiceImpl;
 	private CalendarService calendarService;
@@ -99,6 +100,14 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 
+	private void updateCoachNameLabel(Scene scene) {
+		if (scene == null || loggedInUser == null) return;
+
+		Label nombreCoachLabel = (Label) scene.lookup("#nombre_coach");
+		if (nombreCoachLabel != null) {
+			nombreCoachLabel.setText(loggedInUser.getUserName()); // O usa getUsername() según tu modelo User
+		}
+	}
 	// Definir el stage de la interfaz menú.
 	public void showMenu(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
@@ -108,6 +117,7 @@ public class TfgApplication extends Application {
 		setMenuClickListener(menuScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
 		setOutClickListener(menuScene);
 
+		updateCoachNameLabel(menuScene);
 
 		Button trainingButton = (Button) menuScene.lookup("#training_btn");
 		trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
@@ -131,6 +141,8 @@ public class TfgApplication extends Application {
 		var calendarScene = new Scene(fxmlLoader.load());
 		stage.setScene(calendarScene);
 
+		updateCoachNameLabel(calendarScene);
+
 		CalendarController calendarController = new CalendarController(calendarService);
 		calendarController.setupCalendarComponents(calendarScene);
 
@@ -146,6 +158,8 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
 		var trainingScene = new Scene(fxmlLoader.load());
 		stage.setScene(trainingScene);
+		updateCoachNameLabel(trainingScene);
+
 
 		TrainingController trainingController = context.getBean(TrainingController.class);
 		trainingController.setupTrainingComponents(trainingScene);
@@ -162,6 +176,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Match.fxml"));
 		var matchScene = new Scene(fxmlLoader.load());
 		stage.setScene(matchScene);
+		updateCoachNameLabel(matchScene);
 
 		// Configurar los ComboBox con jugadores por posición
 		setupMatchComboboxes(matchScene);
@@ -198,7 +213,8 @@ public class TfgApplication extends Application {
 				wardsComboBox.setOnAction(e -> updateWardsLabel(wardsComboBox, labelLw, labelRw));
 			}
 		}
-	}	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId, Team team) {
+	}
+	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId, Team team) {
 		ComboBox<String> comboBox = (ComboBox<String>) scene.lookup(comboId);
 		if (comboBox != null) {
 			comboBox.setPromptText(getPositionName(position));
@@ -258,7 +274,8 @@ public class TfgApplication extends Application {
 			logger.error("Error loading players for position: " + position, e);
 			comboBox.setPromptText("Error loading " + getPositionName(position));
 		}
-	}	private void updateLabel(ComboBox<String> comboBox, Label label) {
+	}
+	private void updateLabel(ComboBox<String> comboBox, Label label) {
 		String selectedApodo = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedApodo != null && label != null) {
 			// Buscar el jugador por su apodo para obtener el dorsal
@@ -309,6 +326,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
 		var analystScene = new Scene(fxmlLoader.load());
 		stage.setScene(analystScene);
+		updateCoachNameLabel(analystScene);
 
 		// Asignar eventos de la interfaz
 		setNavigationClickListeners(analystScene);
@@ -324,6 +342,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Assists.fxml"));
 		var assistsScene = new Scene(fxmlLoader.load());
 		stage.setScene(assistsScene);
+		updateCoachNameLabel(assistsScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(assistsScene);
@@ -338,6 +357,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Cards.fxml"));
 		var cardsScene = new Scene(fxmlLoader.load());
 		stage.setScene(cardsScene);
+		updateCoachNameLabel(cardsScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(cardsScene);
@@ -352,6 +372,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Saves.fxml"));
 		var savesScene = new Scene(fxmlLoader.load());
 		stage.setScene(savesScene);
+		updateCoachNameLabel(savesScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(savesScene);
@@ -366,6 +387,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
 		var tournamentScene = new Scene(fxmlLoader.load());
 		stage.setScene(tournamentScene);
+		updateCoachNameLabel(tournamentScene);
 
 		// Asignar eventos de la interfaz
 		setNavigationClickListeners(tournamentScene);
@@ -381,6 +403,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
 		var resultsScene = new Scene(fxmlLoader.load());
 		stage.setScene(resultsScene);
+		updateCoachNameLabel(resultsScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(resultsScene);
@@ -395,6 +418,7 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
 		var teamsScene = new Scene(fxmlLoader.load());
 		stage.setScene(teamsScene);
+		updateCoachNameLabel(teamsScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(teamsScene);

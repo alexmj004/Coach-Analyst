@@ -83,7 +83,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                            <HBox.margin>
-                              <Insets right="100.0" />
+                              <Insets right="100.0" top="25.0" />
                            </HBox.margin>
                            <image>
                               <Image url="@images/logo.png" />
@@ -91,7 +91,7 @@
                         </ImageView>
                      </children>
                      <VBox.margin>
-                        <Insets top="25.0" />
+                        <Insets left="1000.0" />
                      </VBox.margin>
                   </HBox>
 
@@ -100,7 +100,7 @@
                      <children>
 
                         <!-- Formulario de contenido -->
-                        <VBox prefHeight="934.0" prefWidth="1111.0" spacing="10.0">
+                        <VBox prefHeight="934.0" prefWidth="1111.0" spacing="20.0">
                            <children>
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Day">
                                  <font>
@@ -109,7 +109,7 @@
                               </Text>
                               <DatePicker fx:id="calendar_training" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0">
                                  <VBox.margin>
-                                    <Insets bottom="40.0" />
+                                    <Insets />
                                  </VBox.margin>
                               </DatePicker>
                               <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
@@ -169,13 +169,16 @@
                               </HBox>
                            </children>
                            <VBox.margin>
-                              <Insets right="350.0" />
+                              <Insets right="350.0" top="-40.0" />
                            </VBox.margin>
                         </VBox>
                      </children>
                      <padding>
-                        <Insets left="40.0" top="20.0" />
+                        <Insets left="40.0" />
                      </padding>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
                   </VBox>
                </children>
             </VBox>
