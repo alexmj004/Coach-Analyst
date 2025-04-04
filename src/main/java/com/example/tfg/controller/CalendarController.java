@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 public class CalendarController {
     private static final Logger logger = LoggerFactory.getLogger(CalendarController.class);
@@ -67,14 +68,35 @@ public class CalendarController {
         });
 
         resetButton.setOnAction(e -> {
+            LocalDate selectedDate = datePicker.getValue();
+
+            if (selectedDate != null) {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Confirmar eliminación");
+                confirmation.setHeaderText("¿Eliminar todos los eventos del " + selectedDate + "?");
+                confirmation.setContentText("Esta acción no se puede deshacer.");
+
+                confirmation.showAndWait().ifPresent(response -> {
+                    if (response == ButtonType.OK) {
+                        try {
+                            calendarService.deleteByDate(selectedDate);
+                            loadAppointmentsByDate(selectedDate, appointmentsArea); // Refrescar la vista
+                            showAlert("Éxito", "Eventos del día eliminados correctamente");
+                        } catch (Exception ex) {
+                            logger.error("Error al eliminar eventos", ex);
+                            showAlert("Error", "No se pudieron eliminar los eventos: " + ex.getMessage());
+                        }
+                    }
+                });
+            }
+
+            // Limpiar campos independientemente de si hay fecha seleccionada
             appointmentField.clear();
-            appointmentsArea.clear();
-            datePicker.setValue(null);
             startTImeBox.setValue(null);
             endTimeBox.setValue(null);
-        });
-
-        datePicker.setOnAction(e -> {
+            categoriaBox.setValue(null);
+            locationField.clear();
+        });        datePicker.setOnAction(e -> {
             LocalDate selectedDate = datePicker.getValue();
             if (selectedDate != null) {
                 loadAppointmentsByDate(selectedDate, appointmentsArea);
@@ -106,6 +128,14 @@ public class CalendarController {
     private void loadAppointmentsByDate(LocalDate date, TextArea appointmentsArea) {
         try {
             List<Calendar> events = calendarService.findByDay(date);
+
+            // Ordenar los eventos por hora de inicio (de más temprano a más tarde)
+            events.sort((event1, event2) -> {
+                LocalTime time1 = event1.getStart().toLocalDateTime().toLocalTime();
+                LocalTime time2 = event2.getStart().toLocalDateTime().toLocalTime();
+                return time1.compareTo(time2);
+            });
+
             appointmentsArea.clear();
             if (events.isEmpty()) {
                 appointmentsArea.setText("No hay eventos programados para esta fecha.");
@@ -128,7 +158,6 @@ public class CalendarController {
             appointmentsArea.setText("Error al cargar los eventos: " + e.getMessage());
         }
     }
-
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

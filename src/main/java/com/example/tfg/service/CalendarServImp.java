@@ -2,6 +2,7 @@ package com.example.tfg.service;
 
 import com.example.tfg.model.Calendar;
 import com.example.tfg.repository.CalendarRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,12 @@ public class CalendarServImp implements CalendarService {
     @Override
     public void saveCalendar(Calendar calendar) {
         calendarRepository.save(calendar);
+    }
+
+    @Override
+    @Transactional
+    public void deleteByDate(LocalDate date) {
+        calendarRepository.deleteByDate(date);
     }
 
     @Override
