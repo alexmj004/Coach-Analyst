@@ -27,6 +27,7 @@ import java.util.List;
 @SpringBootApplication
 public class TfgApplication extends Application {
 
+	// Propiedades.
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
 	private String inputUserName;
@@ -38,12 +39,12 @@ public class TfgApplication extends Application {
 	private User loggedInUser;
 
 
-
 	public static void main(String[] args) {
 		// Primero, iniciar Spring Boot y luego JavaFX.
 		context = SpringApplication.run(TfgApplication.class, args);
 		launch(args); // Lanza la aplicación de JavaFX.
 	}
+
 
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -54,14 +55,17 @@ public class TfgApplication extends Application {
 		stage.setMaximized(true);
 	}
 
+
 	@Override
 	public void init() throws Exception {
-		// Obtener los beans de Spring antes de que inicie JavaFX
+		// Obtener los beans de Spring antes de que inicie JavaFX.
 		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
 		calendarService = context.getBean(CalendarServImp.class);
 		trainingService = context.getBean(TrainingService.class);
 	}
 
+
+	// *** INTERFAZ LOGIN ***
 	// Definir el stage de la interfaz login.
 	public void showLoginScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
@@ -80,7 +84,32 @@ public class TfgApplication extends Application {
 		stage.setTitle("Inicio de sesión");
 		stage.show();
 	}
+	// Funcionalidad para manejar el botón de login
+	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
+		inputUserName = userField.getText();
+		inputPassword = passField.getText();
 
+		if (inputUserName.isEmpty() || inputPassword.isEmpty()) {
+			showAlert("Error de inicio de sesión", "Campos Vacíos, por favor, ingrese un usuario y contraseña.");
+		} else {
+			UserService userService = context.getBean(UserService.class);
+			User user = userService.findByUserName(inputUserName);
+
+			if (user != null && user.getPassword().equals(inputPassword)) {
+				this.loggedInUser = user; // Guardar el usuario logueado
+				try {
+					showMenu(stage);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				showAlert("Error de inicio de sesión", "Credenciales inválidas por favor, ingrese un usuario y contraseña válidos.");
+			}
+		}
+	}
+
+
+	// *** INTERFAZ REGISTRY ***
 	// Definir el stage de la interfaz registry.
 	public void showRegistryScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
@@ -99,15 +128,60 @@ public class TfgApplication extends Application {
 		stage.setTitle("Registro de Usuario");
 		stage.show();
 	}
-
-	private void updateCoachNameLabel(Scene scene) {
-		if (scene == null || loggedInUser == null) return;
-
-		Label nombreCoachLabel = (Label) scene.lookup("#nombre_coach");
-		if (nombreCoachLabel != null) {
-			nombreCoachLabel.setText(loggedInUser.getUserName()); // O usa getUsername() según tu modelo User
+	// Funcionalidad para manejar el botón de nuevo usuario.
+	private void handleNewUserButtonAction(Stage stage) {
+		try {
+			showRegistryScene(stage);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
+	// Funcionalidad registro de cada campo.
+	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
+		String name = nameField.getText();
+		String surname = surnameField.getText();
+		String email = emailField.getText();
+		String username = usernameField.getText();
+		String password = passwordField.getText();
+
+		if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error de Registro");
+			alert.setHeaderText("Campos Vacíos");
+			alert.setContentText("Por favor, complete todos los campos.");
+			alert.showAndWait();
+		} else {
+			// Crear el objeto User
+			User user = new User(name, surname, username, email, password);
+
+			// Intentar agregar el usuario a la base de datos
+			try {
+				// Inyectar el servicio UserService y llamar al método para guardar al usuario
+				UserService userService = context.getBean(UserService.class);
+				userService.addUser(user); // Guardar el usuario en la base de datos
+
+				// Mostrar mensaje de éxito
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Registro Exitoso");
+				alert.setHeaderText("El usuario ha sido registrado correctamente.");
+				alert.setContentText("Puede iniciar sesión ahora.");
+				alert.showAndWait();
+
+				// Volver a la pantalla de login
+				showLoginScene(stage);
+			} catch (Exception e) {
+				// Manejar excepciones si ocurre algún error al guardar el usuario
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Error de Registro");
+				alert.setHeaderText("No se pudo registrar al usuario");
+				alert.setContentText("Hubo un error al guardar los datos. Intente de nuevo.");
+				alert.showAndWait();
+			}
+		}
+	}
+
+
+	// *** INTERFAZ MENÚ ***
 	// Definir el stage de la interfaz menú.
 	public void showMenu(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
@@ -135,6 +209,8 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 
+
+	// *** INTERFAZ CALENDAR ***
 	// Definir el stage de la interfaz calendar.
 	public void showCalendarScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
@@ -153,6 +229,8 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 
+
+	// *** INTERFAZ TRAINING ***
 	// Definir el stage de la interfaz training.
 	public void showTrainingScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
@@ -170,7 +248,17 @@ public class TfgApplication extends Application {
 		stage.setTitle("Entrenamientos");
 		stage.show();
 	}
+	// Funcionalidad evento btn training.
+	private void handleTrainingButtonAction(Stage stage) {
+		try {
+			showTrainingScene(stage);  // Llama a la escena de entrenamiento
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ MATCH ***
 	// Definir el stage de la interfaz match.
 	public void showMatchScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Match.fxml"));
@@ -187,7 +275,30 @@ public class TfgApplication extends Application {
 		stage.setTitle("Partidos");
 		stage.show();
 	}
-
+	// Funcionalidad evento btn match.
+	private void handleMatchButtonAction(Stage stage) {
+		try {
+			showMatchScene(stage);  // Llama a la escena de partidos
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private String getPositionName(String positionCode) {
+		switch (positionCode) {
+			case "GK":
+				return "Goalkeepers";
+			case "DF":
+				return "Defenders";
+			case "PIV":
+				return "Pivots";
+			case "LW":
+				return "Left Winger";
+			case "RW":
+				return "Right Winger";
+			default:
+				return positionCode; // Si no coincide con ninguno, devuelve el código original
+		}
+	}
 	private void setupMatchComboboxes(Scene matchScene) {
 		if (playerServiceImpl == null) {
 			playerServiceImpl = context.getBean(PlayerServiceImpl.class);
@@ -254,7 +365,6 @@ public class TfgApplication extends Application {
 			comboBox.setPromptText("Error loading wingers");
 		}
 	}
-
 	private void loadPlayersByPosition(ComboBox<String> comboBox, String position, Team team) {
 		try {
 			List<Player> players = team != null ?
@@ -315,13 +425,9 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
-	private void showAlert(String title, String message) {
-		Alert alert = new Alert(Alert.AlertType.WARNING);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.showAndWait();
-	}
+
+
+	// *** INTERFAZ ANALYST ***
 	public void showAnalystScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
 		var analystScene = new Scene(fxmlLoader.load());
@@ -336,7 +442,26 @@ public class TfgApplication extends Application {
 		stage.setTitle("Analistas");
 		stage.show();
 	}
+	// Funcionalidad evento btn analyst.
+	private void handleAnalystButtonAction(Stage stage) {
+		try {
+			showAnalystScene(stage);  // Llama a la escena de analistas
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	// Funcionalidad evento text clasification.
+	public void handleScoresClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Goleadores!");
+		try {
+			showAnalystScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ ASSISTS ***
 	// Definir el stage de la interfaz assists.
 	public void showAssistsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Assists.fxml"));
@@ -351,7 +476,18 @@ public class TfgApplication extends Application {
 		stage.setTitle("Asistencias");
 		stage.show();
 	}
+	// Funcionalidad evento btn assists.
+	public void handleAssiststClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Asistencias!");
+		try {
+			showAssistsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ CARDS ***
 	// Definir el stage de la interfaz cards.
 	public void showCardsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Cards.fxml"));
@@ -366,7 +502,18 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tarjetas");
 		stage.show();
 	}
+	// Funcionalidad evento btn cards.
+	public void handleCardsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Tarjetas!");
+		try {
+			showCardsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ SAVES ***
 	// Definir el stage de la interfaz saves.
 	public void showSavesScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Saves.fxml"));
@@ -381,7 +528,18 @@ public class TfgApplication extends Application {
 		stage.setTitle("Paradas");
 		stage.show();
 	}
+	// Funcionalidad evento btn saves.
+	public void handleSavesClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Paradas!");
+		try {
+			showSavesScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ TOURNAMENT ***
 	// Definir el stage de la interfaz tournament.
 	public void showTournamentScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
@@ -397,7 +555,26 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tournament");
 		stage.show();
 	}
+	// Funcionalidad evento btn tournament.
+	private void handleTournamentButtonAction(Stage stage) {
+		try {
+			showTournamentScene(stage);  // Llama a la escena del torneo
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	// Funcionalidad evento text clasification.
+	public void handleClasificationClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Clasificación!");
+		try {
+			showTournamentScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ RESULTS ***
 	// Definir el stage de la interfaz results.
 	public void showResultsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
@@ -412,7 +589,18 @@ public class TfgApplication extends Application {
 		stage.setTitle("Resultados");
 		stage.show();
 	}
+	// Funcionalidad evento text results.
+	public void handleResultsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Resultados!");
+		try {
+			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
+
+	// *** INTERFAZ TEAMS ***
 	// Definir el stage de la interfaz teams.
 	public void showTeamsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
@@ -427,164 +615,6 @@ public class TfgApplication extends Application {
 		stage.setTitle("Equipos");
 		stage.show();
 	}
-
-	// Funcionalidad para manejar el botón de login
-	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
-		inputUserName = userField.getText();
-		inputPassword = passField.getText();
-
-		if (inputUserName.isEmpty() || inputPassword.isEmpty()) {
-			showAlert("Error de inicio de sesión", "Campos Vacíos, por favor, ingrese un usuario y contraseña.");
-		} else {
-			UserService userService = context.getBean(UserService.class);
-			User user = userService.findByUserName(inputUserName);
-
-			if (user != null && user.getPassword().equals(inputPassword)) {
-				this.loggedInUser = user; // Guardar el usuario logueado
-				try {
-					showMenu(stage);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else {
-				showAlert("Error de inicio de sesión", "Credenciales inválidas por favor, ingrese un usuario y contraseña válidos.");
-			}
-		}
-	}	// Funcionalidad para manejar el botón de nuevo usuario
-	private void handleNewUserButtonAction(Stage stage) {
-		try {
-			showRegistryScene(stage);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento img menú.
-	private void handleImgMenuClick(MouseEvent event) {
-		try {
-			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento img calendar.
-	private void handleImgCalendarClick(MouseEvent event) {
-		try {
-			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento img log out.
-	private void handleImgOutClick(MouseEvent event) {
-		try {
-			inputUserName = null; // Reiniciar la variable username
-			inputPassword = null; // Reiniciar la variable username
-
-			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn training.
-	private void handleTrainingButtonAction(Stage stage) {
-		try {
-			showTrainingScene(stage);  // Llama a la escena de entrenamiento
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn match.
-	private void handleMatchButtonAction(Stage stage) {
-		try {
-			showMatchScene(stage);  // Llama a la escena de partidos
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn analyst.
-	private void handleAnalystButtonAction(Stage stage) {
-		try {
-			showAnalystScene(stage);  // Llama a la escena de analistas
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento text clasification.
-	public void handleScoresClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Goleadores!");
-		try {
-			showAnalystScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn assists.
-	public void handleAssiststClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Asistencias!");
-		try {
-			showAssistsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn cards.
-	public void handleCardsClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Tarjetas!");
-		try {
-			showCardsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn saves.
-	public void handleSavesClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Paradas!");
-		try {
-			showSavesScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento btn tournament.
-	private void handleTournamentButtonAction(Stage stage) {
-		try {
-			showTournamentScene(stage);  // Llama a la escena del torneo
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento text clasification.
-	public void handleClasificationClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Clasificación!");
-		try {
-			showTournamentScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	// Funcionalidad evento text results.
-	public void handleResultsClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Resultados!");
-		try {
-			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	// Funcionalidad evento text teams.
 	public void handleTeamsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Equipos!");
@@ -595,7 +625,19 @@ public class TfgApplication extends Application {
 		}
 	}
 
-	// Método para establecer la navegación a través de los text.
+
+	// Método para actualizar el nombre_usuario del login en cada interfaz.
+	private void updateCoachNameLabel(Scene scene) {
+		if (scene == null || loggedInUser == null) return;
+
+		Label nombreCoachLabel = (Label) scene.lookup("#nombre_coach");
+		if (nombreCoachLabel != null) {
+			nombreCoachLabel.setText(loggedInUser.getUserName()); // O usa getUsername() según tu modelo User
+		}
+	}
+
+
+	// Método para establecer la navegación a través de los Text.
 	public void setNavigationClickListeners(Scene scene) {
 		// Asocia los eventos de clic a los textos correspondientes
 		Text clasificationText = (Text) scene.lookup("#clasificationText");
@@ -637,92 +679,56 @@ public class TfgApplication extends Application {
 	}
 
 
-	// Métodos para manejar los clics en los botones de las diferentes secciones
-	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
-		String name = nameField.getText();
-		String surname = surnameField.getText();
-		String email = emailField.getText();
-		String username = usernameField.getText();
-		String password = passwordField.getText();
-
-		if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty()) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Error de Registro");
-			alert.setHeaderText("Campos Vacíos");
-			alert.setContentText("Por favor, complete todos los campos.");
-			alert.showAndWait();
-		} else {
-			// Crear el objeto User
-			User user = new User(name, surname, username, email, password);
-
-			// Intentar agregar el usuario a la base de datos
-			try {
-				// Inyectar el servicio UserService y llamar al método para guardar al usuario
-				UserService userService = context.getBean(UserService.class);
-				userService.addUser(user); // Guardar el usuario en la base de datos
-
-				// Mostrar mensaje de éxito
-				Alert alert = new Alert(Alert.AlertType.INFORMATION);
-				alert.setTitle("Registro Exitoso");
-				alert.setHeaderText("El usuario ha sido registrado correctamente.");
-				alert.setContentText("Puede iniciar sesión ahora.");
-				alert.showAndWait();
-
-				// Volver a la pantalla de login
-				showLoginScene(stage);
-			} catch (Exception e) {
-				// Manejar excepciones si ocurre algún error al guardar el usuario
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("Error de Registro");
-				alert.setHeaderText("No se pudo registrar al usuario");
-				alert.setContentText("Hubo un error al guardar los datos. Intente de nuevo.");
-				alert.showAndWait();
-			}
-		}
-	}
-
-	private void handleCalendarButtonAction(Stage stage) {
-		try {
-			showCalendarScene(stage);  // Llama a la escena del calendario
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
+	// Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
 	private void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
 	}
-
+	private void handleImgMenuClick(MouseEvent event) {
+		try {
+			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	private void handleImgCalendarClick(MouseEvent event) {
+		try {
+			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
 		ImageView imageView = (ImageView) scene.lookup(fxId);
 		if (imageView != null) {
 			imageView.setOnMouseClicked(handler);
 		}
 	}
-
 	private void setOutClickListener(Scene scene) {
 		ImageView imgOut = (ImageView) scene.lookup("#img_out");
 		if (imgOut != null) {
 			imgOut.setOnMouseClicked(this::handleImgOutClick);
 		}
 	}
+	private void handleImgOutClick(MouseEvent event) {
+		try {
+			inputUserName = null; // Reiniciar la variable username
+			inputPassword = null; // Reiniciar la variable username
 
-	private String getPositionName(String positionCode) {
-		switch (positionCode) {
-			case "GK":
-				return "Goalkeepers";
-			case "DF":
-				return "Defenders";
-			case "PIV":
-				return "Pivots";
-			case "LW":
-				return "Left Winger";
-			case "RW":
-				return "Right Winger";
-			default:
-				return positionCode; // Si no coincide con ninguno, devuelve el código original
+			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+	}
+
+
+	// Método para mostrar ventanas de alertas.
+	private void showAlert(String title, String message) {
+		Alert alert = new Alert(Alert.AlertType.WARNING);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 
