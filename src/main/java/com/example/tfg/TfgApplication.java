@@ -1,6 +1,7 @@
 package com.example.tfg;
 
 import com.example.tfg.controller.CalendarController;
+import com.example.tfg.controller.ResultsController;
 import com.example.tfg.controller.TrainingController;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.Team;
@@ -37,6 +38,7 @@ public class TfgApplication extends Application {
 	private CalendarService calendarService;
 	private TrainingService trainingService;
 	private User loggedInUser;
+	private ResultsService resultsService;
 
 
 	public static void main(String[] args) {
@@ -62,6 +64,7 @@ public class TfgApplication extends Application {
 		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
 		calendarService = context.getBean(CalendarServImp.class);
 		trainingService = context.getBean(TrainingService.class);
+		resultsService = context.getBean(ResultsService.class);
 	}
 
 
@@ -581,6 +584,10 @@ public class TfgApplication extends Application {
 		var resultsScene = new Scene(fxmlLoader.load());
 		stage.setScene(resultsScene);
 		updateCoachNameLabel(resultsScene);
+
+		// Configurar el controlador de resultados
+		ResultsController resultsController = context.getBean(ResultsController.class);
+		resultsController.setupResultsComponents(resultsScene);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(resultsScene);
