@@ -74,7 +74,7 @@
       </AnchorPane>
       <AnchorPane fx:id="section_teams" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
-            <VBox prefHeight="398.0" prefWidth="418.0">
+            <VBox prefHeight="731.0" prefWidth="1322.0">
                <children>
                   <ImageView fx:id="logo_image" fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -110,7 +110,7 @@
                   <!-- Tabla de equipos -->
                   <TableView fx:id="tablaEquipos" layoutX="50.0" layoutY="100.0" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #2e2e2e; -fx-border-color: #ffffff; -fx-border-width: 1;">
                      <columns>
-                        <TableColumn fx:id="colEquipo" prefWidth="1275.0" style="-fx-font-size: 20px; -fx-text-fill: #ffffff;" text="Equipos">
+                        <TableColumn fx:id="colEquipo" prefWidth="1275.0" style="-fx-font-size: 30px; -fx-text-fill: black;" text="TEAMS">
                            <cellValueFactory>
                               <PropertyValueFactory property="name" />
                            </cellValueFactory>

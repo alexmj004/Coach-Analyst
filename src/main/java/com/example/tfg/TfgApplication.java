@@ -8,10 +8,13 @@ import com.example.tfg.model.Team;
 import com.example.tfg.model.User;
 import com.example.tfg.service.*;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -39,6 +42,7 @@ public class TfgApplication extends Application {
 	private TrainingService trainingService;
 	private User loggedInUser;
 	private ResultsService resultsService;
+	private TeamServImpl teamServ;
 
 
 	public static void main(String[] args) {
@@ -65,6 +69,7 @@ public class TfgApplication extends Application {
 		calendarService = context.getBean(CalendarServImp.class);
 		trainingService = context.getBean(TrainingService.class);
 		resultsService = context.getBean(ResultsService.class);
+		teamServ = context.getBean(TeamServImpl.class);
 	}
 
 
@@ -615,14 +620,19 @@ public class TfgApplication extends Application {
 		stage.setScene(teamsScene);
 		updateCoachNameLabel(teamsScene);
 
-		// Asignar eventos de la interfaz.
+		// Configurar la tabla de equipos (nueva parte)
+		TableView<Team> tablaEquipos = (TableView<Team>) teamsScene.lookup("#tablaEquipos");
+		if (tablaEquipos != null) {
+			configurarTablaEquipos(tablaEquipos);
+		}
+
+		// Asignar eventos de la interfaz (existente)
 		setNavigationClickListeners(teamsScene);
 		setMenuClickListener(teamsScene);
 		setOutClickListener(teamsScene);
 		stage.setTitle("Equipos");
 		stage.show();
-	}
-	// Funcionalidad evento text teams.
+	}	// Funcionalidad evento text teams.
 	public void handleTeamsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Equipos!");
 		try {
@@ -631,7 +641,25 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
+		// Configurar la columna de la tabla
+		TableColumn<Team, String> colEquipo = (TableColumn<Team, String>) tablaEquipos.getColumns().get(0);
+		colEquipo.setCellValueFactory(new PropertyValueFactory<>("name"));
 
+		// Cargar los equipos desde el servicio
+		cargarEquiposEnTabla(tablaEquipos);
+	}
+
+	private void cargarEquiposEnTabla(TableView<Team> tablaEquipos) {
+		try {
+			List<Team> equipos = teamServ.findAll();
+			ObservableList<Team> equiposObservable = FXCollections.observableArrayList(equipos);
+			tablaEquipos.setItems(equiposObservable);
+		} catch (Exception e) {
+			logger.error("Error al cargar equipos", e);
+			showAlert("Error", "No se pudieron cargar los equipos");
+		}
+	}
 
 	// Método para actualizar el nombre_usuario del login en cada interfaz.
 	private void updateCoachNameLabel(Scene scene) {
