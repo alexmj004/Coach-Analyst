@@ -104,9 +104,9 @@
                         <Insets bottom="100.0" top="-50.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label fx:id="num_jornada" text="DAY1" textFill="#f4f2f2">
+                  <Label fx:id="num_jornada" text="MATCHDAY 1" textFill="#f4f2f2">
                      <VBox.margin>
-                        <Insets left="350.0" />
+                        <Insets left="50.0" />
                      </VBox.margin>
                      <font>
                         <Font name="System Bold" size="20.0" />
