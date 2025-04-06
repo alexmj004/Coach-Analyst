@@ -83,9 +83,24 @@ public class ResultsController {
     }
 
     private HBox createMatchHBox(Match match) {
-        HBox matchHBox = new HBox(50);
+        // Contenedor principal
+        HBox matchHBox = new HBox();
+        matchHBox.setAlignment(javafx.geometry.Pos.CENTER);
 
-        // Crear las etiquetas para este partido
+        // Crear 4 regiones con anchos fijos para mantener alineación
+        HBox teamABox = new HBox();
+        teamABox.setPrefWidth(300);
+        teamABox.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+
+        HBox scoreBox = new HBox();
+        scoreBox.setPrefWidth(100);
+        scoreBox.setAlignment(javafx.geometry.Pos.CENTER);
+
+        HBox teamBBox = new HBox();
+        teamBBox.setPrefWidth(300);
+        teamBBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+
+        // Crear las etiquetas
         Label teamALabel = new Label(match.getHomeTeam().getName());
         teamALabel.setFont(new Font(20));
 
@@ -96,14 +111,17 @@ public class ResultsController {
         Label awayScoreLabel = new Label(String.valueOf(match.getAwayScore()));
         awayScoreLabel.setFont(new Font(20));
         awayScoreLabel.setStyle("-fx-font-weight: bolder;");
-        HBox.setMargin(awayScoreLabel, new Insets(0, 0, 0, -50));
 
         Label teamBLabel = new Label(match.getAwayTeam().getName());
         teamBLabel.setFont(new Font(20));
-        teamBLabel.setAlignment(javafx.geometry.Pos.CENTER);
 
-        // Agregar las etiquetas al HBox
-        matchHBox.getChildren().addAll(teamALabel, homeScoreLabel, awayScoreLabel, teamBLabel);
+        // Agregar labels a sus contenedores respectivos
+        teamABox.getChildren().add(teamALabel);
+        scoreBox.getChildren().addAll(homeScoreLabel, awayScoreLabel);
+        teamBBox.getChildren().add(teamBLabel);
+
+        // Agregar cajas al contenedor principal
+        matchHBox.getChildren().addAll(teamABox, scoreBox, teamBBox);
 
         return matchHBox;
     }
