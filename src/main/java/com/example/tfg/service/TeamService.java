@@ -15,5 +15,7 @@ public interface TeamService {
     List<Team> findAll();
     // Obtener un equipo por su ID
     Optional<Team> findById(int id);
+    List<Team> findAllOrderedByPosition();
+
 
 }

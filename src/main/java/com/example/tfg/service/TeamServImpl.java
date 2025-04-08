@@ -32,4 +32,9 @@ public class TeamServImpl implements TeamService{
     public Optional<Team> findById(int id) {
         return teamRepository.findById(id);
     }
+
+    @Override
+    public List<Team> findAllOrderedByPosition() {
+        return teamRepository.findAllByOrderByPositionAsc();
+    }
 }

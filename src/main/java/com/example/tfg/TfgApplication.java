@@ -11,6 +11,7 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,6 +26,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -35,6 +37,7 @@ public class TfgApplication extends Application {
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
 	private String inputUserName;
+	@FXML
 	private Label nombre_coach;
 	private String inputPassword;
 	private PlayerServiceImpl playerServiceImpl;
@@ -555,6 +558,9 @@ public class TfgApplication extends Application {
 		stage.setScene(tournamentScene);
 		updateCoachNameLabel(tournamentScene);
 
+		// Configurar la tabla de clasificación
+		configurarTablaClasificacion(tournamentScene);
+
 		// Asignar eventos de la interfaz
 		setNavigationClickListeners(tournamentScene);
 		setMenuClickListener(tournamentScene);
@@ -580,6 +586,43 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+
+	private void configurarTablaClasificacion(Scene scene) {
+		TableView<Team> tablaClasificacion = (TableView<Team>) scene.lookup("#tablaClasificacion");
+
+		if (tablaClasificacion != null) {
+			TableColumn<Team, Integer> colPos = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(0);
+			TableColumn<Team, String> colTeam = (TableColumn<Team, String>) tablaClasificacion.getColumns().get(1);
+			TableColumn<Team, Integer> colPts = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(2);
+			TableColumn<Team, Integer> colGF = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(3);
+			TableColumn<Team, Integer> colGC = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(4);
+			TableColumn<Team, Integer> colPG = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(5);
+			TableColumn<Team, Integer> colPE = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(6);
+			TableColumn<Team, Integer> colPP = (TableColumn<Team, Integer>) tablaClasificacion.getColumns().get(7);
+
+			colPos.setCellValueFactory(new PropertyValueFactory<>("position"));
+			colTeam.setCellValueFactory(new PropertyValueFactory<>("name"));
+			colPts.setCellValueFactory(new PropertyValueFactory<>("points"));
+			colGF.setCellValueFactory(new PropertyValueFactory<>("gf"));
+			colGC.setCellValueFactory(new PropertyValueFactory<>("gc"));
+			colPG.setCellValueFactory(new PropertyValueFactory<>("pg"));
+			colPE.setCellValueFactory(new PropertyValueFactory<>("pe"));
+			colPP.setCellValueFactory(new PropertyValueFactory<>("pp"));
+
+			cargarClasificacionEnTabla(tablaClasificacion);
+		}
+	}
+	private void cargarClasificacionEnTabla(TableView<Team> tablaClasificacion) {
+		try {
+			List<Team> clasificacion = teamServ.findAllOrderedByPosition(); // Si tienes esto
+			ObservableList<Team> datos = FXCollections.observableArrayList(clasificacion);
+			tablaClasificacion.setItems(datos);
+		} catch (Exception e) {
+			logger.error("Error al cargar la clasificación", e);
+			showAlert("Error", "No se pudo cargar la clasificación");
+		}
+	}
+
 
 
 	// *** INTERFAZ RESULTS ***
