@@ -2,6 +2,7 @@ package com.example.tfg.service;
 
 import com.example.tfg.model.User;
 import com.example.tfg.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class UserServImp implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    
     @Override
     public User addUser(User user) {
         return userRepository.save(user);

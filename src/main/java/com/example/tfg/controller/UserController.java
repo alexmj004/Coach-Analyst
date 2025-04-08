@@ -18,6 +18,7 @@ public class UserController {
 
     @PostMapping("/add")
     public String addUser(@RequestBody User user){
+        userService.addUser(user);
         return "Usuario añadido correctamente: "+user.getName()+" "+user.getSurname();
     }
 
