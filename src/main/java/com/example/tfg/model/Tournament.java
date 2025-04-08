@@ -27,13 +27,11 @@ public class Tournament implements Serializable {
     @Column
     private String name;
     @Column
-    private java.sql.Date startDate;
-    @Column
-    private java.sql.Date endDate;
-    @Column
     private String type;
     @Column
     private String location;
+    @Column
+    private String season;
 
     @ManyToMany
     @JoinTable (
@@ -41,23 +39,15 @@ public class Tournament implements Serializable {
         joinColumns = @JoinColumn(name ="tournament_id"),
         inverseJoinColumns = @JoinColumn(name = "team_id")
     )
-    private List<Team> teams = new ArrayList<>();
+    private List<Team> teams;
 
-    public Tournament(String name, Date startDate, Date endDate, String type, String location) {
+
+    public Tournament(String name, String type, String location, String season) {
         this.name = name;
-        this.startDate = startDate;
-        this.endDate = endDate;
         this.type = type;
         this.location = location;
+        this.season = season;
     }
 
-    //metodo auxiliar para añadir un equipo al torneo
-    public void addTeam(Team team){
-        teams.add(team);
-        team.getTournaments().add(this);
-    }
-    public void removeTeam(Team team){
-        teams.remove(team);
-        team.getTournaments().remove(this);
-    }
+
 }

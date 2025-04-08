@@ -18,8 +18,9 @@ public class TeamController {
     private TeamServImpl teamServImpl;
 
     @PostMapping("/add")
-    public String addTeam(@RequestBody Team team){
-        return "Equipo añadido correctamente: "+team.getName();
+    public String addTeams(@RequestBody Team team) {
+        Team teamAdd = teamServImpl.addTeam(team);
+        return "Se ha añadido el equipo "+teamAdd.getName();
     }
 
 

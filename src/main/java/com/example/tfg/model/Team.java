@@ -24,10 +24,6 @@ public class Team implements Serializable {
     @Column
     private String name;
     @Column
-    private String competition;
-    @Column
-    private String season;
-    @Column
     private int position;
     @Column
     private int points;
@@ -54,31 +50,16 @@ public class Team implements Serializable {
     private List<Player> players;
 
     @ManyToMany(mappedBy = "teams")
-    private List<Tournament> tournaments = new ArrayList<>();
+    private List<Tournament> tournaments;
 
-    public Team(String name, String competition, String season) {
+    public Team(String name, int position, int points, int gf, int gc, int pg, int pe, int pp) {
         this.name = name;
-        this.competition = competition;
-        this.season = season;
-    }
-
-    //metodo auxiliar para añadir un jugador a un equipo
-    public void addPlayer(Player player){
-        players.add(player);
-        player.setTeam(this);
-    }
-    public void removePlayer(Player player){
-        players.remove(player);
-        player.setTeam(null);
-    }
-
-    //metodo auxiliar para añadir un partido como local
-    public void addHomeMatch(Match match){
-        homeMatches.add(match);
-        match.setHomeTeam(this);
-    }
-    public void addAwayMatch(Match match){
-        awayMatches.add(match);
-        match.setAwayTeam(this);
+        this.position = position;
+        this.points = points;
+        this.gf = gf;
+        this.gc = gc;
+        this.pg = pg;
+        this.pe = pe;
+        this.pp = pp;
     }
 }

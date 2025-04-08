@@ -2,6 +2,7 @@ package com.example.tfg.service;
 
 import com.example.tfg.model.Team;
 import com.example.tfg.repository.TeamRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class TeamServImpl implements TeamService{
     @Autowired
     private TeamRepository teamRepository;
 
+    @Transactional
     @Override
     public Team addTeam(Team team) {
         return teamRepository.save(team);

@@ -8,7 +8,6 @@ import java.util.Optional;
 public interface TeamService {
     // Añadir un nuevo equipo.
     Team addTeam(Team team);
-
     // Obtener equipo por nombre.
     Team findByName(String name);
     // Obtener todos.
