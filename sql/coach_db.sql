@@ -65,7 +65,7 @@ CREATE TABLE `match` (
   KEY `FKihdnd0o874jfrnxx1gath5ou` (`home_team_id`),
   CONSTRAINT `FK7p761185gapvfncwqw9l1xb1b` FOREIGN KEY (`away_team_id`) REFERENCES `teams` (`id`),
   CONSTRAINT `FKihdnd0o874jfrnxx1gath5ou` FOREIGN KEY (`home_team_id`) REFERENCES `teams` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,6 +74,7 @@ CREATE TABLE `match` (
 
 LOCK TABLES `match` WRITE;
 /*!40000 ALTER TABLE `match` DISABLE KEYS */;
+INSERT INTO `match` VALUES (1,2,'2025-04-04 20:30:00.000000',4,NULL,NULL,15,5),(2,4,'2025-04-05 18:00:00.000000',7,NULL,NULL,14,1),(3,7,'2025-04-05 18:30:00.000000',3,NULL,NULL,13,10),(4,1,'2025-04-05 19:00:00.000000',4,NULL,NULL,7,12),(5,2,'2025-04-05 19:30:00.000000',4,NULL,NULL,4,9),(6,2,'2025-04-05 20:00:00.000000',5,NULL,NULL,2,11),(7,1,'2025-04-05 20:30:00.000000',2,NULL,NULL,16,8),(8,3,'2025-04-06 13:00:00.000000',2,NULL,NULL,3,6);
 /*!40000 ALTER TABLE `match` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,8 +126,6 @@ DROP TABLE IF EXISTS `teams`;
 CREATE TABLE `teams` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
-  `competition` varchar(255) DEFAULT NULL,
-  `season` varchar(255) DEFAULT NULL,
   `position` int(11) DEFAULT NULL,
   `points` int(11) DEFAULT NULL,
   `gf` int(11) DEFAULT NULL,
@@ -135,7 +134,7 @@ CREATE TABLE `teams` (
   `pe` int(11) DEFAULT NULL,
   `pp` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +143,7 @@ CREATE TABLE `teams` (
 
 LOCK TABLES `teams` WRITE;
 /*!40000 ALTER TABLE `teams` DISABLE KEYS */;
-INSERT INTO `teams` VALUES (1,'Pozo Murcia','LNFS','25/26',6,35,72,53,9,8,6),(2,'Servigroup Peñíscola','LNFS','25/26',1,51,101,70,16,3,4),(3,'Barça','LNFS','25/26',2,49,84,61,16,1,6),(4,'Movistar Inter','LNFS','25/26',3,46,89,57,14,4,5),(5,'Islas Baleares Palma Futsal','LNFS','25/26',4,46,81,65,13,7,3),(6,'Jimbee Cartagena Costa Cálida','LNFS','25/26',5,38,63,51,10,8,5),(7,'Jaén Paraíso Interior','LNFS','25/26',7,33,79,71,9,6,8),(8,'Industrias Santa Coloma','LNFS','25/26',8,33,66,67,9,6,8),(9,'Osasuna Magna Xota','LNFS','25/26',9,31,68,63,8,7,8),(10,'Quesos Hidalgo Manzanares FS','LNFS','25/26',10,29,57,71,8,5,10),(11,'Burela FS','LNFS','25/26',11,23,43,57,6,5,12),(12,'Córdoba Patrimonio Humanidad','LNFS','25/26',12,23,56,78,6,5,12),(13,'Viña Albali Valdepeñas','LNFS','25/26',13,23,57,80,6,5,12),(14,'ATP Ilum. Tudelano Ribera Navarra','LNFS','25/26',14,21,65,76,6,3,14),(15,'Noia Portus Apostoli','LNFS','25/26',15,19,40,60,4,7,12),(16,'WANAPIX AD Sala 10','LNFS','25/26',16,10,49,90,2,4,17);
+INSERT INTO `teams` VALUES (1,'Pozo Murcia',6,35,72,53,9,8,6),(2,'Servigroup Peñíscola',1,51,101,70,16,3,4),(3,'Barça',2,49,84,61,16,1,6),(4,'Movistar Inter',3,46,89,57,14,4,5),(5,'Islas Baleares Palma Futsal',4,46,81,65,13,7,3),(6,'Jimbee Cartagena Costa Cálida',5,38,63,51,10,8,5),(7,'Jaén Paraíso Interior',7,33,79,71,9,6,8),(8,'Industrias Santa Coloma',8,33,66,67,9,6,8),(9,'Osasuna Magna Xota',9,31,68,63,8,7,8),(10,'Quesos Hidalgo Manzanares FS',10,29,57,71,8,5,10),(11,'Burela FS',11,23,43,57,6,5,12),(12,'Córdoba Patrimonio Humanidad',12,23,56,78,6,5,12),(13,'Viña Albali Valdepeñas',13,23,57,80,6,5,12),(14,'ATP Ilum. Tudelano Ribera Navarra',14,21,65,76,6,3,14),(15,'Noia Portus Apostoli',15,19,40,60,4,7,12),(16,'WANAPIX AD Sala 10',16,10,49,90,2,4,17),(17,'Real Betis Futsal',1,52,121,72,16,4,5),(18,'Family Cash Alzira FS',2,50,93,60,15,5,5),(19,'Málaga Ciudad Redonda FS',3,30,38,30,9,3,4),(20,'O Parrulo Ferrol',4,28,35,33,8,4,4),(21,'Inagroup El Ejido Futsal',5,26,33,34,7,5,4),(22,'Levante UD FS',6,24,31,36,6,6,4),(23,'Entrerríos Zaragoza',8,20,27,40,5,5,6),(24,'Sala 5 Martorell',9,18,26,42,5,3,8),(25,'UD Ibiza Gasifred',10,16,24,45,4,4,8),(26,'Zambú CFS Pinatar',11,14,22,48,4,2,10),(27,'CD Melistar FS',12,12,20,50,3,3,10),(28,'CD Leganés',13,10,18,52,3,1,12),(29,'Unión África Ceutí',14,8,15,55,2,2,12),(30,'Sporting FS La Nucía',15,6,13,58,1,3,12),(31,'ADC Lugo Sala',16,4,10,60,1,1,14),(32,'Barça Atletic',7,4,10,60,1,1,14);
 /*!40000 ALTER TABLE `teams` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -171,6 +170,7 @@ CREATE TABLE `teams_tournaments` (
 
 LOCK TABLES `teams_tournaments` WRITE;
 /*!40000 ALTER TABLE `teams_tournaments` DISABLE KEYS */;
+INSERT INTO `teams_tournaments` VALUES (1,1),(1,2),(1,3),(1,4),(1,5),(1,6),(1,7),(1,8),(1,9),(1,10),(1,11),(1,12),(1,13),(1,14),(1,15),(1,16),(2,17),(2,18),(2,19),(2,20),(2,21),(2,22),(2,23),(2,24),(2,25),(2,26),(2,27),(2,28),(2,29),(2,30),(2,31),(2,32);
 /*!40000 ALTER TABLE `teams_tournaments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,13 +183,12 @@ DROP TABLE IF EXISTS `tournaments`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tournaments` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `end_date` date DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `start_date` date DEFAULT NULL,
   `type` varchar(255) DEFAULT NULL,
+  `season` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -198,6 +197,7 @@ CREATE TABLE `tournaments` (
 
 LOCK TABLES `tournaments` WRITE;
 /*!40000 ALTER TABLE `tournaments` DISABLE KEYS */;
+INSERT INTO `tournaments` VALUES (1,'Spain','LNFS','1ª División','2024/2025'),(2,'Spain','LNFS','2ª División','2024/2025');
 /*!40000 ALTER TABLE `tournaments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -245,7 +245,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   KEY `users_teams_FK` (`team_id`),
   CONSTRAINT `users_teams_FK` FOREIGN KEY (`team_id`) REFERENCES `teams` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,7 +254,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'alex@gmail.com','Alejandro','alex','Martínez','alex_coach',1),(2,'david@gmail.com','David','david','Rodríguez','david_coach',2),(3,'borja@gmail.com','Borja','borja','Martín','borja_coach',3),(4,'victor@gmail.com','Victor','victor','Ruiz','victor_coach',4),(5,'marina@gmail.com','Marina','marina','Moro','marina_coach',5),(6,'manuel@gmail.com','Manuel','manuel','Gómez','manuel_coach',6),(7,'jorge@gmail.com','Jorge','jorge','De la Vega','jorge_coach',7),(8,'nacho@gmail.com','Nacho','nacho','González','nacho_coach',8),(9,'aurelio@gmail.com','Aurelio','aurelio','Arribas','aurelio_coach',9),(10,'revilla@gmail.com','Revilla','revilla','Correjes','revilla_coach',10),(11,'iñaki@gmail.com','Iñaki','iñaki','Heras','iñaki_coach',11),(12,'marta@gmail.com','Marta','marta','Iglesias','marta_coach',12),(13,'maria@gmail.com','María','maria','Veracruz','maria_coach',13),(14,'jesus@gmail.com','Jesús','jesus','Gutierrez','jesus_coach',14),(15,'alberto@gmail.com','Alberto','alberto','Caramanzana','alberto_coach',15),(16,'manolo@gmail.com','Manolo','manolo','Álvarez','manolo_coach',16);
+INSERT INTO `users` VALUES (1,'alex@gmail.com','Alejandro','alex','Martínez','alex_coach',1),(2,'david@gmail.com','David','david','Rodríguez','david_coach',2),(3,'borja@gmail.com','Borja','borja','Martín','borja_coach',3),(4,'victor@gmail.com','Victor','victor','Ruiz','victor_coach',4),(5,'marina@gmail.com','Marina','marina','Moro','marina_coach',5),(6,'manuel@gmail.com','Manuel','manuel','Gómez','manuel_coach',6),(7,'jorge@gmail.com','Jorge','jorge','De la Vega','jorge_coach',7),(8,'nacho@gmail.com','Nacho','nacho','González','nacho_coach',8),(9,'aurelio@gmail.com','Aurelio','aurelio','Arribas','aurelio_coach',9),(10,'revilla@gmail.com','Revilla','revilla','Correjes','revilla_coach',10),(11,'iñaki@gmail.com','Iñaki','iñaki','Heras','iñaki_coach',11),(12,'marta@gmail.com','Marta','marta','Iglesias','marta_coach',12),(13,'maria@gmail.com','María','maria','Veracruz','maria_coach',13),(14,'jesus@gmail.com','Jesús','jesus','Gutierrez','jesus_coach',14),(15,'alberto@gmail.com','Alberto','alberto','Caramanzana','alberto_coach',15),(16,'manolo@gmail.com','Manolo','manolo','Álvarez','manolo_coach',16),(17,'juan.perez@example.com','Juan','juan','Pérez','juan_coach',17),(18,'carlos.gomez@example.com','Carlos','carlos','Gómez','carlos_coach',18),(19,'ana.martinez@example.com','Ana','ana','Martínez','ana_coach',19),(20,'luis.lopez@example.com','Luis','luis','Lopez','luis_coach',20),(21,'marta.fernandez@example.com','Marta','marta','Fernández','marta_coach',21),(22,'jose.rodriguez@example.com','José','jose','Rodríguez','jose_coach',22),(23,'laura.hernandez@example.com','Laura','laura','Hernández','laura_coach',23),(24,'javier.gonzalez@example.com','Javier','javier','González','javier_coach',24),(25,'raquel.martin@example.com','Raquel','raquel','Martín','raquel_coach',25),(26,'david.sanchez@example.com','David','david','Sánchez','david_coach',26),(27,'elena.garcia@example.com','Elena','elena','García','elena_coach',27),(28,'pedro.vazquez@example.com','Pedro','pedro','Vázquez','pedro_coach',28),(29,'isabel.jimenez@example.com','Isabel','isabel','Jiménez','isabel_coach',29),(30,'manuel.ruiz@example.com','Manuel','manuel','Ruiz','manuel_coach',30),(31,'beatriz.perez@example.com','Beatriz','beatriz','Pérez','bea_coach',31),(32,'fernando.castro@example.com','Fernando','fernando','Castro','fer_coach',32);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -271,4 +271,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-02  0:38:21
+-- Dump completed on 2025-04-08 11:53:30
