@@ -26,4 +26,6 @@ public interface PlayerService {
     // Obtener jugador por apodo
     Player findByApodo(String apodo);
     List<Player> findByPositionAndTeamName(String position, Team team);
+    List<Player> findByTeamName(Team team);
+
 }

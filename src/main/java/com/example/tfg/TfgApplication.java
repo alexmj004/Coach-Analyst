@@ -8,16 +8,25 @@ import com.example.tfg.model.Team;
 import com.example.tfg.model.User;
 import com.example.tfg.service.*;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -440,20 +449,164 @@ public class TfgApplication extends Application {
 
 	// *** INTERFAZ ANALYST ***
 	public void showAnalystScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
-		var analystScene = new Scene(fxmlLoader.load());
-		stage.setScene(analystScene);
-		updateCoachNameLabel(analystScene);
+		try {
+			// Cargar la escena FXML
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Analyst.fxml"));
+			Scene analystScene = new Scene(fxmlLoader.load());
+			stage.setScene(analystScene);
 
-		// Asignar eventos de la interfaz
-		setNavigationClickListeners(analystScene);
-		setMenuClickListener(analystScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(analystScene);
+			// Configurar elementos de la interfaz
+			updateCoachNameLabel(analystScene);
+			setNavigationClickListeners(analystScene);
+			setMenuClickListener(analystScene);
+			setOutClickListener(analystScene);
 
-		stage.setTitle("Analistas");
-		stage.show();
+			// Configurar el gráfico de barras
+			configureBarChart(analystScene);
+
+			stage.setTitle("Analyst Dashboard");
+			stage.show();
+		} catch (IOException e) {
+			logger.error("Error al cargar la escena Analyst", e);
+			showAlert("Error", "No se pudo cargar la pantalla de análisis");
+		}
 	}
-	// Funcionalidad evento btn analyst.
+	private XYChart.Series<String, Number> loadPlayerData() {
+		XYChart.Series<String, Number> series = new XYChart.Series<>();
+		series.setName("Goals");
+
+		try {
+			// Obtener jugadores del equipo del coach logueado
+			Team team = loggedInUser != null ? loggedInUser.getTeam() : null;
+			List<Player> players = team != null ?
+					playerServiceImpl.findByTeamName(team) :
+					playerServiceImpl.findAll();
+
+			// Ordenar por goles (de mayor a menor) - SIN LÍMITE
+			players.sort(Comparator.comparingInt(Player::getGoals).reversed());
+
+			// Añadir datos al gráfico - TODOS los jugadores
+			for (Player player : players) {
+				String displayName = String.format("%s (%d)",
+						player.getApodo().length() > 6 ?
+								player.getApodo().substring(0, 5) + "." :
+								player.getApodo(),
+						player.getDorsal());
+
+				series.getData().add(new XYChart.Data<>(displayName, player.getGoals()));
+			}
+		} catch (Exception e) {
+			logger.error("Error al cargar datos de jugadores", e);
+
+			// Datos de ejemplo en caso de error
+			series.getData().add(new XYChart.Data<>("Player 1", 15));
+			series.getData().add(new XYChart.Data<>("Player 2", 12));
+			series.getData().add(new XYChart.Data<>("Player 3", 8));
+			series.getData().add(new XYChart.Data<>("Player 4", 6));
+			series.getData().add(new XYChart.Data<>("Player 5", 5));
+		}
+
+		return series;
+	}
+
+	private void configureBarChart(Scene scene) {
+		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_scores");
+		if (barChart == null) {
+			logger.warn("No se encontró el gráfico con fx:id 'grafic_scores'");
+			return;
+		}
+
+		// Limpiar datos previos
+		barChart.getData().clear();
+
+		// Configuración básica del gráfico
+		barChart.setTitle("Top Scorers");
+		barChart.setLegendVisible(false);
+		barChart.setAnimated(false);
+		barChart.setHorizontalGridLinesVisible(true); // Habilitar líneas horizontales
+		barChart.setVerticalGridLinesVisible(false);  // Deshabilitar líneas verticales
+
+		// Configuración de espacios entre barras
+		barChart.setCategoryGap(1);
+		barChart.setBarGap(0);
+
+		// Configuración del eje X
+		CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
+		xAxis.setLabel("Players");
+		xAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
+		xAxis.setTickLabelFont(Font.font(10));
+		xAxis.setTickLabelRotation(270);
+		xAxis.setStartMargin(0);
+		xAxis.setEndMargin(0);
+
+		// Configuración del eje Y (0-40, incrementos de 5 con líneas intermedias)
+		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
+		yAxis.setLabel("Goals");
+		yAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
+		yAxis.setAutoRanging(false);
+		yAxis.setLowerBound(0);
+		yAxis.setUpperBound(40);
+		yAxis.setTickUnit(5);
+
+		// Configuración para líneas de cuadrícula intermedias
+		yAxis.setMinorTickCount(4);       // 4 líneas menores entre cada tick principal (5/5=1)
+		yAxis.setMinorTickLength(5);      // Longitud de las líneas menores
+		yAxis.setTickMarkVisible(true);   // Asegurar que los ticks sean visibles
+
+		// Estilo CSS para las líneas de cuadrícula
+		barChart.setStyle("""
+        -fx-horizontal-grid-lines-visible: true;
+        -fx-vertical-grid-lines-visible: false;
+        -fx-horizontal-minor-grid-lines-visible: true;
+        -fx-chart-horizontal-grid-lines: #505050;
+        -fx-chart-horizontal-minor-grid-lines: #303030;
+        """);
+
+		// Cargar datos de jugadores
+		XYChart.Series<String, Number> series = loadPlayerData();
+		barChart.getData().add(series);
+
+		// Ajustes finales
+		Platform.runLater(() -> {
+			// Ajustar ancho del gráfico
+			int barWidth = 30;
+			int minWidth = 800;
+			int calculatedWidth = Math.max(minWidth, series.getData().size() * barWidth);
+			barChart.setPrefWidth(calculatedWidth);
+
+			// Aplicar estilos a las barras
+			for (XYChart.Data<String, Number> data : series.getData()) {
+				Node node = data.getNode();
+				if (node != null) {
+					node.setStyle(
+							"-fx-bar-fill: #00ffd5; "
+									+ "-fx-background-radius: 2 2 0 0; "
+									+ "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);"
+									+ "-fx-padding: 0;"
+									+ "-fx-min-width: 20px; "
+									+ "-fx-max-width: 20px; "
+					);
+				}
+			}
+
+			// Forzar redibujado
+			barChart.requestLayout();
+		});
+	}	private void applyChartStyles(XYChart.Series<String, Number> series) {
+		for (XYChart.Data<String, Number> data : series.getData()) {
+			Node node = data.getNode();
+			if (node != null) {
+				node.setStyle(
+						"-fx-bar-fill: #00ffd5; "
+								+ "-fx-background-radius: 2 2 0 0; "
+								+ "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);"
+								+ "-fx-padding: 0;"
+								+ "-fx-min-width: 20px; "  // Ancho mínimo garantizado
+								+ "-fx-max-width: 20px; "  // Ancho máximo consistente
+				);
+			}
+		}
+	}
 	private void handleAnalystButtonAction(Stage stage) {
 		try {
 			showAnalystScene(stage);  // Llama a la escena de analistas

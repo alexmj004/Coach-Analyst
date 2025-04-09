@@ -12,11 +12,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
    <items>
+      <!-- Sección del perfil (izquierda) -->
       <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="158.0" AnchorPane.topAnchor="25.0">
@@ -72,6 +75,8 @@
             </VBox>
          </children>
       </AnchorPane>
+
+      <!-- Sección de estadísticas (derecha) -->
       <AnchorPane fx:id="section_score" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
          <children>
             <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="11.0" prefHeight="1080.0" prefWidth="1420.0" AnchorPane.topAnchor="25.0">
@@ -111,15 +116,26 @@
                         <Insets bottom="60.0" left="-50.0" top="-25.0" />
                      </VBox.margin>
                   </HBox>
-                  <BarChart fx:id="grafic_scores" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #7c87a0;" title="SCORERS">
-                    <xAxis>
-                      <CategoryAxis label="Players" side="BOTTOM" tickLabelFill="#f4f2f2" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis label="Goals" side="LEFT" style="-fx-tick-label-font-weight: bold;" tickLabelFill="#f4f2f2" upperBound="50.0" />
-                    </yAxis>
+
+                  <!-- Gráfico de barras con configuración para barras estrechas -->
+                  <BarChart fx:id="grafic_scores" barGap="0" categoryGap="0.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="907.0" style="-fx-background-color: #7c87a0;">
+                     <xAxis>
+                        <CategoryAxis endMargin="0.0" label="PLAYERS" prefWidth="100" side="BOTTOM" startMargin="0.0" tickLength="0.0">
+                           <tickLabelFill>
+                              <Color fx:value="#f4f2f2" />
+                           </tickLabelFill>
+
+                        </CategoryAxis>
+                     </xAxis>
+                     <yAxis>
+                        <NumberAxis label="GOALS" side="LEFT" upperBound="20">
+                           <tickLabelFill>
+                              <Color fx:value="#f4f2f2" />
+                           </tickLabelFill>
+                        </NumberAxis>
+                     </yAxis>
                      <VBox.margin>
-                        <Insets left="50.0" right="150.0" />
+                        <Insets left="50.0" right="250.0" />
                      </VBox.margin>
                   </BarChart>
                </children>

@@ -23,4 +23,6 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
     @Query("SELECT p FROM Player p WHERE p.team = :team AND p.position = :position")
     List<Player> findByPositionAndTeam(@Param("position") String position,
                                        @Param("team") Team team);
+    @Query("SELECT p FROM Player p WHERE p.team = :team ")
+    List<Player> findByTeam(@Param("team") Team team);
 }

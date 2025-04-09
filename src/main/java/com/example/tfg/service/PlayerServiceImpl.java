@@ -114,5 +114,10 @@ public class PlayerServiceImpl implements PlayerService{
         return playerRepository.findByPositionAndTeam(position,team);
     }
 
+    @Override
+    public List<Player> findByTeamName(Team team) {
+        return playerRepository.findByTeam(team);
+    }
+
 
 }
