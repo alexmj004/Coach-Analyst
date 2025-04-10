@@ -1,6 +1,7 @@
 package com.example.tfg;
 
 import com.example.tfg.controller.CalendarController;
+import com.example.tfg.controller.GraphicCardsController;
 import com.example.tfg.controller.ResultsController;
 import com.example.tfg.controller.TrainingController;
 import com.example.tfg.model.Player;
@@ -658,6 +659,10 @@ public class TfgApplication extends Application {
 		var cardsScene = new Scene(fxmlLoader.load());
 		stage.setScene(cardsScene);
 		updateCoachNameLabel(cardsScene);
+
+		// Inicializar el controlador GraphicCardsController
+		GraphicCardsController graphicCardsController = context.getBean(GraphicCardsController.class);
+		graphicCardsController.setupCardsChart(cardsScene, this.loggedInUser);
 
 		// Asignar eventos de la interfaz.
 		setNavigationClickListeners(cardsScene);

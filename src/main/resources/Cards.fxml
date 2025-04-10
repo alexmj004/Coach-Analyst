@@ -111,7 +111,7 @@
                         <Insets bottom="60.0" left="-50.0" top="-25.0" />
                      </VBox.margin>
                   </HBox>
-                  <StackedBarChart prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #7c87a0;" title="CARDS">
+                  <StackedBarChart fx:id="graphic_cards" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #7c87a0;" title="CARDS">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" tickLabelFill="WHITE">
                            <tickLabelFont>
