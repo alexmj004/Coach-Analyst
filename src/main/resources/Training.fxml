@@ -15,26 +15,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #2C3E50, #4CA1AF);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0">
+      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0" style="-fx-background-color: #34495E;">
          <children>
             <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
+            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
                <font>
-                  <Font size="20.0" />
+                  <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                <children>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -43,7 +43,7 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -52,7 +52,7 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -60,6 +60,9 @@
                            </image>
                         </ImageView>
                      </children>
+                     <VBox.margin>
+                        <Insets top="150.0" />
+                     </VBox.margin>
                   </StackPane>
                </children>
                <VBox.margin>
@@ -71,13 +74,13 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_training" alignment="CENTER" prefHeight="1080.0" prefWidth="1420.0" spacing="20.0">
+      <VBox fx:id="section_training" alignment="CENTER" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
-            <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0">
+            <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: #9ab8d6">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets right="100.0" top="25.0" />
+                        <Insets bottom="25.0" right="400.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
@@ -85,62 +88,63 @@
                   </ImageView>
                </children>
                <VBox.margin>
-                  <Insets left="1000.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
 
             <!-- Contenido principal -->
-            <VBox prefHeight="985.0" prefWidth="1198.0">
+            <VBox prefHeight="1026.0" prefWidth="1720.0">
                <children>
-
                   <!-- Formulario de contenido -->
-                  <VBox prefHeight="934.0" prefWidth="1111.0" spacing="20.0">
+                  <VBox prefHeight="934.0" prefWidth="1111.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
                      <children>
-                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Day">
+                        <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Day">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Arial Bold" size="20.0" />
                            </font>
                         </Text>
-                        <DatePicker fx:id="calendar_training" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0">
+                        <DatePicker fx:id="calendar_training" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                         </DatePicker>
-                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
+                        <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Arial Bold" size="20.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="location" prefHeight="26.0" prefWidth="354.0" promptText="Lugar del entrenamiento.">
+                        <TextField fx:id="location" prefHeight="26.0" prefWidth="354.0" promptText="Lugar del entrenamiento." style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);">
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Arial" size="20.0" />
                            </font>
                         </TextField>
-                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Objective">
+                        <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Objective">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Arial Bold" size="20.0" />
                            </font>
                         </Text>
-                        <TextField fx:id="objective_training" prefHeight="26.0" prefWidth="354.0" promptText="Trabajar transiciones con y sin balón.">
-                           
-                                 <font>
-                              <Font size="20.0" />
+                        <TextField fx:id="objective_training" prefHeight="26.0" prefWidth="354.0" promptText="Trabajar transiciones con y sin balón." style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);">
+                           <font>
+                              <Font name="Arial" size="20.0" />
                            </font>
                         </TextField>
 
-                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Description">
+                        <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Training Description">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
                            <font>
-                              <Font size="20.0" />
+                              <Font name="Arial Bold" size="20.0" />
                            </font>
                         </Text>
 
-                        <TextArea fx:id="description_training" prefHeight="300.0" prefWidth="354.0" wrapText="true">
+                        <TextArea fx:id="description_training" prefHeight="250.0" prefWidth="354.0" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);" wrapText="true">
+                           <font>
+                              <Font name="Arial" size="16.0" />
+                           </font>
                            <VBox.margin>
                               <Insets bottom="-20.0" />
                            </VBox.margin>
@@ -148,14 +152,14 @@
 
                         <HBox alignment="CENTER_RIGHT" prefHeight="43.0" prefWidth="1017.0" spacing="10.0">
                            <children>
-                              <Button fx:id="accept_btn" mnemonicParsing="false" text="Accept">
+                              <Button fx:id="accept_btn" mnemonicParsing="false" style="-fx-background-color: #3498DB; -fx-text-fill: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);" text="Accept">
                                  <font>
-                                    <Font size="20.0" />
+                                    <Font name="Arial Bold" size="20.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="modify_btn" mnemonicParsing="false" text="Modify">
+                              <Button fx:id="modify_btn" mnemonicParsing="false" style="-fx-background-color: #E74C3C; -fx-text-fill: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 5, 0, 0, 2);" text="Modify">
                                  <font>
-                                    <Font size="20.0" />
+                                    <Font name="Arial Bold" size="20.0" />
                                  </font>
                               </Button>
                            </children>
@@ -165,7 +169,7 @@
                         </HBox>
                      </children>
                      <VBox.margin>
-                        <Insets right="350.0" top="-40.0" />
+                        <Insets right="350.0" />
                      </VBox.margin>
                   </VBox>
                </children>
@@ -173,7 +177,7 @@
                   <Insets left="40.0" />
                </padding>
                <VBox.margin>
-                  <Insets />
+                  <Insets right="350.0" />
                </VBox.margin>
             </VBox>
          </children>

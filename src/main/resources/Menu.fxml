@@ -29,7 +29,7 @@
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="100.0" spacing="40.0">
                <children>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
@@ -57,6 +57,9 @@
                            </image>
                         </ImageView>
                      </children>
+                     <VBox.margin>
+                        <Insets top="150.0" />
+                     </VBox.margin>
                   </StackPane>
                </children>
                <VBox.margin>
@@ -71,11 +74,11 @@
       <VBox fx:id="section_menu" alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <!-- Título y logo -->
-            <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: linear-gradient(to right, #2980B9, #6DD5FA)">
+            <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: #9ab8d6">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets right="400.0" top="25.0" bottom="25.0" />
+                        <Insets bottom="25.0" right="400.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
