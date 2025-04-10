@@ -43,6 +43,8 @@ public class Player implements Serializable {
     private int yellowCards;
     @Column
     private int redCards;
+    @Column
+    private int saves;
     @Column(name="is_default")
     private boolean isDefault = false;
 

@@ -122,7 +122,7 @@
                            </tickLabelFont></NumberAxis>
                      </yAxis>
                      <VBox.margin>
-                        <Insets left="50.0" right="150.0" />
+                        <Insets left="50.0" right="250.0" />
                      </VBox.margin>
                   </BarChart>
                </children>
