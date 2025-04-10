@@ -12,7 +12,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -21,203 +20,199 @@
 
 <SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
+      <VBox fx:id="section_perfil1" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="158.0">
+            <ImageView fx:id="foto_perfil1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/agregar-usuario.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="nombre_coach1" text="Name" textFill="#f4f2f2">
+               <VBox.margin>
+                  <Insets bottom="60.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                <children>
-                  <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/agregar-usuario.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
-                     <VBox.margin>
-                        <Insets bottom="60.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                      <children>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/home.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/calendario.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/log_out.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="125.0" />
-                     </VBox.margin>
-                  </VBox>
-               </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane fx:id="section_training" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="1420.0">
-         <children>
-            <VBox alignment="CENTER" layoutY="2.0" prefHeight="1080.0" prefWidth="1420.0" spacing="20.0">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="52.0" prefWidth="180.0">
-                     <children>
-                        <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                           <HBox.margin>
-                              <Insets right="100.0" />
-                           </HBox.margin>
+                        <ImageView fx:id="img_menu1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@images/logo.png" />
+                              <Image url="@images/home.png" />
                            </image>
                         </ImageView>
                      </children>
-                     <VBox.margin>
-                        <Insets left="1000.0" top="25.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <VBox prefHeight="985.0" prefWidth="1198.0">
+                  </StackPane>
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                      <children>
-                        <VBox prefHeight="934.0" prefWidth="1111.0" spacing="10.0">
+                        <ImageView fx:id="img_calendar1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/calendario.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                     <children>
+                        <ImageView fx:id="img_out1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/log_out.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+               </children>
+               <VBox.margin>
+                  <Insets top="125.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+         <padding>
+            <Insets top="25.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="section_calendar" alignment="CENTER" prefHeight="1080.0" prefWidth="1420.0" spacing="20.0">
+         <children>
+            <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                     <image>
+                        <Image url="@images/logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
+               <VBox.margin>
+                  <Insets left="1000.0" />
+               </VBox.margin>
+            </HBox>
+            <VBox prefHeight="985.0" prefWidth="1198.0">
+               <children>
+                  <VBox prefHeight="934.0" prefWidth="1111.0" spacing="10.0">
+                     <children>
+                        <DatePicker fx:id="date" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" promptText="Appointmen day">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </DatePicker>
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
                            <children>
-                              <DatePicker fx:id="date" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" promptText="Appointmen day">
-                                 <VBox.margin>
-                                    <Insets bottom="20.0" />
-                                 </VBox.margin>
-                              </DatePicker>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
+                              <VBox prefHeight="200.0" prefWidth="100.0">
                                  <children>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
-                                       <children>
-                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Start time">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Text>
-            
+                                    <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Start time">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+      
                                           <ComboBox fx:id="startTime" prefHeight="27.0" prefWidth="190.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
-                                       <children>
-                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="End time">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Text>
-                                          <ComboBox fx:id="endTime" prefHeight="27.0" prefWidth="190.0" />
-                                       </children>
-                                    </VBox>
-                                    <VBox prefHeight="200.0" prefWidth="100.0">
-                                       <children>
-                                          <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Category">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Text>
-            
-            
-            
-            
-            
-                                          <ChoiceBox fx:id="categoria" prefHeight="27.0" prefWidth="146.0" />
-                                       </children>
-                                    </VBox>
                                  </children>
-                                 <VBox.margin>
-                                    <Insets bottom="-30.0" />
-                                 </VBox.margin>
-                              </HBox>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets top="10.0" />
-                                 </VBox.margin>
-                              </Text>
-                              <TextField fx:id="location" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="190.0" promptText="soccer field...">
-                                 <VBox.margin>
-                                    <Insets bottom="-40.0" right="250.0" />
-                                 </VBox.margin>
-                              </TextField>
-                              <Separator opacity="0.0" prefWidth="200.0">
-                                 <padding>
-                                    <Insets top="20.0" />
-                                 </padding></Separator>
-                              <TextField fx:id="input" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="354.0" promptText="Enter an appointment">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </TextField>
-                              <Button fx:id="add" mnemonicParsing="false" text="Add">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="965.0" top="-5.0" />
-                                 </VBox.margin>
-                              </Button>
-                              <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Appointments">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                              </Text>
-                              <TextArea fx:id="results" prefHeight="250.0" prefWidth="354.0" wrapText="true">
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                              </TextArea>
-                              <Button fx:id="reset" mnemonicParsing="false" text="Reset">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font>
-                                 <VBox.margin>
-                                    <Insets left="950.0" top="-5.0" />
-                                 </VBox.margin>
-                              </Button>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="End time">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+                                    <ComboBox fx:id="endTime" prefHeight="27.0" prefWidth="190.0" />
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="100.0">
+                                 <children>
+                                    <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Category">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Text>
+      
+            
+      
+            
+      
+                                    <ChoiceBox fx:id="categoria" prefHeight="27.0" prefWidth="146.0" />
+                                 </children>
+                              </VBox>
                            </children>
                            <VBox.margin>
-                              <Insets right="350.0" />
+                              <Insets bottom="-30.0" />
                            </VBox.margin>
-                        </VBox>
+                        </HBox>
+                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Location">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="10.0" />
+                           </VBox.margin>
+                        </Text>
+                        <TextField fx:id="location" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="190.0" promptText="soccer field...">
+                           <VBox.margin>
+                              <Insets bottom="-40.0" right="250.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Separator opacity="0.0" prefWidth="200.0">
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
+                        </Separator>
+                        <TextField fx:id="input" alignment="TOP_LEFT" prefHeight="100.0" prefWidth="354.0" promptText="Enter an appointment">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </TextField>
+                        <Button fx:id="add" mnemonicParsing="false" text="Add">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="1250.0" top="-5.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Text fill="#f4f2f2" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold; -fx-font-style: italic;" text="Appointments">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Text>
+                        <TextArea fx:id="results" prefHeight="250.0" prefWidth="354.0" wrapText="true">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </TextArea>
+                        <Button fx:id="reset" mnemonicParsing="false" text="Reset">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets left="1240.0" top="-5.0" />
+                           </VBox.margin>
+                        </Button>
                      </children>
-                     <padding>
-                        <Insets left="40.0" top="-50.0" />
-                     </padding>
                      <VBox.margin>
-                        <Insets />
+                        <Insets right="350.0" />
                      </VBox.margin>
                   </VBox>
                </children>
+               <padding>
+                  <Insets left="40.0" top="-50.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
             </VBox>
          </children>
-      </AnchorPane>
+      </VBox>
    </items>
    <padding>
       <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
