@@ -857,39 +857,65 @@ public class TfgApplication extends Application {
 	}
 
 	private XYChart.Series<String, Number> loadSavesData() {
-		XYChart.Series<String, Number> series = new XYChart.Series<>();
-		series.setName("Saves");
+	    XYChart.Series<String, Number> series = new XYChart.Series<>();
+	    series.setName("Saves");
 
-		try {
-			// Obtener solo los porteros del equipo del coach logueado
-			Team team = loggedInUser != null ? loggedInUser.getTeam() : null;
-			List<Player> goalkeepers = team != null ?
-					playerServiceImpl.findByPositionAndTeamName("GK", team) :
-					playerServiceImpl.findByPosition("GK");
+	    try {
+	        // Obtener solo los porteros del equipo del coach logueado
+	        Team team = loggedInUser != null ? loggedInUser.getTeam() : null;
+	        List<Player> goalkeepers = team != null ?
+	                playerServiceImpl.findByPositionAndTeamName("GK", team) :
+	                playerServiceImpl.findByPosition("GK");
 
-			// Ordenar por paradas (de mayor a menor)
-			goalkeepers.sort(Comparator.comparingInt(Player::getSaves).reversed());
+	        // Comprobar si la lista está vacía
+	        if (goalkeepers.isEmpty()) {
+	            logger.warn("No se encontraron porteros");
+	            return getExampleSavesData();
+	        }
 
-			// Añadir datos al gráfico
-			for (Player goalkeeper : goalkeepers) {
-				String displayName = String.format("%s (%d)",
-						goalkeeper.getApodo().length() > 6 ?
-								goalkeeper.getApodo().substring(0, 5) + "." :
-								goalkeeper.getApodo(),
-						goalkeeper.getDorsal());
+	        // Filtrar jugadores nulos y ordenar por paradas (de mayor a menor)
+	        goalkeepers.sort((p1, p2) -> {
+	            // Manejo seguro de valores nulos
+	            int saves1 = p1.getSaves() != null ? p1.getSaves() : 0;
+	            int saves2 = p2.getSaves() != null ? p2.getSaves() : 0;
+	            return Integer.compare(saves2, saves1); // Orden descendente
+	        });
 
-				series.getData().add(new XYChart.Data<>(displayName, goalkeeper.getSaves()));
-			}
-		} catch (Exception e) {
-			logger.error("Error al cargar datos de paradas", e);
+	        // Añadir datos al gráfico
+	        for (Player goalkeeper : goalkeepers) {
+	            String displayName = String.format("%s (%d)",
+	                    goalkeeper.getApodo().length() > 6 ?
+	                            goalkeeper.getApodo().substring(0, 5) + "." :
+	                            goalkeeper.getApodo(),
+	                    goalkeeper.getDorsal());
 
-			// Datos de ejemplo en caso de error
-			series.getData().add(new XYChart.Data<>("Goalkeeper 1", 25));
-			series.getData().add(new XYChart.Data<>("Goalkeeper 2", 18));
-			series.getData().add(new XYChart.Data<>("Goalkeeper 3", 12));
-		}
+	            // Manejar valores nulos de saves
+	            int saves = goalkeeper.getSaves() != null ? goalkeeper.getSaves() : 0;
+	            series.getData().add(new XYChart.Data<>(displayName, saves));
+	        }
 
-		return series;
+	        if (series.getData().isEmpty()) {
+	            return getExampleSavesData();
+	        }
+
+	        return series;
+
+	    } catch (Exception e) {
+	        logger.error("Error al cargar datos de paradas", e);
+	        return getExampleSavesData();
+	    }
+	}
+
+	private XYChart.Series<String, Number> getExampleSavesData() {
+	    XYChart.Series<String, Number> series = new XYChart.Series<>();
+	    series.setName("Saves");
+
+	    // Datos de ejemplo en caso de error
+	    series.getData().add(new XYChart.Data<>("Portero 1", 25));
+	    series.getData().add(new XYChart.Data<>("Portero 2", 18));
+	    series.getData().add(new XYChart.Data<>("Portero 3", 12));
+
+	    return series;
 	}
 
 	private void configureSavesBarChart(Scene scene) {

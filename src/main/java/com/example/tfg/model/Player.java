@@ -40,11 +40,11 @@ public class Player implements Serializable {
     @Column
     private int assists;
     @Column
-    private int yellowCards;
+    private Integer yellowCards = 0;
     @Column
-    private int redCards;
+    private Integer redCards = 0;
     @Column
-    private int saves;
+    private Integer saves = 0;
     @Column(name="is_default")
     private boolean isDefault = false;
 
