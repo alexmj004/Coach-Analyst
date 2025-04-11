@@ -22,12 +22,12 @@
    <items>
       <VBox fx:id="section_perfil1" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0">
          <children>
-            <ImageView fx:id="foto_perfil1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach1" text="Name" textFill="#f4f2f2">
+            <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
@@ -39,7 +39,7 @@
                <children>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                      <children>
-                        <ImageView fx:id="img_menu1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/home.png" />
                            </image>
@@ -57,7 +57,7 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
                      <children>
-                        <ImageView fx:id="img_out1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/log_out.png" />
                            </image>
