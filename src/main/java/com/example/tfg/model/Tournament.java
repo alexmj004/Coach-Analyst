@@ -33,7 +33,7 @@ public class Tournament implements Serializable {
     @Column
     private String season;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable (
         name ="teams_tournaments",
         joinColumns = @JoinColumn(name ="tournament_id"),

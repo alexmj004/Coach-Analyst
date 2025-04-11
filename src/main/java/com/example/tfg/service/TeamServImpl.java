@@ -6,6 +6,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,11 @@ public class TeamServImpl implements TeamService{
     @Override
     public List<Team> findAllOrderedByPosition() {
         return teamRepository.findAllByOrderByPositionAsc();
+    }
+
+    @Override
+    public List<Team> findTeamsByTournamentType(String tournamentType) {
+        return teamRepository.findByTournamentsTypeOrderByPositionAsc(tournamentType);
+
     }
 }

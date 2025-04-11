@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -13,26 +14,26 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tfg.TfgApplication">
+<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #2C3E50, #4CA1AF);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tfg.TfgApplication">
    <items>
-      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1920.0">
+      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #34495E;">
          <children>
             <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
+            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
                <font>
-                  <Font size="20.0" />
+                  <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                <children>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -41,7 +42,7 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -50,7 +51,7 @@
                         </ImageView>
                      </children>
                   </StackPane>
-                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
                         <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -69,57 +70,72 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_tournament" prefHeight="1080.0" prefWidth="1920.0">
-         <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-               <Image url="@images/logo.png" />
-            </image>
-            <VBox.margin>
-               <Insets left="1275.0" top="25.0" />
-            </VBox.margin>
-         </ImageView>
-         <!-- Contenido superior con logo y botones -->
-         <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1200.0" spacing="200.0">
+      <VBox fx:id="section_tournament" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
+         <HBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="370.0" spacing="120.0" style="-fx-background-color: #9ab8d6;">
             <children>
-               <Text fx:id="clasificationText" fill="#00ffd5" onMouseClicked="#handleClasificationClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
+               <Text fx:id="clasificationText" fill="#2C3E50" onMouseClicked="#handleClasificationClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
                   <font>
-                     <Font size="30.0" />
+                     <Font name="Arial Bold" size="35.0" />
                   </font>
+                  <HBox.margin>
+                     <Insets bottom="25.0" left="-1000.0" top="25.0" />
+                  </HBox.margin>
                </Text>
-               <Text fx:id="resultsText" fill="#00ffd5" onMouseClicked="#handleResultsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
+               <Text fx:id="resultsText" fill="#2C3E50" onMouseClicked="#handleResultsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
                   <font>
-                     <Font size="30.0" />
+                     <Font name="Arial Bold" size="35.0" />
                   </font>
+                  <HBox.margin>
+                     <Insets bottom="25.0" top="25.0" />
+                  </HBox.margin>
                </Text>
-               <Text fx:id="teamsText" fill="#00ffd5" onMouseClicked="#handleTeamsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
+               <Text fx:id="teamsText" fill="#2C3E50" onMouseClicked="#handleTeamsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
                   <font>
-                     <Font size="30.0" />
+                     <Font name="Arial Bold" size="35.0" />
                   </font>
+                  <HBox.margin>
+                     <Insets bottom="25.0" top="25.0" />
+                  </HBox.margin>
                </Text>
+               <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/logo.png" />
+                  </image>
+                  <HBox.margin>
+                     <Insets bottom="25.0" right="-770.0" top="25.0" />
+                  </HBox.margin>
+               </ImageView>
             </children>
-            <VBox.margin>
-               <Insets bottom="60.0" top="-50.0" />
-            </VBox.margin>
          </HBox>
-         <!-- Aquí comienza la tabla de clasificación -->
-         <TableView fx:id="tablaClasificacion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0">
+
+         <!-- Tabla de clasificación con estilo mejorado -->
+         <TableView fx:id="tablaClasificacion" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 10, 0, 0, 0);">
             <columns>
-               <TableColumn fx:id="colPos" prefWidth="100.0" text="Pos" />
-               <TableColumn fx:id="colTeam" prefWidth="270.0" text="Teams" />
-               <TableColumn fx:id="colPts" prefWidth="100.0" text="Pts" />
-               <TableColumn fx:id="colGF" prefWidth="100.0" text="GF" />
-               <TableColumn fx:id="colGC" prefWidth="100.0" text="GC" />
-               <TableColumn fx:id="colPG" prefWidth="100.0" text="PG" />
-               <TableColumn fx:id="colPE" prefWidth="100.0" text="PE" />
-               <TableColumn fx:id="colPP" prefWidth="90.0" text="PP" />
+               <TableColumn fx:id="colPos" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="Pos" />
+               <TableColumn fx:id="colTeam" prefWidth="270.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="Teams" />
+               <TableColumn fx:id="colPts" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="Pts" />
+               <TableColumn fx:id="colGF" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="GF" />
+               <TableColumn fx:id="colGC" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="GC" />
+               <TableColumn fx:id="colPG" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="PG" />
+               <TableColumn fx:id="colPE" prefWidth="100.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="PE" />
+               <TableColumn fx:id="colPP" prefWidth="90.0" style="-fx-alignment: CENTER; -fx-font-weight: bold;" text="PP" />
             </columns>
             <VBox.margin>
-               <Insets left="175.0" />
+               <Insets left="100.0" />
             </VBox.margin>
             <columnResizePolicy>
                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
+
+            <!-- Estilo para filas alternas -->
+            <styleClass>
+               <String fx:value="custom-table" />
+               <String fx:value="table-view" />
+            </styleClass>
          </TableView>
+         <padding>
+            <Insets bottom="25.0" />
+         </padding>
       </VBox>
    </items>
 </SplitPane>

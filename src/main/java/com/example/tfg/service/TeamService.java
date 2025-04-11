@@ -15,6 +15,7 @@ public interface TeamService {
     // Obtener un equipo por su ID
     Optional<Team> findById(int id);
     List<Team> findAllOrderedByPosition();
+    List<Team> findTeamsByTournamentType(String tournamentType);
 
 
 }

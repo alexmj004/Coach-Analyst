@@ -6,7 +6,9 @@ import com.example.tfg.controller.ResultsController;
 import com.example.tfg.controller.TrainingController;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.Team;
+import com.example.tfg.model.Tournament;
 import com.example.tfg.model.User;
+import com.example.tfg.repository.TeamRepository;
 import com.example.tfg.service.*;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -38,6 +40,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @SpringBootApplication
@@ -56,6 +59,7 @@ public class TfgApplication extends Application {
 	private User loggedInUser;
 	private ResultsService resultsService;
 	private TeamServImpl teamServ;
+	private TeamRepository teamRepository;
 
 
 	public static void main(String[] args) {
@@ -1057,9 +1061,6 @@ public class TfgApplication extends Application {
 		}
 	}
 
-
-
-	// *** INTERFAZ RESULTS ***
 	// Definir el stage de la interfaz results.
 	public void showResultsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
