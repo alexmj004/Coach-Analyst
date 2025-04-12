@@ -1041,16 +1041,17 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-	// Funcionalidad evento text clasification.
+	// Modifica estos métodos para que sean públicos
+	// Cambia la visibilidad de estos métodos a public
 	public void handleClasificationClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Clasificación!");
 		try {
 			showTournamentScene((Stage) ((Text) event.getSource()).getScene().getWindow());
 		} catch (Exception e) {
 			e.printStackTrace();
+			showAlert("Error", "No se pudo cargar la clasificación");
 		}
 	}
-
 	private void configurarTablaClasificacion(Scene scene) {
 		TableView<Team> tablaClasificacion = (TableView<Team>) scene.lookup("#tablaClasificacion");
 
@@ -1090,31 +1091,27 @@ public class TfgApplication extends Application {
 	// Definir el stage de la interfaz results.
 	public void showResultsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
-		var resultsScene = new Scene(fxmlLoader.load());
+		fxmlLoader.setControllerFactory(context::getBean);
+
+		Scene resultsScene = new Scene(fxmlLoader.load());
 		stage.setScene(resultsScene);
+
+		// Actualizar el nombre del coach
 		updateCoachNameLabel(resultsScene);
 
-		// Configurar el controlador de resultados
-		ResultsController resultsController = context.getBean(ResultsController.class);
-		resultsController.setupResultsComponents(resultsScene);
-
-		// Asignar eventos de la interfaz.
-		setNavigationClickListeners(resultsScene);
-		setMenuClickListener(resultsScene);
-		setOutClickListener(resultsScene);
+		// No necesitamos los setters de click listeners ya que el controlador los maneja
 		stage.setTitle("Resultados");
 		stage.show();
 	}
-	// Funcionalidad evento text results.
 	public void handleResultsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Resultados!");
 		try {
 			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
 		} catch (Exception e) {
 			e.printStackTrace();
+			showAlert("Error", "No se pudo cargar los resultados");
 		}
 	}
-
 
 	// *** INTERFAZ TEAMS ***
 	// Definir el stage de la interfaz teams.
@@ -1143,9 +1140,9 @@ public class TfgApplication extends Application {
 			showTeamsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
 		} catch (Exception e) {
 			e.printStackTrace();
+			showAlert("Error", "No se pudo cargar los equipos");
 		}
-	}
-	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
+	}	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
 		// Configurar la columna de la tabla
 		TableColumn<Team, String> colEquipo = (TableColumn<Team, String>) tablaEquipos.getColumns().get(0);
 		colEquipo.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1219,37 +1216,37 @@ public class TfgApplication extends Application {
 
 
 	// Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
-	private void setMenuClickListener(Scene scene) {
+	public void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
 	}
-	private void handleImgMenuClick(MouseEvent event) {
+	public void handleImgMenuClick(MouseEvent event) {
 		try {
 			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private void handleImgCalendarClick(MouseEvent event) {
+	public void handleImgCalendarClick(MouseEvent event) {
 		try {
 			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
+	public void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
 		ImageView imageView = (ImageView) scene.lookup(fxId);
 		if (imageView != null) {
 			imageView.setOnMouseClicked(handler);
 		}
 	}
-	private void setOutClickListener(Scene scene) {
+	public void setOutClickListener(Scene scene) {
 		ImageView imgOut = (ImageView) scene.lookup("#img_out");
 		if (imgOut != null) {
 			imgOut.setOnMouseClicked(this::handleImgOutClick);
 		}
 	}
-	private void handleImgOutClick(MouseEvent event) {
+	public void handleImgOutClick(MouseEvent event) {
 		try {
 			inputUserName = null; // Reiniciar la variable username
 			inputPassword = null; // Reiniciar la variable username

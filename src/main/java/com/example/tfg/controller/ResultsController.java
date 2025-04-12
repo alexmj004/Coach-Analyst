@@ -1,18 +1,20 @@
 package com.example.tfg.controller;
 
+import com.example.tfg.TfgApplication;
 import com.example.tfg.model.Match;
 import com.example.tfg.service.ResultsService;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight; // Asegúrate de importar FontWeight
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -21,129 +23,157 @@ public class ResultsController {
     @Autowired
     private ResultsService resultsService;
 
-    public void setupResultsComponents(Scene resultsScene) {
-        // Obtener la referencia al VBox contenedor donde agregaremos los resultados
-        AnchorPane sectionResults = (AnchorPane) resultsScene.lookup("#section_results");
-        VBox vBoxContainer = (VBox) sectionResults.getChildren().get(0);
+    @Autowired
+    private TfgApplication tfgApplication;
 
-        // Obtener el HBox original como plantilla
-        HBox templateHBox = (HBox) vBoxContainer.lookup("#result");
+    @FXML private VBox resultsContainer;
+    @FXML private Label nombre_coach;
+    @FXML private ImageView img_menu;
+    @FXML private ImageView img_calendar;
+    @FXML private ImageView img_out;
 
-        // Obtener el Label de fecha original para referencia
-        Label originalFechaLabel = (Label) vBoxContainer.lookup("#fecha");
+    @FXML
+    public void initialize() {
+        // Configurar los manejadores de eventos para las imágenes
+        img_menu.setOnMouseClicked(this::handleMenuClick);
+        img_calendar.setOnMouseClicked(this::handleCalendarClick);
+        img_out.setOnMouseClicked(this::handleLogoutClick);
 
-        // Remover el HBox plantilla y el Label fecha original
-        if (templateHBox != null) {
-            vBoxContainer.getChildren().remove(templateHBox);
-        }
-        if (originalFechaLabel != null) {
-            vBoxContainer.getChildren().remove(originalFechaLabel);
-        }
-
-        // Cargar todos los partidos
-        loadAllMatches(vBoxContainer, templateHBox);
+        loadAllMatches();
     }
 
-    private void loadAllMatches(VBox container, HBox template) {
+    // Métodos de navegación que delegan a TfgApplication
+    @FXML
+    public void handleClasificationClick(MouseEvent event) {
+        tfgApplication.handleClasificationClick(event);
+    }
+
+    @FXML
+    public void handleResultsClick(MouseEvent event) {
+        tfgApplication.handleResultsClick(event);
+    }
+
+    @FXML
+    public void handleTeamsClick(MouseEvent event) {
+        tfgApplication.handleTeamsClick(event);
+    }
+
+    @FXML
+    public void handleMenuClick(MouseEvent event) {
+        tfgApplication.handleImgMenuClick(event);
+    }
+
+    @FXML
+    public void handleCalendarClick(MouseEvent event) {
+        tfgApplication.handleImgCalendarClick(event);
+    }
+
+    @FXML
+    public void handleLogoutClick(MouseEvent event) {
+        tfgApplication.handleImgOutClick(event);
+    }
+
+    private void loadAllMatches() {
         try {
+            resultsContainer.getChildren().clear();
+
             List<Match> matches = resultsService.findAll();
 
             if (matches == null || matches.isEmpty()) {
-                showNoMatchesMessage(container);
+                showNoMatchesMessage();
                 return;
             }
 
+            // Agrupar por jornada
+            Label jornadaLabel = new Label("MATCH RESULTS");
+            jornadaLabel.setFont(Font.font("System", FontWeight.BOLD, 24));
+            jornadaLabel.setTextFill(Color.web("#2C3E50"));
+            VBox.setMargin(jornadaLabel, new Insets(0, 0, 20, 50));
+            resultsContainer.getChildren().add(jornadaLabel);
+
             // Procesar cada partido
             for (Match match : matches) {
-                // Crear label para la fecha
-                Label fechaLabel = new Label(formatTimestamp(match.getDateTime()));
-                fechaLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-                fechaLabel.setPadding(new Insets(10, 0, 5, 630));
-                container.getChildren().add(fechaLabel);
-
-                // Crear un nuevo HBox para este partido basado en el template
-                HBox matchHBox = createMatchHBox(match);
-                matchHBox.setPrefWidth(600);
-                matchHBox.setPrefHeight(50);
-                matchHBox.setAlignment(javafx.geometry.Pos.CENTER);
-                matchHBox.setStyle("-fx-background-color: white; -fx-border-color: black; -fx-border-width: 2;");
-                matchHBox.setSpacing(50);
-
-                // Agregar margen
-                HBox.setMargin(matchHBox, new Insets(0, 50, 40, 350));
-
-                // Agregar el HBox al contenedor
-                container.getChildren().add(matchHBox);
+                addMatchToContainer(match);
             }
         } catch (Exception e) {
-            System.err.println("Error al cargar los partidos: " + e.getMessage());
-            e.printStackTrace();
-            showErrorMessage(container);
+            System.err.println("Error loading matches: " + e.getMessage());
+            showErrorMessage();
         }
     }
 
-    private HBox createMatchHBox(Match match) {
-        // Contenedor principal
-        HBox matchHBox = new HBox();
-        matchHBox.setAlignment(javafx.geometry.Pos.CENTER);
+    private void addMatchToContainer(Match match) {
+        // Contenedor principal del partido
+        VBox matchContainer = new VBox(5);
+        matchContainer.setStyle("-fx-background-color: #FFFFFF; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 5, 0, 0, 2);");
+        matchContainer.setPadding(new Insets(10));
+        matchContainer.setMaxWidth(1000);
 
-        // Crear 4 regiones con anchos fijos para mantener alineación
-        HBox teamABox = new HBox();
-        teamABox.setPrefWidth(300);
-        teamABox.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
+        // Fecha del partido
+        Label dateLabel = new Label(formatDate(match.getDateTime()));
+        dateLabel.setFont(Font.font(14));
+        dateLabel.setTextFill(Color.web("#7F8C8D"));
+        matchContainer.getChildren().add(dateLabel);
 
-        HBox scoreBox = new HBox();
-        scoreBox.setPrefWidth(100);
+        // Contenedor del marcador
+        HBox scoreBox = new HBox(20);
         scoreBox.setAlignment(javafx.geometry.Pos.CENTER);
 
-        HBox teamBBox = new HBox();
-        teamBBox.setPrefWidth(300);
-        teamBBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+        // Equipo local
+        Label homeTeamLabel = new Label(match.getHomeTeam().getName());
+        homeTeamLabel.setFont(Font.font(18));
+        homeTeamLabel.setMaxWidth(300);
+        homeTeamLabel.setMinWidth(300);
+        homeTeamLabel.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
 
-        // Crear las etiquetas
-        Label teamALabel = new Label(match.getHomeTeam().getName());
-        teamALabel.setFont(new Font(20));
+        // Marcador
+        HBox scoreLabelBox = new HBox(5);
+        scoreLabelBox.setAlignment(javafx.geometry.Pos.CENTER);
 
-        Label homeScoreLabel = new Label(String.valueOf(match.getHomeScore()) + ":");
-        homeScoreLabel.setFont(new Font(20));
-        homeScoreLabel.setStyle("-fx-font-weight: bolder;");
+        Label homeScore = new Label(String.valueOf(match.getHomeScore()));
+        homeScore.setFont(Font.font("System", FontWeight.BOLD, 20)); // Forma correcta
 
-        Label awayScoreLabel = new Label(String.valueOf(match.getAwayScore()));
-        awayScoreLabel.setFont(new Font(20));
-        awayScoreLabel.setStyle("-fx-font-weight: bolder;");
+        Label separator = new Label("-");
+        separator.setFont(new Font(20)); // Alternativa simple
 
-        Label teamBLabel = new Label(match.getAwayTeam().getName());
-        teamBLabel.setFont(new Font(20));
+        Label awayScore = new Label(String.valueOf(match.getAwayScore()));
+        awayScore.setFont(Font.font("System", FontWeight.BOLD, 20));
 
-        // Agregar labels a sus contenedores respectivos
-        teamABox.getChildren().add(teamALabel);
-        scoreBox.getChildren().addAll(homeScoreLabel, awayScoreLabel);
-        teamBBox.getChildren().add(teamBLabel);
+        scoreLabelBox.getChildren().addAll(homeScore, separator, awayScore);
 
-        // Agregar cajas al contenedor principal
-        matchHBox.getChildren().addAll(teamABox, scoreBox, teamBBox);
+        // Equipo visitante
+        Label awayTeamLabel = new Label(match.getAwayTeam().getName());
+        awayTeamLabel.setFont(Font.font(18));
+        awayTeamLabel.setMaxWidth(300);
+        awayTeamLabel.setMinWidth(300);
+        awayTeamLabel.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 
-        return matchHBox;
+        // Añadir al contenedor de marcador
+        scoreBox.getChildren().addAll(homeTeamLabel, scoreLabelBox, awayTeamLabel);
+        matchContainer.getChildren().add(scoreBox);
+
+        // Añadir margen y al contenedor principal
+        VBox.setMargin(matchContainer, new Insets(0, 0, 20, 50));
+        resultsContainer.getChildren().add(matchContainer);
     }
 
-    private void showNoMatchesMessage(VBox container) {
-        Label noMatchesLabel = new Label("No hay partidos disponibles");
-        noMatchesLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        noMatchesLabel.setFont(new Font(20));
-        noMatchesLabel.setPadding(new Insets(50, 0, 0, 550));
-        container.getChildren().add(noMatchesLabel);
+    private void showNoMatchesMessage() {
+        Label noMatchesLabel = new Label("No matches available");
+        noMatchesLabel.setTextFill(Color.web("#2C3E50"));
+        noMatchesLabel.setFont(Font.font(20));
+        VBox.setMargin(noMatchesLabel, new Insets(20, 0, 0, 50));
+        resultsContainer.getChildren().add(noMatchesLabel);
     }
 
-    private void showErrorMessage(VBox container) {
-        Label errorLabel = new Label("Error al cargar los partidos");
-        errorLabel.setTextFill(javafx.scene.paint.Color.RED);
-        errorLabel.setFont(new Font(20));
-        errorLabel.setPadding(new Insets(50, 0, 0, 550));
-        container.getChildren().add(errorLabel);
+    private void showErrorMessage() {
+        Label errorLabel = new Label("Error loading matches");
+        errorLabel.setTextFill(Color.RED);
+        errorLabel.setFont(Font.font(20));
+        VBox.setMargin(errorLabel, new Insets(20, 0, 0, 50));
+        resultsContainer.getChildren().add(errorLabel);
     }
 
-    private String formatTimestamp(Timestamp timestamp) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+    private String formatDate(java.sql.Timestamp timestamp) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, dd MMMM yyyy - HH:mm");
         return dateFormat.format(timestamp);
     }
 }
