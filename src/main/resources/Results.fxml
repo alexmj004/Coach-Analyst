@@ -33,7 +33,7 @@
                <children>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleMenuClick">
+                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleMenuClick" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/home.png" />
                            </image>
@@ -42,7 +42,7 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleCalendarClick">
+                        <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleCalendarClick" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/calendario.png" />
                            </image>
@@ -51,7 +51,7 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" onMouseClicked="#handleLogoutClick">
+                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleLogoutClick" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/log_out.png" />
                            </image>
@@ -70,7 +70,7 @@
       </VBox>
 
       <!-- Sección de resultados (derecha) -->
-      <VBox fx:id="section_results" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
+      <VBox fx:id="section_results" prefHeight="1055.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <!-- Barra de navegación superior -->
             <HBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="370.0" spacing="120.0" style="-fx-background-color: #9ab8d6;">
@@ -111,10 +111,10 @@
             </HBox>
 
             <!-- Contenedor principal de resultados -->
-            <VBox fx:id="resultsContainer" alignment="TOP_CENTER" spacing="15" style="-fx-background-color: #ECF0F1;">
-               <padding>
-                  <Insets bottom="20" left="50" right="50" top="20"/>
-               </padding>
+            <VBox fx:id="resultsContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="850.0" spacing="15" style="-fx-background-color: #ECF0F1;">
+               <VBox.margin>
+                  <Insets left="100.0" />
+               </VBox.margin>
             </VBox>
 
          </children>
