@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,15 +14,14 @@
 
 <SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #2C3E50, #4CA1AF);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tfg.controller.ResultsController">
    <items>
-      <!-- Sección del perfil (izquierda) -->
-      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #34495E;">
+      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0" style="-fx-background-color: #34495E;">
          <children>
-            <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="foto_perfil1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
+            <Label fx:id="nombre_coach1" text="Name" textFill="#ECF0F1">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
@@ -29,11 +29,11 @@
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="100.0" spacing="40.0">
                <children>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleMenuClick" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/home.png" />
                            </image>
@@ -42,7 +42,7 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleCalendarClick" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/calendario.png" />
                            </image>
@@ -51,12 +51,15 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" onMouseClicked="#handleLogoutClick" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/log_out.png" />
                            </image>
                         </ImageView>
                      </children>
+                     <VBox.margin>
+                        <Insets top="150.0" />
+                     </VBox.margin>
                   </StackPane>
                </children>
                <VBox.margin>
@@ -110,13 +113,21 @@
                </children>
             </HBox>
 
-            <!-- Contenedor principal de resultados -->
-            <VBox fx:id="resultsContainer" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="850.0" spacing="15" style="-fx-background-color: #ECF0F1;">
-               <VBox.margin>
-                  <Insets left="100.0" />
-               </VBox.margin>
-            </VBox>
-
+            <!-- Contenedor principal de resultados con ScrollPane -->
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background: #ECF0F1; -fx-background-color: transparent;" vbarPolicy="AS_NEEDED">
+               <content>
+                  <VBox fx:id="resultsContainer" prefHeight="1080.0" prefWidth="1720.0" spacing="15" style="-fx-background-color: #ECF0F1;">
+                     <padding>
+                        <Insets bottom="50.0" left="100.0" right="100.0" top="20.0" />
+                     </padding>
+                     <!-- Label por defecto -->
+                     <Label fx:id="defaultLabel" alignment="CENTER" minWidth="-Infinity" prefWidth="850.0" style="-fx-text-fill: #2C3E50; -fx-font-size: 20px;" text="Loading matches...">
+                        <VBox.margin>
+                           <Insets left="50.0" />
+                        </VBox.margin></Label>
+                  </VBox>
+               </content>
+            </ScrollPane>
          </children>
          <padding>
             <Insets bottom="25.0" />

@@ -5,6 +5,7 @@ import com.example.tfg.model.Match;
 import com.example.tfg.service.ResultsService;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -31,6 +32,8 @@ public class ResultsController {
     @FXML private ImageView img_menu;
     @FXML private ImageView img_calendar;
     @FXML private ImageView img_out;
+    @FXML private Label defaultLabel; // Añade esta línea para inyectar el Label
+
 
     @FXML
     public void initialize() {
@@ -38,6 +41,7 @@ public class ResultsController {
         img_menu.setOnMouseClicked(this::handleMenuClick);
         img_calendar.setOnMouseClicked(this::handleCalendarClick);
         img_out.setOnMouseClicked(this::handleLogoutClick);
+
 
         loadAllMatches();
     }
