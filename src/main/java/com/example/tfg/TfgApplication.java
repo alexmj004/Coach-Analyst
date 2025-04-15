@@ -241,8 +241,8 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
 		var calendarScene = new Scene(fxmlLoader.load());
 		stage.setScene(calendarScene);
-
 		updateCoachNameLabel(calendarScene);
+
 
 		CalendarController calendarController = new CalendarController(calendarService);
 		calendarController.setupCalendarComponents(calendarScene);

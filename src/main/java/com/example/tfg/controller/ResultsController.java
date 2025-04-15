@@ -28,11 +28,9 @@ public class ResultsController {
     private TfgApplication tfgApplication;
 
     @FXML private VBox resultsContainer;
-    @FXML private Label nombre_coach;
     @FXML private ImageView img_menu;
     @FXML private ImageView img_calendar;
     @FXML private ImageView img_out;
-    @FXML private Label defaultLabel; // Añade esta línea para inyectar el Label
 
 
     @FXML

@@ -22,12 +22,12 @@
    <items>
       <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0" style="-fx-background-color: #34495E;">
          <children>
-            <ImageView fx:id="foto_perfil1" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach1" text="Name" textFill="#ECF0F1">
+            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
@@ -35,11 +35,11 @@
                   <Font name="Arial Bold" size="20.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+            <VBox alignment="CENTER" prefHeight="400.0" prefWidth="100.0" spacing="40.0">
                <children>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_menu1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/home.png" />
                            </image>
@@ -57,7 +57,7 @@
                   </StackPane>
                   <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <ImageView fx:id="img_out1" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@images/log_out.png" />
                            </image>
