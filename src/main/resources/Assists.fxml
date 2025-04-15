@@ -8,110 +8,139 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #20163f;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: linear-gradient(to right, #2C3E50, #4CA1AF);" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <AnchorPane fx:id="section_perfil" minHeight="0.0" minWidth="0.0" prefHeight="1080.0" prefWidth="500.0">
+      <VBox fx:id="section_perfil" alignment="TOP_CENTER" prefHeight="200.0" prefWidth="158.0" style="-fx-background-color: #34495E;">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="8.0" layoutY="14.0" prefHeight="200.0" prefWidth="158.0" AnchorPane.topAnchor="25.0">
+            <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/agregar-usuario.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
+               <VBox.margin>
+                  <Insets bottom="60.0" top="10.0" />
+               </VBox.margin>
+               <font>
+                  <Font name="Arial Bold" size="20.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
                <children>
-                  <ImageView fx:id="foto_perfil" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@images/agregar-usuario.png" />
-                     </image>
-                  </ImageView>
-                  <Label fx:id="nombre_coach" text="Name" textFill="#f4f2f2">
-                     <VBox.margin>
-                        <Insets bottom="60.0" top="10.0" />
-                     </VBox.margin>
-                     <font>
-                        <Font size="20.0" />
-                     </font>
-                  </Label>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="40.0">
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
                      <children>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/home.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/calendario.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
-                        <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: white; -fx-background-radius: 5;">
-                           <children>
-                              <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@images/log_out.png" />
-                                 </image>
-                              </ImageView>
-                           </children>
-                        </StackPane>
+                        <ImageView fx:id="img_menu" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/home.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
+                     <children>
+                        <ImageView fx:id="img_calendar" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/calendario.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </StackPane>
+                  <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: #ECF0F1; -fx-background-radius: 20; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 0, 2);">
+                     <children>
+                        <ImageView fx:id="img_out" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@images/log_out.png" />
+                           </image>
+                        </ImageView>
                      </children>
                      <VBox.margin>
-                        <Insets top="125.0" />
+                        <Insets top="150.0" />
                      </VBox.margin>
-                  </VBox>
+                  </StackPane>
                </children>
+               <VBox.margin>
+                  <Insets top="125.0" />
+               </VBox.margin>
             </VBox>
          </children>
-      </AnchorPane>
-      <AnchorPane fx:id="section_assists" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+         <padding>
+            <Insets top="25.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="section_assists" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1080.0">
          <children>
-            <VBox alignment="TOP_CENTER" layoutX="16.0" layoutY="11.0" prefHeight="1080.0" prefWidth="1420.0" AnchorPane.topAnchor="25.0">
+            <HBox alignment="CENTER" prefHeight="54.0" spacing="160.0" style="-fx-background-color: #9ab8d6">
                <children>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="scores" fill="#2C3E50" text="SCORES" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </HBox.margin>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="assists" fill="#2C3E50" text="ASSISTS" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </HBox.margin>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="cards" fill="#2C3E50" text="CARDS" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </HBox.margin>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="saves" fill="#2C3E50" text="SAVES" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <HBox.margin>
+                        <Insets bottom="20.0" top="20.0" />
+                     </HBox.margin>
+                  </StackPane>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo.png" />
                      </image>
-                     <VBox.margin>
-                        <Insets left="1180.0" right="25.0" />
-                     </VBox.margin>
+                     <HBox.margin>
+                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                     </HBox.margin>
                   </ImageView>
-                  <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="1200.0" spacing="170.0">
-                     <children>
-                        <Text fx:id="scores" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="SCORES" textAlignment="CENTER" underline="true">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="assists" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="ASSISTS" textAlignment="CENTER" underline="true">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="cards" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CARDS" textAlignment="CENTER" underline="true">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                        <Text fx:id="saves" fill="#00ffd5" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="SAVES" textAlignment="CENTER" underline="true">
-                           <font>
-                              <Font size="30.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <VBox.margin>
-                        <Insets bottom="60.0" left="-50.0" top="-25.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <BarChart fx:id="grafic_assists" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #7c87a0;" title="ASSISTS">
+               </children>
+               <padding>
+                  <Insets left="120.0" />
+               </padding>
+            </HBox>
+            <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1178.0">
+               <children>
+                  <BarChart fx:id="grafic_assists" barGap="0.0" prefHeight="600.0" prefWidth="986.0" style="-fx-text-fill: white;" title="ASSISTS">
                      <xAxis>
                         <CategoryAxis label="Players" side="BOTTOM" tickLabelFill="#f4f2f2" />
                      </xAxis>
@@ -119,18 +148,16 @@
                         <NumberAxis label="Assists" side="LEFT" style="-fx-tick-label-font-weight: bold;" tickLabelFill="#f4f2f2" upperBound="50.0">
                            <tickLabelFont>
                               <Font size="20.0" />
-                           </tickLabelFont></NumberAxis>
+                           </tickLabelFont>
+                        </NumberAxis>
                      </yAxis>
-                     <VBox.margin>
-                        <Insets left="50.0" right="250.0" />
-                     </VBox.margin>
                   </BarChart>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
+               <VBox.margin>
+                  <Insets top="25.0" />
+               </VBox.margin>
+            </HBox>
          </children>
-      </AnchorPane>
+      </VBox>
    </items>
 </SplitPane>

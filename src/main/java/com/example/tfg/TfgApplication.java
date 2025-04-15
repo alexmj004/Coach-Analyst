@@ -919,7 +919,7 @@ public class TfgApplication extends Application {
 	}
 
 	private void configureSavesBarChart(Scene scene) {
-		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_assists");
+		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_saves");
 		if (barChart == null) {
 			logger.warn("No se encontró el gráfico en Saves.fxml");
 			return;
