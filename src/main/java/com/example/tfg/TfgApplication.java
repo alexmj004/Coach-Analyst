@@ -93,7 +93,7 @@ public class TfgApplication extends Application {
 	// *** INTERFAZ LOGIN ***
 	// Definir el stage de la interfaz login.
 	public void showLoginScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login2.fxml"));
 		var loginScene = new Scene(fxmlLoader.load());
 
 		TextField userField = (TextField) loginScene.lookup("#user");
@@ -102,7 +102,8 @@ public class TfgApplication extends Application {
 		Button loginButton = (Button) loginScene.lookup("#login_btn");
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
 
-		Button newUserButton = (Button) loginScene.lookup("#newUser_btn");
+		//TODO cambiar el boton de nuevo usuario por un TExt
+		Button newUserButton = (Button) loginScene.lookup("#newUser");
 		newUserButton.setOnAction(e -> handleNewUserButtonAction(stage));
 
 		stage.setScene(loginScene);
