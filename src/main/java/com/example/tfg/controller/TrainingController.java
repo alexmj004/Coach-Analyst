@@ -2,6 +2,7 @@ package com.example.tfg.controller;
 
 import com.example.tfg.model.Training;
 import com.example.tfg.service.TrainingService;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,10 @@ import java.util.Optional;
 public class TrainingController {
     @Autowired
     private TrainingService trainingService;
+
+    private static final String DISABLED_BUTTON_STYLE = "-fx-background-color: #BDC3C7; -fx-text-fill: #7F8C8D; -fx-font-weight: bold; -fx-background-radius: 5;";
+    private static final String ENABLED_SAVE_STYLE = "-fx-background-color: #2ECC71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;";
+    private static final String ENABLED_MODIFY_STYLE = "-fx-background-color: #3498DB; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;";
 
     public void setupTrainingComponents(Scene trainingScene) {
         DatePicker datePicker = (DatePicker) trainingScene.lookup("#calendar_training");
@@ -66,6 +71,23 @@ public class TrainingController {
                 loadTrainingByDate(selectedDate, locationField, objectiveField, trainingDescription);
             }
         });
+
+        // Configura estado inicial de los botones
+        addButton.setStyle(DISABLED_BUTTON_STYLE);
+        addButton.setDisable(true);
+
+        // Listener para habilitar guardar cuando hay cambios
+        ChangeListener<String> changeListener = (observable, oldValue, newValue) -> {
+            boolean fieldsFilled = !locationField.getText().isEmpty() &&
+                    !objectiveField.getText().isEmpty() &&
+                    !trainingDescription.getText().isEmpty();
+            addButton.setDisable(!fieldsFilled);
+            addButton.setStyle(fieldsFilled ? ENABLED_SAVE_STYLE : DISABLED_BUTTON_STYLE);
+        };
+
+        locationField.textProperty().addListener(changeListener);
+        objectiveField.textProperty().addListener(changeListener);
+        trainingDescription.textProperty().addListener(changeListener);
     }
 
     private void loadTrainingByDate(LocalDate date, TextField locationField, TextField objectiveField, TextArea trainingDescription) {
