@@ -1023,6 +1023,7 @@ public class TfgApplication extends Application {
 		stage.setScene(tournamentScene);
 		updateCoachNameLabel(tournamentScene);
 
+
 		// Configurar la tabla de clasificación
 		configurarTablaClasificacion(tournamentScene);
 
@@ -1093,12 +1094,13 @@ public class TfgApplication extends Application {
 	public void showResultsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
 		fxmlLoader.setControllerFactory(context::getBean);
-
 		Scene resultsScene = new Scene(fxmlLoader.load());
-		stage.setScene(resultsScene);
 
+		stage.setScene(resultsScene);
 		// Actualizar el nombre del coach
 		updateCoachNameLabel(resultsScene);
+
+
 
 		// No necesitamos los setters de click listeners ya que el controlador los maneja
 		stage.setTitle("Resultados");
@@ -1121,6 +1123,8 @@ public class TfgApplication extends Application {
 		var teamsScene = new Scene(fxmlLoader.load());
 		stage.setScene(teamsScene);
 		updateCoachNameLabel(teamsScene);
+
+
 
 		// Configurar la tabla de equipos (nueva parte)
 		TableView<Team> tablaEquipos = (TableView<Team>) teamsScene.lookup("#tablaEquipos");
