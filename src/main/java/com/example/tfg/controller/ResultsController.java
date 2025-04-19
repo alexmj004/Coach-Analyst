@@ -132,36 +132,6 @@ public class ResultsController {
         resultPanel.getChildren().addAll(homeTeamBox, scoreBox, awayTeamBox);
         matchPanel.getChildren().add(resultPanel);
 
-        // Información de ubicación
-        if (match.getLocation() != null && !match.getLocation().isEmpty()) {
-            Text locationText = new Text("Ubicación: " + match.getLocation());
-            locationText.setFont(Font.font("Arial", 14));
-            locationText.setFill(Color.valueOf("#7f8c8d"));
-
-            HBox locationBox = new HBox(locationText);
-            locationBox.setAlignment(Pos.CENTER);
-            matchPanel.getChildren().add(locationBox);
-        }
-
-        // Notas adicionales si existen
-        if (match.getNotes() != null && !match.getNotes().isEmpty()) {
-            VBox notesBox = new VBox();
-            notesBox.setStyle("-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-padding: 10;");
-            notesBox.setMaxWidth(900);
-
-            Text notesTitle = new Text("Notas");
-            notesTitle.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-            notesTitle.setFill(Color.valueOf("#2C3E50"));
-
-            Text notesContent = new Text(match.getNotes());
-            notesContent.setFont(Font.font("Arial", 14));
-            notesContent.setFill(Color.valueOf("#34495e"));
-            notesContent.setWrappingWidth(880);
-
-            notesBox.getChildren().addAll(notesTitle, notesContent);
-            notesBox.setAlignment(Pos.CENTER);
-            matchPanel.getChildren().add(notesBox);
-        }
 
         return matchPanel;
     }

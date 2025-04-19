@@ -21,7 +21,7 @@
                   <Image url="@images/agregar-usuario.png" />
                </image>
             </ImageView>
-            <Label fx:id="nombre_coach1" text="Name" textFill="#ECF0F1">
+            <Label fx:id="nombre_coach" text="Name" textFill="#ECF0F1">
                <VBox.margin>
                   <Insets bottom="60.0" top="10.0" />
                </VBox.margin>
