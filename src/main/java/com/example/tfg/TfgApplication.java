@@ -4,14 +4,15 @@ import com.example.tfg.controller.CalendarController;
 import com.example.tfg.controller.GraphicCardsController;
 import com.example.tfg.controller.ResultsController;
 import com.example.tfg.controller.TrainingController;
+import com.example.tfg.model.Match;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.Team;
-import com.example.tfg.model.Tournament;
 import com.example.tfg.model.User;
 import com.example.tfg.repository.TeamRepository;
 import com.example.tfg.service.*;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -27,7 +28,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -38,9 +39,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @SpringBootApplication
@@ -60,6 +61,7 @@ public class TfgApplication extends Application {
 	private ResultsService resultsService;
 	private TeamServImpl teamServ;
 	private TeamRepository teamRepository;
+	private ResultsController resultsController;
 
 
 	public static void main(String[] args) {
@@ -87,6 +89,9 @@ public class TfgApplication extends Application {
 		trainingService = context.getBean(TrainingService.class);
 		resultsService = context.getBean(ResultsService.class);
 		teamServ = context.getBean(TeamServImpl.class);
+		//controlador de results
+		resultsController = context.getBean(ResultsController.class);
+
 	}
 
 
@@ -1089,32 +1094,28 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la clasificación");
 		}
 	}
-
-	// Definir el stage de la interfaz results.
+	//FUncinalidad de Results en Tournament
 	public void showResultsScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
-		fxmlLoader.setControllerFactory(context::getBean);
-		Scene resultsScene = new Scene(fxmlLoader.load());
-
-		stage.setScene(resultsScene);
-		// Actualizar el nombre del coach
-		updateCoachNameLabel(resultsScene);
+	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
+	    var resultsScene = new Scene(fxmlLoader.load());
+	    stage.setScene(resultsScene);
 
 
+	    // Actualizar el nombre del coach
+	    updateCoachNameLabel(resultsScene);
 
-		// No necesitamos los setters de click listeners ya que el controlador los maneja
-		stage.setTitle("Resultados");
-		stage.show();
+	    // Usar el controlador para ver los resultados
+		resultsController.setupResultsView(resultsScene);
+
+	    // Asignar eventos de la interfaz
+	    setNavigationClickListeners(resultsScene);
+	    setMenuClickListener(resultsScene);
+	    setOutClickListener(resultsScene);
+
+	    stage.setTitle("Resultados");
+	    stage.show();
 	}
-	public void handleResultsClick(MouseEvent event) {
-		System.out.println("¡Se hizo clic en Resultados!");
-		try {
-			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
-		} catch (Exception e) {
-			e.printStackTrace();
-			showAlert("Error", "No se pudo cargar los resultados");
-		}
-	}
+
 
 	// *** INTERFAZ TEAMS ***
 	// Definir el stage de la interfaz teams.
@@ -1218,9 +1219,21 @@ public class TfgApplication extends Application {
 
 
 	}
+	@FXML
+	private void handleResultsClick(MouseEvent event) {
+		System.out.println("¡Se hizo clic en Resultados!");
+		try {
+			showResultsScene((Stage) ((Text) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+			showAlert("Error", "No se pudo cargar la pantalla de resultados");
+		}
+	}
 
 
-	// Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
+        // Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
+
+
 	public void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
