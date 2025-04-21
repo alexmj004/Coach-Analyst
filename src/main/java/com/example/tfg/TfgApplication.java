@@ -4,15 +4,12 @@ import com.example.tfg.controller.CalendarController;
 import com.example.tfg.controller.GraphicCardsController;
 import com.example.tfg.controller.ResultsController;
 import com.example.tfg.controller.TrainingController;
-import com.example.tfg.model.Match;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.Team;
 import com.example.tfg.model.User;
-import com.example.tfg.repository.TeamRepository;
 import com.example.tfg.service.*;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -28,7 +25,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -39,7 +35,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Comparator;
 import java.util.List;
 
@@ -52,7 +47,6 @@ public class TfgApplication extends Application {
 	private static ConfigurableApplicationContext context;
 	private String inputUserName;
 	@FXML
-	private Label nombre_coach;
 	private String inputPassword;
 	private PlayerServiceImpl playerServiceImpl;
 	private CalendarService calendarService;
@@ -60,7 +54,6 @@ public class TfgApplication extends Application {
 	private User loggedInUser;
 	private ResultsService resultsService;
 	private TeamServImpl teamServ;
-	private TeamRepository teamRepository;
 	private ResultsController resultsController;
 
 
@@ -83,13 +76,11 @@ public class TfgApplication extends Application {
 
 	@Override
 	public void init() throws Exception {
-		// Obtener los beans de Spring antes de que inicie JavaFX.
 		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
 		calendarService = context.getBean(CalendarServImp.class);
 		trainingService = context.getBean(TrainingService.class);
 		resultsService = context.getBean(ResultsService.class);
 		teamServ = context.getBean(TeamServImpl.class);
-		//controlador de results
 		resultsController = context.getBean(ResultsController.class);
 
 	}
@@ -306,7 +297,6 @@ public class TfgApplication extends Application {
 		stage.setTitle("Partidos");
 		stage.show();
 	}
-	// Funcionalidad evento btn match.
 	private void handleMatchButtonAction(Stage stage) {
 		try {
 			showMatchScene(stage);  // Llama a la escena de partidos
@@ -519,7 +509,6 @@ public class TfgApplication extends Application {
 
 		return series;
 	}
-
 	private void configureBarChart(Scene scene) {
 		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_scores");
 		if (barChart == null) {
@@ -603,20 +592,6 @@ public class TfgApplication extends Application {
 			// Forzar redibujado
 			barChart.requestLayout();
 		});
-	}	private void applyChartStyles(XYChart.Series<String, Number> series) {
-		for (XYChart.Data<String, Number> data : series.getData()) {
-			Node node = data.getNode();
-			if (node != null) {
-				node.setStyle(
-						"-fx-bar-fill: #00ffd5; "
-								+ "-fx-background-radius: 2 2 0 0; "
-								+ "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 1, 0, 0, 1);"
-								+ "-fx-padding: 0;"
-								+ "-fx-min-width: 20px; "  // Ancho mínimo garantizado
-								+ "-fx-max-width: 20px; "  // Ancho máximo consistente
-				);
-			}
-		}
 	}
 	private void handleAnalystButtonAction(Stage stage) {
 		try {
@@ -625,7 +600,6 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-	// Funcionalidad evento text clasification.
 	public void handleScoresClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Goleadores!");
 		try {
@@ -637,9 +611,6 @@ public class TfgApplication extends Application {
 
 
 	// *** INTERFAZ ASSISTS ***
-	// Definir el stage de la interfaz assists.
-// *** INTERFAZ ASSISTS ***
-// Definir el stage de la interfaz assists.
 	public void showAssistsScene(Stage stage) throws IOException {
 		try {
 			// Cargar la escena FXML
@@ -663,7 +634,6 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de asistencias");
 		}
 	}
-
 	private XYChart.Series<String, Number> loadAssistsData() {
 		XYChart.Series<String, Number> series = new XYChart.Series<>();
 		series.setName("Assists");
@@ -701,7 +671,6 @@ public class TfgApplication extends Application {
 
 		return series;
 	}
-
 	private void configureAssistsBarChart(Scene scene) {
 		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_assists");
 		if (barChart == null) {
@@ -784,8 +753,6 @@ public class TfgApplication extends Application {
 			barChart.requestLayout();
 		});
 	}
-
-	// Funcionalidad evento btn assists.
 	public void handleAssistsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Asistencias!");
 		try {
@@ -796,11 +763,7 @@ public class TfgApplication extends Application {
 	}
 
 
-
-
-
 	// *** INTERFAZ CARDS ***
-	// Definir el stage de la interfaz cards.
 	public void showCardsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Cards.fxml"));
 		var cardsScene = new Scene(fxmlLoader.load());
@@ -818,7 +781,6 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tarjetas");
 		stage.show();
 	}
-	// Funcionalidad evento btn cards.
 	public void handleCardsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Tarjetas!");
 		try {
@@ -861,7 +823,6 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de paradas");
 		}
 	}
-
 	private XYChart.Series<String, Number> loadSavesData() {
 	    XYChart.Series<String, Number> series = new XYChart.Series<>();
 	    series.setName("Saves");
@@ -911,7 +872,6 @@ public class TfgApplication extends Application {
 	        return getExampleSavesData();
 	    }
 	}
-
 	private XYChart.Series<String, Number> getExampleSavesData() {
 	    XYChart.Series<String, Number> series = new XYChart.Series<>();
 	    series.setName("Saves");
@@ -923,7 +883,6 @@ public class TfgApplication extends Application {
 
 	    return series;
 	}
-
 	private void configureSavesBarChart(Scene scene) {
 		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_saves");
 		if (barChart == null) {
@@ -1006,8 +965,6 @@ public class TfgApplication extends Application {
 			barChart.requestLayout();
 		});
 	}
-
-	// Funcionalidad evento btn saves.
 	public void handleSavesClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Paradas!");
 		try {
@@ -1018,10 +975,7 @@ public class TfgApplication extends Application {
 	}
 
 
-
-
 	// *** INTERFAZ TOURNAMENT ***
-	// Definir el stage de la interfaz tournament.
 	public void showTournamentScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
 		var tournamentScene = new Scene(fxmlLoader.load());
@@ -1040,7 +994,6 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tournament");
 		stage.show();
 	}
-	// Funcionalidad evento btn tournament.
 	private void handleTournamentButtonAction(Stage stage) {
 		try {
 			showTournamentScene(stage);  // Llama a la escena del torneo
@@ -1048,8 +1001,6 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-	// Modifica estos métodos para que sean públicos
-	// Cambia la visibilidad de estos métodos a public
 	public void handleClasificationClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Clasificación!");
 		try {
@@ -1094,7 +1045,6 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la clasificación");
 		}
 	}
-	//FUncinalidad de Results en Tournament
 	public void showResultsScene(Stage stage) throws IOException {
 	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
 	    var resultsScene = new Scene(fxmlLoader.load());
@@ -1118,28 +1068,21 @@ public class TfgApplication extends Application {
 
 
 	// *** INTERFAZ TEAMS ***
-	// Definir el stage de la interfaz teams.
 	public void showTeamsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
 		var teamsScene = new Scene(fxmlLoader.load());
 		stage.setScene(teamsScene);
 		updateCoachNameLabel(teamsScene);
-
-
-
-		// Configurar la tabla de equipos (nueva parte)
 		TableView<Team> tablaEquipos = (TableView<Team>) teamsScene.lookup("#tablaEquipos");
 		if (tablaEquipos != null) {
 			configurarTablaEquipos(tablaEquipos);
 		}
-
-		// Asignar eventos de la interfaz (existente)
 		setNavigationClickListeners(teamsScene);
 		setMenuClickListener(teamsScene);
 		setOutClickListener(teamsScene);
 		stage.setTitle("Equipos");
 		stage.show();
-	}	// Funcionalidad evento text teams.
+	}
 	public void handleTeamsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Equipos!");
 		try {
@@ -1148,7 +1091,8 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 			showAlert("Error", "No se pudo cargar los equipos");
 		}
-	}	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
+	}
+	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
 		// Configurar la columna de la tabla
 		TableColumn<Team, String> colEquipo = (TableColumn<Team, String>) tablaEquipos.getColumns().get(0);
 		colEquipo.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -1156,7 +1100,6 @@ public class TfgApplication extends Application {
 		// Cargar los equipos desde el servicio
 		cargarEquiposEnTabla(tablaEquipos);
 	}
-
 	private void cargarEquiposEnTabla(TableView<Team> tablaEquipos) {
 		try {
 			List<Team> equipos = teamServ.findAll();
@@ -1168,6 +1111,8 @@ public class TfgApplication extends Application {
 		}
 	}
 
+
+	// *** MÉTODOS ***
 	// Método para actualizar el nombre_usuario del login en cada interfaz.
 	private void updateCoachNameLabel(Scene scene) {
 		if (scene == null || loggedInUser == null) return;
@@ -1177,8 +1122,6 @@ public class TfgApplication extends Application {
 			nombreCoachLabel.setText(loggedInUser.getUserName()); // O usa getUsername() según tu modelo User
 		}
 	}
-
-
 	// Método para establecer la navegación a través de los Text.
 	public void setNavigationClickListeners(Scene scene) {
 		// Asocia los eventos de clic a los textos correspondientes
@@ -1229,11 +1172,7 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de resultados");
 		}
 	}
-
-
-        // Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
-
-
+	// Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
 	public void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
@@ -1274,8 +1213,6 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-
-
 	// Método para mostrar ventanas de alertas.
 	private void showAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
