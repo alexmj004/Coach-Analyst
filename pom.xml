@@ -34,6 +34,11 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>21</version>
 		</dependency>
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-media</artifactId>
+			<version>21</version>
+		</dependency>
 
 		<!-- Dependencias de Spring Boot -->
 		<dependency>
@@ -96,8 +101,18 @@
 				<configuration>
 					<mainClass>com.example.tfg.TfgApplication</mainClass>
 					<options>
+						<option>--add-exports</option>
+						<option>javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED</option>
+						<option>--add-exports</option>
+						<option>javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED</option>
+						<option>--add-exports</option>
+						<option>javafx.graphics/com.sun.javafx.util=ALL-UNNAMED</option>
+						<option>--add-exports</option>
+						<option>javafx.media/com.sun.media.jfxmedia=ALL-UNNAMED</option>
+						<option>--add-exports</option>
+						<option>javafx.media/com.sun.media.jfxmediaimpl=ALL-UNNAMED</option>
 						<option>--add-modules</option>
-						<option>javafx.controls,javafx.fxml</option>
+						<option>javafx.controls,javafx.fxml,javafx.media</option>
 					</options>
 				</configuration>
 			</plugin>

@@ -1,9 +1,6 @@
 package com.example.tfg;
 
-import com.example.tfg.controller.CalendarController;
-import com.example.tfg.controller.GraphicCardsController;
-import com.example.tfg.controller.ResultsController;
-import com.example.tfg.controller.TrainingController;
+import com.example.tfg.controller.*;
 import com.example.tfg.model.Player;
 import com.example.tfg.model.Team;
 import com.example.tfg.model.User;
@@ -31,6 +28,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -42,6 +40,8 @@ import java.util.List;
 @SpringBootApplication
 public class TfgApplication extends Application {
 
+	@Autowired
+	private VideosController videosController;
 	// Propiedades.
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
@@ -82,6 +82,8 @@ public class TfgApplication extends Application {
 		resultsService = context.getBean(ResultsService.class);
 		teamServ = context.getBean(TeamServImpl.class);
 		resultsController = context.getBean(ResultsController.class);
+		videosController = context.getBean(VideosController.class);
+
 
 	}
 
@@ -232,6 +234,20 @@ public class TfgApplication extends Application {
 	}
 
 
+	// *** INTERFAZ VIDEOS ***
+	public void showVideosScene(Stage stage) throws IOException {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Videos.fxml"));
+		fxmlLoader.setControllerFactory(context::getBean); // Usar Spring para el controlador
+		var videosScene = new Scene(fxmlLoader.load());
+		stage.setScene(videosScene);
+		updateCoachNameLabel(videosScene);
+
+		setMenuClickListener(videosScene);
+		setOutClickListener(videosScene);
+
+		stage.setTitle("Video Library");
+		stage.show();
+	}
 	// *** INTERFAZ CALENDAR ***
 	// Definir el stage de la interfaz calendar.
 	public void showCalendarScene(Stage stage) throws IOException {
@@ -1176,6 +1192,15 @@ public class TfgApplication extends Application {
 	public void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
+		setImageClickListener(scene, "#img_films", this::handleImgFilmsClick);
+	}
+	public void handleImgFilmsClick(MouseEvent event) {
+		try {
+			showVideosScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
+		} catch (Exception e) {
+			e.printStackTrace();
+			showAlert("Error", "No se pudo cargar la pantalla de videos");
+		}
 	}
 	public void handleImgMenuClick(MouseEvent event) {
 		try {
