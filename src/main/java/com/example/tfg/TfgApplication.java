@@ -242,13 +242,16 @@ public class TfgApplication extends Application {
 	// *** INTERFAZ VIDEOS ***
 	public void showVideosScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Videos.fxml"));
-		fxmlLoader.setControllerFactory(context::getBean); // Usar Spring para el controlador
-		var videosScene = new Scene(fxmlLoader.load());
-		stage.setScene(videosScene);
-		updateCoachNameLabel(videosScene);
+		fxmlLoader.setControllerFactory(context::getBean);
 
-		setMenuClickListener(videosScene);
-		setOutClickListener(videosScene);
+		Scene videosScene = new Scene(fxmlLoader.load());
+		stage.setScene(videosScene);
+
+		// Configura el cierre para liberar recursos
+		stage.setOnCloseRequest(e -> {
+			VideosController controller = fxmlLoader.getController();
+			controller.cleanup();
+		});
 
 		stage.setTitle("Video Library");
 		stage.show();
