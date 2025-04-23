@@ -40,4 +40,9 @@ public class TournamentServiceImp implements TournamentService{
         // Guardamos el nuevo torneo
         return tournamentRepository.save(newTournament);
     }
+
+    @Override
+    public List<Team> findTeamsByTournamentId(int tournamentId) {
+        return tournamentRepository.findTeamsByTournamentId(tournamentId);
+    }
 }

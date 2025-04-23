@@ -54,7 +54,10 @@ public class TfgApplication extends Application {
 	private User loggedInUser;
 	private ResultsService resultsService;
 	private TeamServImpl teamServ;
+	private TournamentServiceImp tournamentServ;
 	private ResultsController resultsController;
+    @Autowired
+    private TournamentService tournamentService;
 
 
 	public static void main(String[] args) {
@@ -81,6 +84,8 @@ public class TfgApplication extends Application {
 		trainingService = context.getBean(TrainingService.class);
 		resultsService = context.getBean(ResultsService.class);
 		teamServ = context.getBean(TeamServImpl.class);
+		tournamentServ = context.getBean(TournamentServiceImp.class);
+		tournamentService = context.getBean(TournamentService.class);
 		resultsController = context.getBean(ResultsController.class);
 		videosController = context.getBean(VideosController.class);
 
@@ -1053,7 +1058,7 @@ public class TfgApplication extends Application {
 	}
 	private void cargarClasificacionEnTabla(TableView<Team> tablaClasificacion) {
 		try {
-			List<Team> clasificacion = teamServ.findAllOrderedByPosition(); // Si tienes esto
+			List<Team> clasificacion = tournamentService.findTeamsByTournamentId(1); // Si tienes esto
 			ObservableList<Team> datos = FXCollections.observableArrayList(clasificacion);
 			tablaClasificacion.setItems(datos);
 		} catch (Exception e) {
