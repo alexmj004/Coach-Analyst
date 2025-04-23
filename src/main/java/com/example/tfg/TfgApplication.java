@@ -247,6 +247,11 @@ public class TfgApplication extends Application {
 		Scene videosScene = new Scene(fxmlLoader.load());
 		stage.setScene(videosScene);
 
+		setMenuClickListener(videosScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
+		setOutClickListener(videosScene);
+
+		updateCoachNameLabel(videosScene);
+
 		// Configura el cierre para liberar recursos
 		stage.setOnCloseRequest(e -> {
 			VideosController controller = fxmlLoader.getController();
