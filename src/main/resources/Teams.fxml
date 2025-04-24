@@ -84,45 +84,60 @@
       </VBox>
       <VBox fx:id="section_teams" prefHeight="1055.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
-            <HBox alignment="TOP_CENTER" prefHeight="54.0" prefWidth="370.0" spacing="120.0" style="-fx-background-color: #9ab8d6;">
+            <HBox alignment="CENTER" prefHeight="54.0" spacing="180.0" style="-fx-background-color: #9ab8d6">
                <children>
-                  <Text fx:id="clasificationText" fill="#2C3E50" onMouseClicked="#handleClasificationClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="CLASIFICATION" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font name="Arial Bold" size="35.0" />
-                     </font>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="clasificationText" fill="#2C3E50" text="CLASIFICATION" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="25.0" left="-1000.0" top="25.0" />
+                        <Insets bottom="20.0" top="20.0" />
                      </HBox.margin>
-                  </Text>
-                  <Text fx:id="resultsText" fill="#2C3E50" onMouseClicked="#handleResultsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="RESULTS" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font name="Arial Bold" size="35.0" />
-                     </font>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="resultsText" fill="#2C3E50" text="RESULTS" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="25.0" top="25.0" />
+                        <Insets bottom="20.0" top="20.0" />
                      </HBox.margin>
-                  </Text>
-                  <Text fx:id="teamsText" fill="#2C3E50" onMouseClicked="#handleTeamsClick" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="TEAMS" textAlignment="CENTER" underline="true">
-                     <font>
-                        <Font name="Arial Bold" size="35.0" />
-                     </font>
+                  </StackPane>
+                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                     <children>
+                        <Text fx:id="teamsText" fill="#2C3E50" text="TEAMS" textAlignment="CENTER">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="20.0" />
+                           </font>
+                        </Text>
+                     </children>
                      <HBox.margin>
-                        <Insets bottom="25.0" top="25.0" />
+                        <Insets bottom="20.0" top="20.0" />
                      </HBox.margin>
-                  </Text>
+                  </StackPane>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="25.0" right="-770.0" top="25.0" />
+                        <Insets bottom="25.0" left="140.0" right="400.0" top="25.0" />
                      </HBox.margin>
                   </ImageView>
                </children>
+               <padding>
+                  <Insets left="120.0" />
+               </padding>
             </HBox>
 
             <!-- Tabla de equipos -->
-            <TableView fx:id="tablaEquipos" layoutX="50.0" layoutY="100.0" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="850.0" style="-fx-background-color: #2e2e2e; -fx-border-color: #ffffff; -fx-border-width: 1;">
+            <TableView fx:id="tablaEquipos" layoutX="50.0" layoutY="100.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="638.0" prefWidth="850.0" style="-fx-background-color: #2e2e2e; -fx-border-color: #ffffff; -fx-border-width: 1;">
                <columns>
                   <TableColumn fx:id="colEquipo" prefWidth="1275.0" style="-fx-font-size: 30px; -fx-text-fill: black;" text="TEAMS">
                      <cellValueFactory>
@@ -131,7 +146,7 @@
                   </TableColumn>
                </columns>
                <VBox.margin>
-                  <Insets left="50.0" />
+                  <Insets left="240.0" />
                </VBox.margin>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -96,7 +96,7 @@ public class TfgApplication extends Application {
 	// *** INTERFAZ LOGIN ***
 	// Definir el stage de la interfaz login.
 	public void showLoginScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login2.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		var loginScene = new Scene(fxmlLoader.load());
 
 		TextField userField = (TextField) loginScene.lookup("#user");
