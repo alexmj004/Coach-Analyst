@@ -31,6 +31,25 @@ public class ResultsController {
     @Autowired
     private ResultsService resultsService;
 
+    //sobrecarga del método setupResultsView
+    public void setupResultsView(Scene scene, int idEquipo){
+        VBox resultsContainer = (VBox) scene.lookup("#resultsContainer");
+        Label defaultLabel = (Label) scene.lookup("#defaultLabel");
+
+        if (resultsContainer == null) {
+            logger.error("No se encontró el contenedor de resultados en la escena");
+            return;
+        }
+
+        // Eliminar el label de carga si existe
+        if (defaultLabel != null) {
+            resultsContainer.getChildren().remove(defaultLabel);
+        }
+
+        // Cargar y mostrar resultados
+        loadResults(resultsContainer, idEquipo);
+    }
+
     public void setupResultsView(Scene scene) {
         VBox resultsContainer = (VBox) scene.lookup("#resultsContainer");
         Label defaultLabel = (Label) scene.lookup("#defaultLabel");
@@ -49,11 +68,12 @@ public class ResultsController {
         loadResults(resultsContainer);
     }
 
-    private void loadResults(VBox container) {
+    private void loadResults(VBox container, int idEquipo) {
         container.getChildren().clear();
 
         try {
-            List<Match> matches = resultsService.findAll();
+            List<Match> matches = resultsService.findMatchesByTeamsInSameTournaments(idEquipo);
+
 
             if (matches == null || matches.isEmpty()) {
                 Label noResultsLabel = new Label("No hay partidos disponibles");
@@ -76,6 +96,34 @@ public class ResultsController {
         }
     }
 
+    //sobrecarga del metodo
+    private void loadResults(VBox container) {
+        container.getChildren().clear();
+
+        try {
+            // Mostrar todos los partidos cuando no hay equipo específico
+            List<Match> matches = resultsService.findAll();
+
+            if (matches == null || matches.isEmpty()) {
+                Label noResultsLabel = new Label("No hay partidos disponibles");
+                noResultsLabel.setStyle("-fx-text-fill: #2C3E50; -fx-font-size: 20px;");
+                container.getChildren().add(noResultsLabel);
+                return;
+            }
+
+            // Agregar cada partido al contenedor
+            for (Match match : matches) {
+                VBox matchPanel = createMatchPanel(match);
+                container.getChildren().add(matchPanel);
+            }
+
+        } catch (Exception e) {
+            logger.error("Error al cargar los resultados", e);
+            Label errorLabel = new Label("Error al cargar los partidos");
+            errorLabel.setStyle("-fx-text-fill: #e74c3c; -fx-font-size: 20px;");
+            container.getChildren().add(errorLabel);
+        }
+    }
     private VBox createMatchPanel(Match match) {
         VBox matchPanel = new VBox();
         matchPanel.setStyle("-fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 10, 0, 0, 3);");

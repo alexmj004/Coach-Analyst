@@ -88,10 +88,15 @@ public class TfgApplication extends Application {
 		tournamentService = context.getBean(TournamentService.class);
 		resultsController = context.getBean(ResultsController.class);
 		videosController = context.getBean(VideosController.class);
-
-
 	}
 
+	//obtener el id del equipo logueado
+	public int obtenerIdEquipo(){
+		if ( loggedInUser != null && loggedInUser.getTeam() != null){
+			return loggedInUser.getTeam().getId();
+		}
+		throw new NullPointerException("El usuario no está logueado o no tiene equipo asignado");
+	}
 
 	// *** INTERFAZ LOGIN ***
 	// Definir el stage de la interfaz login.
@@ -1084,8 +1089,15 @@ public class TfgApplication extends Application {
 	    // Actualizar el nombre del coach
 	    updateCoachNameLabel(resultsScene);
 
-	    // Usar el controlador para ver los resultados
-		resultsController.setupResultsView(resultsScene);
+	    // Usar el controlador para ver los resultados pasandole el ID del equipo logueado
+		try{
+			int idEquipo = obtenerIdEquipo();
+			resultsController.setupResultsView(resultsScene,idEquipo);
+		}catch (NullPointerException e){
+			//si no hay equipo mostrar todos los partidos
+			resultsController.setupResultsView(resultsScene);
+		}
+
 
 	    // Asignar eventos de la interfaz
 	    setNavigationClickListeners(resultsScene);

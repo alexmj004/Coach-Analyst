@@ -27,4 +27,9 @@ public class ResultsServImp implements ResultsService {
     public List<Match> findByDate_time(Timestamp date_time) {
         return resultsRepository.findByDateTime(date_time);
     }
+
+    @Override
+    public List<Match> findMatchesByTeamsInSameTournaments(int teamId) {
+        return resultsRepository.findMatchesByTeamsInSameTournaments(teamId);
+    }
 }

@@ -11,4 +11,7 @@ public interface ResultsService {
     List<Match> findAll();
 
     List<Match> findByDate_time(java.sql.Timestamp date_time);
+
+    //metodo para encontrar los resultados de los equipos que participan en un torneo concreto
+    List<Match> findMatchesByTeamsInSameTournaments(int teamId);
 }
