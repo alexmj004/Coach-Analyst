@@ -1,6 +1,7 @@
 package com.example.tfg.service;
 
 import com.example.tfg.model.Team;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,9 @@ public interface TeamService {
     Optional<Team> findById(int id);
     List<Team> findAllOrderedByPosition();
     List<Team> findTeamsByTournamentType(String tournamentType);
+
+    List<Team> findTeamsByTeamTournaments(@Param("teamId") int teamId);
+
 
 
 }

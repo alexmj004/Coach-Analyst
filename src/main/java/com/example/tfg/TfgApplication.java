@@ -1132,7 +1132,8 @@ public class TfgApplication extends Application {
 	}
 	private void cargarEquiposEnTabla(TableView<Team> tablaEquipos) {
 		try {
-			List<Team> equipos = teamServ.findAll();
+			Team team = loggedInUser.getTeam();
+			List<Team> equipos = teamServ.findTeamsByTeamTournaments(team.getId());
 			ObservableList<Team> equiposObservable = FXCollections.observableArrayList(equipos);
 			tablaEquipos.setItems(equiposObservable);
 		} catch (Exception e) {

@@ -46,4 +46,9 @@ public class TeamServImpl implements TeamService{
         return teamRepository.findByTournamentsTypeOrderByPositionAsc(tournamentType);
 
     }
+
+    @Override
+    public List<Team> findTeamsByTeamTournaments(int teamId) {
+        return teamRepository.findTeamsByTeamTournaments(teamId);
+    }
 }
