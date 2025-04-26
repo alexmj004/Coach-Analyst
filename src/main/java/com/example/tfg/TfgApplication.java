@@ -1066,7 +1066,8 @@ public class TfgApplication extends Application {
 	}
 	private void cargarClasificacionEnTabla(TableView<Team> tablaClasificacion) {
 		try {
-			List<Team> clasificacion = tournamentService.findTeamsByTournamentId(1); // Si tienes esto
+			Team team = loggedInUser.getTeam();
+			List<Team> clasificacion = tournamentService.findTeamsByTeamTournaments(team.getId()); // Si tienes esto
 			ObservableList<Team> datos = FXCollections.observableArrayList(clasificacion);
 			tablaClasificacion.setItems(datos);
 		} catch (Exception e) {

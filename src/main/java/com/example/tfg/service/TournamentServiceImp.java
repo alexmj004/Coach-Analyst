@@ -45,4 +45,9 @@ public class TournamentServiceImp implements TournamentService{
     public List<Team> findTeamsByTournamentId(int tournamentId) {
         return tournamentRepository.findTeamsByTournamentId(tournamentId);
     }
+
+    @Override
+    public List<Team> findTeamsByTeamTournaments(int teamId) {
+        return tournamentRepository.findTeamsByTeamTournaments(teamId);
+    }
 }
