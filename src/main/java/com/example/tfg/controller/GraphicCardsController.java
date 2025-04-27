@@ -13,6 +13,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,18 +107,22 @@ public class GraphicCardsController {
     }
 
     private void configureChartLayout(StackedBarChart<String, Number> cardsChart) {
-        // Configuración del eje X
+        // Configuración del eje X color de fuente negro
         CategoryAxis xAxis = (CategoryAxis) cardsChart.getXAxis();
         xAxis.setLabel("Players");
-        xAxis.setTickLabelRotation(45);
-        xAxis.setTickLabelFont(new Font(12));
+        xAxis.setTickLabelRotation(25);
+        xAxis.setTickLabelFont(new Font(16));
+        xAxis.setTickLabelFill(Color.BLACK);
         xAxis.setTickLabelGap(5);
+
+
 
         // Configuración del eje Y para mostrar solo números enteros sin duplicados
         NumberAxis yAxis = (NumberAxis) cardsChart.getYAxis();
         yAxis.setLabel("Cards");
         yAxis.setAutoRanging(false); // Desactivar autoajuste
         yAxis.setLowerBound(0); // Empezar desde 0
+        yAxis.setTickLabelFill(Color.BLACK);
 
 // Calcular el valor máximo para el límite superior
         Platform.runLater(() -> {
@@ -161,7 +166,7 @@ public class GraphicCardsController {
 
         // Configurar leyenda
         cardsChart.setLegendVisible(false);
-        cardsChart.setLegendSide(Side.RIGHT); // Cambiar a TOP para más espacio horizontal
+        cardsChart.setLegendSide(Side.RIGHT);
 
         // Título
         cardsChart.setTitle("Cards per Player");
@@ -180,13 +185,13 @@ public class GraphicCardsController {
             Node xAxisLabel = xAxis.lookup(".axis-label");
             if (xAxisLabel instanceof Label) {
                 ((Label) xAxisLabel).setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
-                ((Label) xAxisLabel).setTextFill(javafx.scene.paint.Color.WHITE);
+                ((Label) xAxisLabel).setTextFill(Color.BLACK);
             }
 
             Node yAxisLabel = yAxis.lookup(".axis-label");
             if (yAxisLabel instanceof Label) {
                 ((Label) yAxisLabel).setStyle("-fx-font-weight: bold; -fx-font-size: 18px;");
-                ((Label) yAxisLabel).setTextFill(javafx.scene.paint.Color.WHITE);
+                ((Label) yAxisLabel).setTextFill(Color.BLACK);
             }
 
             // Forzar actualización del gráfico

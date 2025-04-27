@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -651,20 +652,21 @@ public class TfgApplication extends Application {
 		// Configuración del eje X
 		CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
 		xAxis.setLabel("Players");
-		xAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
-		xAxis.setTickLabelFont(Font.font(10));
 		xAxis.setTickLabelRotation(270);
 		xAxis.setStartMargin(0);
 		xAxis.setEndMargin(0);
+		xAxis.setTickLabelFont(Font.font(16));
+		xAxis.setTickLabelFill(Color.BLACK);
 
 		// Configuración del eje Y (0-40, incrementos de 5 con líneas intermedias)
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Goals");
-		yAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
 		yAxis.setAutoRanging(false);
 		yAxis.setLowerBound(0);
 		yAxis.setUpperBound(40);
 		yAxis.setTickUnit(5);
+		yAxis.setTickLabelFont(Font.font(20));
+		yAxis.setTickLabelFill(Color.BLACK);
 
 		// Configuración para líneas de cuadrícula intermedias
 		yAxis.setMinorTickCount(4);       // 4 líneas menores entre cada tick principal (5/5=1)
@@ -814,15 +816,15 @@ public class TfgApplication extends Application {
 		CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
 		xAxis.setLabel("Players");
 		xAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
-		xAxis.setTickLabelFont(Font.font(10));
 		xAxis.setTickLabelRotation(270);
 		xAxis.setStartMargin(0);
 		xAxis.setEndMargin(0);
+		xAxis.setTickLabelFont(Font.font(16));
+		xAxis.setTickLabelFill(Color.BLACK);
 
 		// Configuración del eje Y (0-30, incrementos de 5 con líneas intermedias)
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Assists");
-		yAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
 		yAxis.setAutoRanging(false);
 		yAxis.setLowerBound(0);
 		yAxis.setUpperBound(30);
@@ -830,6 +832,8 @@ public class TfgApplication extends Application {
 		yAxis.setMinorTickCount(4);
 		yAxis.setMinorTickLength(5);
 		yAxis.setTickMarkVisible(true);
+		yAxis.setTickLabelFont(Font.font(20));
+		yAxis.setTickLabelFill(Color.BLACK);
 
 		// Estilo CSS para las líneas de cuadrícula
 		barChart.setStyle("""
@@ -1025,16 +1029,16 @@ public class TfgApplication extends Application {
 		// Configuración del eje X
 		CategoryAxis xAxis = (CategoryAxis) barChart.getXAxis();
 		xAxis.setLabel("Goalkeepers");
-		xAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
-		xAxis.setTickLabelFont(Font.font(10));
 		xAxis.setTickLabelRotation(270);
 		xAxis.setStartMargin(0);
 		xAxis.setEndMargin(0);
+		xAxis.setTickLabelFont(Font.font(16));
+		xAxis.setTickLabelFill(Color.BLACK);
 
 		// Configuración del eje Y (0-100, incrementos de 10 con líneas intermedias)
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Saves");
-		yAxis.setTickLabelFill(Paint.valueOf("#f4f2f2"));
+		yAxis.setTickLabelFont(Font.font(20));
 		yAxis.setAutoRanging(false);
 		yAxis.setLowerBound(0);
 		yAxis.setUpperBound(100);
@@ -1042,6 +1046,8 @@ public class TfgApplication extends Application {
 		yAxis.setMinorTickCount(4);
 		yAxis.setMinorTickLength(5);
 		yAxis.setTickMarkVisible(true);
+		yAxis.setTickLabelFont(Font.font(20));
+		yAxis.setTickLabelFill(Color.BLACK);
 
 		// Estilo CSS para las líneas de cuadrícula
 		barChart.setStyle("""
