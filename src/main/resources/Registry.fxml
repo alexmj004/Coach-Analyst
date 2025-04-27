@@ -12,34 +12,33 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<SplitPane dividerPositions="0.4" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <VBox prefHeight="200.0" prefWidth="100.0" spacing="80.0" style="-fx-background-color: #9ab8d6;">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="80.0" style="-fx-background-color: #9ab8d6;">
          <children>
-            <ImageView fitHeight="764.0" fitWidth="808.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="491.0" fitWidth="503.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logo.png" />
                </image>
             </ImageView>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                <children>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/futbolista1.webp" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/futbolista2.webp" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/futbolista1.webp" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/futbolista2.webp" />
                      </image>
@@ -47,10 +46,13 @@
                </children>
             </HBox>
          </children>
+         <padding>
+            <Insets top="10.0" />
+         </padding>
       </VBox>
-      <VBox alignment="CENTER" style="-fx-background-color: #ECF0F1;">
+      <VBox style="-fx-background-color: #ECF0F1;">
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name" wrappingWidth="100.0">
                      <font>
@@ -67,7 +69,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Surname" wrappingWidth="100.0">
                      <font>
@@ -81,7 +83,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="100.0">
                      <font>
@@ -95,7 +97,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User Name" wrappingWidth="100.0">
                      <font>
@@ -109,7 +111,7 @@
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="100.0">
                      <font>
@@ -123,8 +125,23 @@
                   </PasswordField>
                </children>
             </HBox>
-            <Button fx:id="registry_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px;" text="Registry" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+               <children>
+                  <Button fx:id="cancel_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px; -fx-background-color: #E74C3C; -fx-font-weight: bolder;" text="Cancel">
+                     <HBox.margin>
+                        <Insets right="200.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="registry_btn" maxWidth="600.0" minWidth="200.0" mnemonicParsing="false" prefHeight="40.0" style="-fx-font-size: 20px; -fx-font-weight: bolder; -fx-background-color: #3498DB;" text="Registry" />
+               </children>
+            </HBox>
          </children>
+         <padding>
+            <Insets left="50.0" top="100.0" />
+         </padding>
       </VBox>
    </items>
 </SplitPane>
