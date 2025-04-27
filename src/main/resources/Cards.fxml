@@ -82,7 +82,7 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_cards" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1080.0">
+      <VBox fx:id="section_cards" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1080.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <HBox alignment="CENTER" prefHeight="54.0" spacing="160.0" style="-fx-background-color: #9ab8d6">
                <children>
@@ -149,7 +149,7 @@
             </HBox>
             <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1178.0">
                <children>
-                  <StackedBarChart fx:id="graphic_cards" prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #7c87a0;" title="CARDS">
+                  <StackedBarChart fx:id="graphic_cards" prefHeight="600.0" prefWidth="850.0" title="CARDS">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" tickLabelFill="WHITE">
                            <tickLabelFont>
