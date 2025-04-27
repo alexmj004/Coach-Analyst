@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
@@ -22,6 +23,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -34,7 +37,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @SpringBootApplication
@@ -102,23 +107,49 @@ public class TfgApplication extends Application {
 	// Definir el stage de la interfaz login.
 	public void showLoginScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-		var loginScene = new Scene(fxmlLoader.load());
+		Parent root = fxmlLoader.load();
+		Scene loginScene = new Scene(root);
 
-		TextField userField = (TextField) loginScene.lookup("#user");
-		PasswordField passField = (PasswordField) loginScene.lookup("#pass");
+		// 1. Acceder al HBox (tercer hijo del StackPane)
+		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
 
-		Button loginButton = (Button) loginScene.lookup("#login_btn");
+		// 2. Acceder al VBox blanco (segundo hijo del HBox)
+		VBox vbox = (VBox) hbox.getChildren().get(1);
+
+		// 3. Buscar el botón por ID en el VBox
+		Button newUserButton = null;
+		for (Node node : vbox.getChildren()) {
+			if (node instanceof Button && "newUser".equals(node.getId())) {
+				newUserButton = (Button) node;
+				break;
+			}
+		}
+
+		// Verificación
+		if (newUserButton == null) {
+			throw new RuntimeException("Error crítico: No se encontró el botón 'newUser' en la jerarquía");
+		}
+
+		// Configurar acción del botón
+		newUserButton.setOnAction(e -> {
+            try {
+                handleNewUserButtonAction(stage);
+            } catch (IOException ex) {
+				System.out.println(e.getEventType());
+            }
+        });
+
+		// Configurar los demás elementos (userField, passField, loginButton)
+		TextField userField = (TextField) vbox.lookup("#user");
+		PasswordField passField = (PasswordField) vbox.lookup("#pass");
+		Button loginButton = (Button) vbox.lookup("#login_btn");
+
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
-
-		//TODO cambiar el boton de nuevo usuario por un TExt
-		Button newUserButton = (Button) loginScene.lookup("#newUser");
-		newUserButton.setOnAction(e -> handleNewUserButtonAction(stage));
 
 		stage.setScene(loginScene);
 		stage.setTitle("Inicio de sesión");
 		stage.show();
-	}
-	// Funcionalidad para manejar el botón de login
+	}	// Funcionalidad para manejar el botón de login
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
 		inputUserName = userField.getText();
 		inputPassword = passField.getText();
@@ -163,15 +194,68 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 	// Funcionalidad para manejar el botón de nuevo usuario.
-	private void handleNewUserButtonAction(Stage stage) {
-		try {
-			showRegistryScene(stage);
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void handleNewUserButtonAction(Stage stage) throws IOException {
+		// 1. Cargar el FXML
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
+		Parent root = fxmlLoader.load();
+
+		// 2. Acceder al SplitPane (nodo raíz)
+		SplitPane splitPane = (SplitPane) root;
+
+		// 3. Acceder al VBox derecho (segundo ítem del SplitPane)
+		VBox rightVBox = (VBox) splitPane.getItems().get(1);
+
+		// 4. Buscar el botón en el VBox derecho
+		Button registryButton = null;
+		for (Node node : rightVBox.getChildren()) {
+			if (node instanceof Button && "registry_btn".equals(node.getId())) {
+				registryButton = (Button) node;
+				break;
+			}
 		}
-	}
-	// Funcionalidad registro de cada campo.
-	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
+
+		// 5. Validar que se encontró el botón
+		if (registryButton == null) {
+			// Depuración adicional
+			System.out.println("Elementos en rightVBox:");
+			rightVBox.getChildren().forEach(node ->
+					System.out.println(node.getClass().getSimpleName() + " - ID: " + node.getId()));
+
+			throw new RuntimeException("El botón 'registry_btn' no fue encontrado en la jerarquía");
+		}
+
+		// 6. Configurar acción del botón
+		registryButton.setOnAction(e -> {
+			// Obtener todos los campos de texto
+			Map<String, TextField> fields = new HashMap<>();
+			rightVBox.getChildren().forEach(node -> {
+				if (node instanceof HBox) {
+					((HBox) node).getChildren().forEach(child -> {
+						if (child instanceof TextField && child.getId() != null) {
+							fields.put(child.getId(), (TextField) child);
+						}
+						if (child instanceof PasswordField && child.getId() != null) {
+							fields.put(child.getId(), (TextField) child);
+						}
+					});
+				}
+			});
+
+			handleRegistryButtonAction(
+					fields.get("name_field"),
+					fields.get("surname_field"),
+					fields.get("email_field"),
+					fields.get("username_field"),
+					(PasswordField) fields.get("password_field"),
+					stage
+			);
+		});
+
+		// 7. Mostrar la escena
+		stage.setScene(new Scene(root));
+		stage.setTitle("Registro de Usuario");
+		stage.show();
+	}	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
 		String name = nameField.getText();
 		String surname = surnameField.getText();
 		String email = emailField.getText();
