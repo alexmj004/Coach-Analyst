@@ -109,7 +109,22 @@ public class TfgApplication extends Application {
 	public void showLoginScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		Parent root = fxmlLoader.load();
+
+		// Obtener el tamaño actual de la ventana antes de cambiar la escena
+		boolean wasMaximized = stage.isMaximized();
+		double currentWidth = stage.getWidth();
+		double currentHeight = stage.getHeight();
 		Scene loginScene = new Scene(root);
+		stage.setScene(loginScene);
+
+
+		// Restaurar el tamaño anterior o maximizar
+		if (wasMaximized) {
+			stage.setMaximized(true);
+		} else {
+			stage.setWidth(currentWidth);
+			stage.setHeight(currentHeight);
+		}
 
 		// 1. Acceder al HBox (tercer hijo del StackPane)
 		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
@@ -147,7 +162,6 @@ public class TfgApplication extends Application {
 
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
 
-		stage.setScene(loginScene);
 		stage.setTitle("Inicio de sesión");
 		stage.show();
 	}	// Funcionalidad para manejar el botón de login
@@ -213,12 +227,20 @@ public class TfgApplication extends Application {
 	private void handleNewUserButtonAction(Stage stage) throws IOException {
 		// 1. Cargar el FXML
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
-		SplitPane root = (SplitPane) fxmlLoader.load();
+		Parent root = fxmlLoader.load();
 
-		// 2. Acceder al VBox derecho
-		VBox rightVBox = (VBox) root.getItems().get(1);
+		// Obtener el tamaño actual de la ventana antes de cambiar la escena
+		boolean wasMaximized = stage.isMaximized();
+		double currentWidth = stage.getWidth();
+		double currentHeight = stage.getHeight();
 
-		// 3. Buscar todos los componentes necesarios
+		// 2. Acceder al SplitPane (root es un SplitPane en Registry.fxml)
+		SplitPane splitPane = (SplitPane) root;
+
+		// 3. Acceder al VBox derecho (segundo elemento del SplitPane)
+		VBox rightVBox = (VBox) splitPane.getItems().get(1);
+
+		// 4. Buscar todos los componentes necesarios
 		TextField nameField = findTextFieldInVBox(rightVBox, "name_field");
 		TextField surnameField = findTextFieldInVBox(rightVBox, "surname_field");
 		TextField emailField = findTextFieldInVBox(rightVBox, "email_field");
@@ -227,7 +249,7 @@ public class TfgApplication extends Application {
 		Button registryButton = findButtonInVBox(rightVBox, "registry_btn");
 		Button cancelButton = findButtonInVBox(rightVBox, "cancel_btn");
 
-		// 4. Configurar acciones de los botones
+		// 5. Configurar acciones de los botones
 		registryButton.setOnAction(e -> handleRegistryButtonAction(
 				nameField, surnameField, emailField, usernameField, passwordField, stage
 		));
@@ -241,12 +263,21 @@ public class TfgApplication extends Application {
 			}
 		});
 
-		// 5. Mostrar la escena
-		stage.setScene(new Scene(root));
+		// Crear nueva escena y configurar stage
+		Scene registryScene = new Scene(root);
+		stage.setScene(registryScene);
+
+		// Restaurar el tamaño anterior o maximizar
+		if (wasMaximized) {
+			stage.setMaximized(true);
+		} else {
+			stage.setWidth(currentWidth);
+			stage.setHeight(currentHeight);
+		}
+
 		stage.setTitle("Registro de Usuario");
 		stage.show();
-	}
-	// Métodos auxiliares específicos para buscar en VBox
+	}	// Métodos auxiliares específicos para buscar en VBox
 	private TextField findTextFieldInVBox(VBox vbox, String id) {
 		for (Node node : vbox.getChildren()) {
 			if (node instanceof HBox) {
