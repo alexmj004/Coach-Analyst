@@ -179,118 +179,119 @@ public class TfgApplication extends Application {
 	// Definir el stage de la interfaz registry.
 	public void showRegistryScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
-		var registryScene = new Scene(fxmlLoader.load());
+		Parent root = fxmlLoader.load();
+		Scene registryScene = new Scene(root);
 
+		// Obtener referencias a los campos directamente desde la escena
 		TextField nameField = (TextField) registryScene.lookup("#name_field");
 		TextField surnameField = (TextField) registryScene.lookup("#surname_field");
 		TextField emailField = (TextField) registryScene.lookup("#email_field");
 		TextField usernameField = (TextField) registryScene.lookup("#username_field");
 		PasswordField passwordField = (PasswordField) registryScene.lookup("#password_field");
 
+		// Configurar botón de registro
 		Button registryButton = (Button) registryScene.lookup("#registry_btn");
-		registryButton.setOnAction(e -> handleRegistryButtonAction(nameField, surnameField, emailField, usernameField, passwordField, stage));
+		registryButton.setOnAction(e -> handleRegistryButtonAction(
+				nameField, surnameField, emailField, usernameField, passwordField, stage
+		));
+
+		// Configurar botón de cancelar
+		Button cancelButton = (Button) registryScene.lookup("#cancel_btn");
+		cancelButton.setOnAction(e -> {
+			try {
+				showLoginScene(stage);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+				showAlert("Error", "No se pudo cargar la pantalla de login");
+			}
+		});
 
 		stage.setScene(registryScene);
 		stage.setTitle("Registro de Usuario");
 		stage.show();
 	}
-	// Funcionalidad para manejar el botón de nuevo usuario.
 	private void handleNewUserButtonAction(Stage stage) throws IOException {
 		// 1. Cargar el FXML
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
-		SplitPane root = (SplitPane) fxmlLoader.load(); // Cambiado a SplitPane
+		SplitPane root = (SplitPane) fxmlLoader.load();
 
-		// 2. Acceder al VBox derecho (segundo elemento del SplitPane)
+		// 2. Acceder al VBox derecho
 		VBox rightVBox = (VBox) root.getItems().get(1);
 
-		// 3. Buscar los campos en el VBox derecho
-		TextField nameField = null;
-		TextField surnameField = null;
-		TextField emailField = null;
-		TextField usernameField = null;
-		PasswordField passwordField = null;
-		Button registryButton = null;
-		Button cancelButton = null;
+		// 3. Buscar todos los componentes necesarios
+		TextField nameField = findTextFieldInVBox(rightVBox, "name_field");
+		TextField surnameField = findTextFieldInVBox(rightVBox, "surname_field");
+		TextField emailField = findTextFieldInVBox(rightVBox, "email_field");
+		TextField usernameField = findTextFieldInVBox(rightVBox, "username_field");
+		PasswordField passwordField = findPasswordFieldInVBox(rightVBox, "password_field");
+		Button registryButton = findButtonInVBox(rightVBox, "registry_btn");
+		Button cancelButton = findButtonInVBox(rightVBox, "cancel_btn");
 
-		// Recorrer todos los nodos hijos del VBox
-		for (Node node : rightVBox.getChildren()) {
-			if (node instanceof HBox) {
-				HBox hbox = (HBox) node;
-				for (Node child : hbox.getChildren()) {
-					if (child instanceof TextField && "name_field".equals(child.getId())) {
-						nameField = (TextField) child;
-					} else if (child instanceof TextField && "surname_field".equals(child.getId())) {
-						surnameField = (TextField) child;
-					} else if (child instanceof TextField && "email_field".equals(child.getId())) {
-						emailField = (TextField) child;
-					} else if (child instanceof TextField && "username_field".equals(child.getId())) {
-						usernameField = (TextField) child;
-					} else if (child instanceof PasswordField && "password_field".equals(child.getId())) {
-						passwordField = (PasswordField) child;
-					} else if (child instanceof Button && "registry_btn".equals(child.getId())) {
-						registryButton = (Button) child;
-					} else if (child instanceof Button && "cancel_btn".equals(child.getId())) {
-						cancelButton = (Button) child;
-					}
-				}
-			}
-		}
-
-		// 4. Verificar que todos los campos se encontraron
-		if (nameField == null || surnameField == null || emailField == null ||
-				usernameField == null || passwordField == null ||
-				registryButton == null || cancelButton == null) {
-
-			System.out.println("Elementos no encontrados:");
-			System.out.println("name_field: " + (nameField != null));
-			System.out.println("surname_field: " + (surnameField != null));
-			System.out.println("email_field: " + (emailField != null));
-			System.out.println("username_field: " + (usernameField != null));
-			System.out.println("password_field: " + (passwordField != null));
-			System.out.println("registry_btn: " + (registryButton != null));
-			System.out.println("cancel_btn: " + (cancelButton != null));
-
-			throw new RuntimeException("No se pudieron encontrar todos los elementos necesarios");
-		}
-
-		// 5. Configurar acciones de los botones
-		TextField finalNameField = nameField;
-		TextField finalSurnameField = surnameField;
-		TextField finalEmailField = emailField;
-		TextField finalUsernameField = usernameField;
-		PasswordField finalPasswordField = passwordField;
+		// 4. Configurar acciones de los botones
 		registryButton.setOnAction(e -> handleRegistryButtonAction(
-				finalNameField,
-				finalSurnameField,
-				finalEmailField,
-				finalUsernameField,
-				finalPasswordField,
-				stage
+				nameField, surnameField, emailField, usernameField, passwordField, stage
 		));
 
 		cancelButton.setOnAction(e -> {
 			try {
 				showLoginScene(stage);
 			} catch (IOException ex) {
-				ex.printStackTrace();
+				logger.error("Error al cargar login", ex);
+				showAlert("Error", "No se pudo cargar la pantalla de login");
 			}
 		});
 
-		// 6. Mostrar la escena
-		Scene registryScene = new Scene(root);
-		stage.setScene(registryScene);
+		// 5. Mostrar la escena
+		stage.setScene(new Scene(root));
 		stage.setTitle("Registro de Usuario");
 		stage.show();
 	}
-	// Métodos auxiliares para buscar componentes con verificación
-	private TextField lookupField(Parent root, String selector) {
-		TextField field = (TextField) root.lookup(selector);
-		if (field == null) {
-			logger.error("No se encontró el campo: " + selector);
-			printNodeHierarchy(root, 0);
-			throw new RuntimeException("Campo no encontrado: " + selector);
+	// Métodos auxiliares específicos para buscar en VBox
+	private TextField findTextFieldInVBox(VBox vbox, String id) {
+		for (Node node : vbox.getChildren()) {
+			if (node instanceof HBox) {
+				for (Node child : ((HBox) node).getChildren()) {
+					if (child instanceof TextField && id.equals(child.getId())) {
+						return (TextField) child;
+					}
+				}
+			}
 		}
-		return field;
+		throw new RuntimeException("No se encontró el TextField con id: " + id);
+	}
+
+
+// Métodos similares para PasswordField y Button
+	/**
+	 * Busca un PasswordField dentro de un VBox por su ID
+	 */
+	private PasswordField findPasswordFieldInVBox(VBox vbox, String id) {
+		for (Node node : vbox.getChildren()) {
+			if (node instanceof HBox) {
+				for (Node child : ((HBox) node).getChildren()) {
+					if (child instanceof PasswordField && id.equals(child.getId())) {
+						return (PasswordField) child;
+					}
+				}
+			}
+		}
+		throw new RuntimeException("No se encontró el PasswordField con id: " + id);
+	}
+
+	/**
+	 * Busca un Button dentro de un VBox por su ID
+	 */
+	private Button findButtonInVBox(VBox vbox, String id) {
+		for (Node node : vbox.getChildren()) {
+			if (node instanceof HBox) {
+				for (Node child : ((HBox) node).getChildren()) {
+					if (child instanceof Button && id.equals(child.getId())) {
+						return (Button) child;
+					}
+				}
+			}
+		}
+		throw new RuntimeException("No se encontró el Button con id: " + id);
 	}
 
 	private Button lookupButton(Parent root, String selector) {

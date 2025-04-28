@@ -66,6 +66,9 @@
                      <font>
                         <Font size="20.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
                   </TextField>
                </children>
             </HBox>
