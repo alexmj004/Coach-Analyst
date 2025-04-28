@@ -198,64 +198,127 @@ public class TfgApplication extends Application {
 	private void handleNewUserButtonAction(Stage stage) throws IOException {
 		// 1. Cargar el FXML
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
-		Parent root = fxmlLoader.load();
+		SplitPane root = (SplitPane) fxmlLoader.load(); // Cambiado a SplitPane
 
-		// 2. Acceder al SplitPane (nodo raíz)
-		SplitPane splitPane = (SplitPane) root;
+		// 2. Acceder al VBox derecho (segundo elemento del SplitPane)
+		VBox rightVBox = (VBox) root.getItems().get(1);
 
-		// 3. Acceder al VBox derecho (segundo ítem del SplitPane)
-		VBox rightVBox = (VBox) splitPane.getItems().get(1);
-
-		// 4. Buscar el botón en el VBox derecho
+		// 3. Buscar los campos en el VBox derecho
+		TextField nameField = null;
+		TextField surnameField = null;
+		TextField emailField = null;
+		TextField usernameField = null;
+		PasswordField passwordField = null;
 		Button registryButton = null;
+		Button cancelButton = null;
+
+		// Recorrer todos los nodos hijos del VBox
 		for (Node node : rightVBox.getChildren()) {
-			if (node instanceof Button && "registry_btn".equals(node.getId())) {
-				registryButton = (Button) node;
-				break;
+			if (node instanceof HBox) {
+				HBox hbox = (HBox) node;
+				for (Node child : hbox.getChildren()) {
+					if (child instanceof TextField && "name_field".equals(child.getId())) {
+						nameField = (TextField) child;
+					} else if (child instanceof TextField && "surname_field".equals(child.getId())) {
+						surnameField = (TextField) child;
+					} else if (child instanceof TextField && "email_field".equals(child.getId())) {
+						emailField = (TextField) child;
+					} else if (child instanceof TextField && "username_field".equals(child.getId())) {
+						usernameField = (TextField) child;
+					} else if (child instanceof PasswordField && "password_field".equals(child.getId())) {
+						passwordField = (PasswordField) child;
+					} else if (child instanceof Button && "registry_btn".equals(child.getId())) {
+						registryButton = (Button) child;
+					} else if (child instanceof Button && "cancel_btn".equals(child.getId())) {
+						cancelButton = (Button) child;
+					}
+				}
 			}
 		}
 
-		// 5. Validar que se encontró el botón
-		if (registryButton == null) {
-			// Depuración adicional
-			System.out.println("Elementos en rightVBox:");
-			rightVBox.getChildren().forEach(node ->
-					System.out.println(node.getClass().getSimpleName() + " - ID: " + node.getId()));
+		// 4. Verificar que todos los campos se encontraron
+		if (nameField == null || surnameField == null || emailField == null ||
+				usernameField == null || passwordField == null ||
+				registryButton == null || cancelButton == null) {
 
-			throw new RuntimeException("El botón 'registry_btn' no fue encontrado en la jerarquía");
+			System.out.println("Elementos no encontrados:");
+			System.out.println("name_field: " + (nameField != null));
+			System.out.println("surname_field: " + (surnameField != null));
+			System.out.println("email_field: " + (emailField != null));
+			System.out.println("username_field: " + (usernameField != null));
+			System.out.println("password_field: " + (passwordField != null));
+			System.out.println("registry_btn: " + (registryButton != null));
+			System.out.println("cancel_btn: " + (cancelButton != null));
+
+			throw new RuntimeException("No se pudieron encontrar todos los elementos necesarios");
 		}
 
-		// 6. Configurar acción del botón
-		registryButton.setOnAction(e -> {
-			// Obtener todos los campos de texto
-			Map<String, TextField> fields = new HashMap<>();
-			rightVBox.getChildren().forEach(node -> {
-				if (node instanceof HBox) {
-					((HBox) node).getChildren().forEach(child -> {
-						if (child instanceof TextField && child.getId() != null) {
-							fields.put(child.getId(), (TextField) child);
-						}
-						if (child instanceof PasswordField && child.getId() != null) {
-							fields.put(child.getId(), (TextField) child);
-						}
-					});
-				}
-			});
+		// 5. Configurar acciones de los botones
+		TextField finalNameField = nameField;
+		TextField finalSurnameField = surnameField;
+		TextField finalEmailField = emailField;
+		TextField finalUsernameField = usernameField;
+		PasswordField finalPasswordField = passwordField;
+		registryButton.setOnAction(e -> handleRegistryButtonAction(
+				finalNameField,
+				finalSurnameField,
+				finalEmailField,
+				finalUsernameField,
+				finalPasswordField,
+				stage
+		));
 
-			handleRegistryButtonAction(
-					fields.get("name_field"),
-					fields.get("surname_field"),
-					fields.get("email_field"),
-					fields.get("username_field"),
-					(PasswordField) fields.get("password_field"),
-					stage
-			);
+		cancelButton.setOnAction(e -> {
+			try {
+				showLoginScene(stage);
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		});
 
-		// 7. Mostrar la escena
-		stage.setScene(new Scene(root));
+		// 6. Mostrar la escena
+		Scene registryScene = new Scene(root);
+		stage.setScene(registryScene);
 		stage.setTitle("Registro de Usuario");
 		stage.show();
+	}
+	// Métodos auxiliares para buscar componentes con verificación
+	private TextField lookupField(Parent root, String selector) {
+		TextField field = (TextField) root.lookup(selector);
+		if (field == null) {
+			logger.error("No se encontró el campo: " + selector);
+			printNodeHierarchy(root, 0);
+			throw new RuntimeException("Campo no encontrado: " + selector);
+		}
+		return field;
+	}
+
+	private Button lookupButton(Parent root, String selector) {
+		Button button = (Button) root.lookup(selector);
+		if (button == null) {
+			logger.error("No se encontró el botón: " + selector);
+			printNodeHierarchy(root, 0);
+			throw new RuntimeException("Botón no encontrado: " + selector);
+		}
+		return button;
+	}
+
+	// Método para depuración de la jerarquía de nodos
+	private void printNodeHierarchy(Node node, int level) {
+		StringBuilder indent = new StringBuilder();
+		for (int i = 0; i < level; i++) {
+			indent.append("  ");
+		}
+
+		System.out.println(indent + node.getClass().getSimpleName() +
+				" - ID: " + node.getId() +
+				" - StyleClass: " + node.getStyleClass());
+
+		if (node instanceof Parent) {
+			for (Node child : ((Parent) node).getChildrenUnmodifiable()) {
+				printNodeHierarchy(child, level + 1);
+			}
+		}
 	}	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
 		String name = nameField.getText();
 		String surname = surnameField.getText();
