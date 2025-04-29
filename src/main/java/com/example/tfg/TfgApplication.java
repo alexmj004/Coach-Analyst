@@ -115,16 +115,18 @@ public class TfgApplication extends Application {
 		double currentWidth = stage.getWidth();
 		double currentHeight = stage.getHeight();
 		Scene loginScene = new Scene(root);
+		stage.setMaximized(true);
 		stage.setScene(loginScene);
 
 
-		// Restaurar el tamaño anterior o maximizar
+
+		/*// Restaurar el tamaño anterior o maximizar
 		if (wasMaximized) {
 			stage.setMaximized(true);
 		} else {
 			stage.setWidth(currentWidth);
 			stage.setHeight(currentHeight);
-		}
+		}*/
 
 		// 1. Acceder al HBox (tercer hijo del StackPane)
 		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
