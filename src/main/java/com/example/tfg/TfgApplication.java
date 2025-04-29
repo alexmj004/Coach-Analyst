@@ -64,6 +64,12 @@ public class TfgApplication extends Application {
 	private ResultsController resultsController;
     @Autowired
     private TournamentService tournamentService;
+	//variables interfaz match
+	private String selectedGk;
+	private String selectedDf;
+	private String selectedPiv;
+	private String selectedLw;
+	private String selectedRw;
 
 
 	public static void main(String[] args) {
@@ -507,12 +513,115 @@ public class TfgApplication extends Application {
 		// Configurar los ComboBox con jugadores por posición
 		setupMatchComboboxes(matchScene);
 
+		//restaurar selecciones previas
+		restoreMatchSelections(matchScene);
+
+		//listeners para guardar las selecciones
+		setupSelectionListeners(matchScene);
+
 		setMenuClickListener(matchScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
 		setOutClickListener(matchScene);
 
 		stage.setTitle("Partidos");
 		stage.show();
 	}
+
+	// metodo para configurar los listeners que guardan las selecciones
+	private void setupSelectionListeners(Scene scene) {
+		ComboBox<String> gkComboBox = (ComboBox<String>) scene.lookup("#box_gk");
+		if (gkComboBox != null) {
+			gkComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+				if (newVal != null) {
+					selectedGk = newVal;
+				}
+			});
+		}
+
+		ComboBox<String> dfComboBox = (ComboBox<String>) scene.lookup("#box_df");
+		if (dfComboBox != null) {
+			dfComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+				if (newVal != null) {
+					selectedDf = newVal;
+				}
+			});
+		}
+
+		ComboBox<String> pivComboBox = (ComboBox<String>) scene.lookup("#box_pivot");
+		if (pivComboBox != null) {
+			pivComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+				if (newVal != null) {
+					selectedPiv = newVal;
+				}
+			});
+		}
+
+		ComboBox<String> wardsComboBox = (ComboBox<String>) scene.lookup("#box_wards");
+		if (wardsComboBox != null) {
+			wardsComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+				if (newVal != null) {
+					if (newVal.contains("(LW)")) {
+						selectedLw = newVal;
+					} else if (newVal.contains("(RW)")) {
+						selectedRw = newVal;
+					}
+				}
+			});
+		}
+	}
+
+	// Metodo para restaurar las selecciones guardadas
+	private void restoreMatchSelections(Scene scene) {
+		// Restaurar portero
+		if (selectedGk != null) {
+			ComboBox<String> gkComboBox = (ComboBox<String>) scene.lookup("#box_gk");
+			if (gkComboBox != null) {
+				gkComboBox.setValue(selectedGk);
+				updateLabel(gkComboBox, (Label) scene.lookup("#label_gk"));
+			}
+		}
+
+		// Restaurar defensa
+		if (selectedDf != null) {
+			ComboBox<String> dfComboBox = (ComboBox<String>) scene.lookup("#box_df");
+			if (dfComboBox != null) {
+				dfComboBox.setValue(selectedDf);
+				updateLabel(dfComboBox, (Label) scene.lookup("#label_df"));
+			}
+		}
+
+		// Restaurar pivot
+		if (selectedPiv != null) {
+			ComboBox<String> pivComboBox = (ComboBox<String>) scene.lookup("#box_pivot");
+			if (pivComboBox != null) {
+				pivComboBox.setValue(selectedPiv);
+				updateLabel(pivComboBox, (Label) scene.lookup("#label_piv"));
+			}
+		}
+
+		// Restaurar extremos
+		Label labelLw = (Label) scene.lookup("#label_lw");
+		Label labelRw = (Label) scene.lookup("#label_rw");
+
+		// Restaurar LW
+		if (selectedLw != null && labelLw != null) {
+			String apodo = selectedLw.replace(" (LW)", "");
+			Player player = playerServiceImpl.findByApodo(apodo);
+			if (player != null) {
+				labelLw.setText(String.format("%s (%d)", player.getApodo(), player.getDorsal()));
+			}
+		}
+
+		// Restaurar RW
+		if (selectedRw != null && labelRw != null) {
+			String apodo = selectedRw.replace(" (RW)", "");
+			Player player = playerServiceImpl.findByApodo(apodo);
+			if (player != null) {
+				labelRw.setText(String.format("%s (%d)", player.getApodo(), player.getDorsal()));
+			}
+		}
+	}
+
+
 	private void handleMatchButtonAction(Stage stage) {
 		try {
 			showMatchScene(stage);  // Llama a la escena de partidos
@@ -1444,8 +1553,16 @@ public class TfgApplication extends Application {
 	}
 	public void handleImgOutClick(MouseEvent event) {
 		try {
+			//reniniciar variables
 			inputUserName = null; // Reiniciar la variable username
 			inputPassword = null; // Reiniciar la variable username
+
+			//limpiar selecciones de MATCH
+			selectedGk = null;
+			selectedDf = null;
+			selectedPiv = null;
+			selectedLw = null;
+			selectedRw = null;
 
 			showLoginScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());  // Volver a la pantalla de login
 		} catch (Exception e) {
