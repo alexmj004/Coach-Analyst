@@ -89,19 +89,14 @@
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: #9ab8d6;">
                <children>
-                  <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" text="NEXT MATCH VS">
-                     <font>
-                        <Font name="Arial Bold" size="30.0" />
-                     </font>
-                  </Text>
-                  <Label fx:id="rival" prefHeight="30.0" prefWidth="201.0" text="Inter Movistar" textFill="#2C3E50">
+                  <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-style: italic;" text="CREATE YOUR LINEUP" textAlignment="CENTER">
                      <font>
                         <Font name="Arial Bold" size="30.0" />
                      </font>
                      <HBox.margin>
-                        <Insets left="5.0" right="350.0" top="5.0" />
+                        <Insets right="400.0" />
                      </HBox.margin>
-                  </Label>
+                  </Text>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets bottom="25.0" right="400.0" top="25.0" />

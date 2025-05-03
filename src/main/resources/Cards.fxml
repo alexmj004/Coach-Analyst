@@ -151,7 +151,7 @@
                <children>
                   <StackedBarChart fx:id="graphic_cards" prefHeight="600.0" prefWidth="850.0" title="CARDS">
                     <xAxis>
-                      <CategoryAxis side="BOTTOM" tickLabelFill="WHITE">
+                      <CategoryAxis side="BOTTOM" tickLabelFill="BLACK">
                            <tickLabelFont>
                               <Font size="20.0" />
                            </tickLabelFont>

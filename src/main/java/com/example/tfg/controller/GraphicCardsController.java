@@ -179,7 +179,7 @@ public class GraphicCardsController {
             Node title = cardsChart.lookup(".chart-title");
             if (title instanceof Label) {
                 ((Label) title).setStyle("-fx-font-weight: bold; -fx-font-size: 22px;");
-                ((Label) title).setTextFill(javafx.scene.paint.Color.WHITE);
+                ((Label) title).setTextFill(Color.BLACK);
             }
 
             Node xAxisLabel = xAxis.lookup(".axis-label");
