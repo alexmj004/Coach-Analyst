@@ -116,31 +116,26 @@ public class TfgApplication extends Application {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		Parent root = fxmlLoader.load();
 
-		// Obtener el tamaño actual de la ventana antes de cambiar la escena
+		// Guardar el estado actual de la ventana
 		boolean wasMaximized = stage.isMaximized();
 		double currentWidth = stage.getWidth();
 		double currentHeight = stage.getHeight();
+
 		Scene loginScene = new Scene(root);
-		stage.setMaximized(true);
 		stage.setScene(loginScene);
 
-
-
-		/*// Restaurar el tamaño anterior o maximizar
+		// Restaurar el estado anterior (DESCOMENTA ESTO Y ELIMINA EL setMaximized(true))
 		if (wasMaximized) {
 			stage.setMaximized(true);
 		} else {
 			stage.setWidth(currentWidth);
 			stage.setHeight(currentHeight);
-		}*/
+		}
 
-		// 1. Acceder al HBox (tercer hijo del StackPane)
+		// El resto de tu código para manejar los botones...
 		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
-
-		// 2. Acceder al VBox blanco (segundo hijo del HBox)
 		VBox vbox = (VBox) hbox.getChildren().get(1);
 
-		// 3. Buscar el botón por ID en el VBox
 		Button newUserButton = null;
 		for (Node node : vbox.getChildren()) {
 			if (node instanceof Button && "newUser".equals(node.getId())) {
@@ -149,21 +144,18 @@ public class TfgApplication extends Application {
 			}
 		}
 
-		// Verificación
 		if (newUserButton == null) {
 			throw new RuntimeException("Error crítico: No se encontró el botón 'newUser' en la jerarquía");
 		}
 
-		// Configurar acción del botón
 		newUserButton.setOnAction(e -> {
-            try {
-                handleNewUserButtonAction(stage);
-            } catch (IOException ex) {
+			try {
+				handleNewUserButtonAction(stage);
+			} catch (IOException ex) {
 				System.out.println(e.getEventType());
-            }
-        });
+			}
+		});
 
-		// Configurar los demás elementos (userField, passField, loginButton)
 		TextField userField = (TextField) vbox.lookup("#user");
 		PasswordField passField = (PasswordField) vbox.lookup("#pass");
 		Button loginButton = (Button) vbox.lookup("#login_btn");
@@ -172,8 +164,7 @@ public class TfgApplication extends Application {
 
 		stage.setTitle("Inicio de sesión");
 		stage.show();
-	}	// Funcionalidad para manejar el botón de login
-	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
+	}	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
 		inputUserName = userField.getText();
 		inputPassword = passField.getText();
 
