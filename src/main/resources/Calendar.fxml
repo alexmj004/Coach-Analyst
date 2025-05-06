@@ -86,13 +86,13 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_calendar" alignment="CENTER" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
+      <VBox fx:id="section_calendar" alignment="CENTER" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: #9ab8d6;">
                <children>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
@@ -210,10 +210,10 @@
                   </Button>
                </children>
                <padding>
-                  <Insets left="40.0" />
+                  <Insets left="100.0" />
                </padding>
                <VBox.margin>
-                  <Insets right="350.0" />
+                  <Insets />
                </VBox.margin>
             </VBox>
          </children>
