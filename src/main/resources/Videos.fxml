@@ -90,7 +90,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
@@ -165,6 +165,9 @@
                             </VBox>
                         </children>
                     </HBox>
+               <VBox.margin>
+                  <Insets left="100.0" />
+               </VBox.margin>
                 </VBox>
             </children>
         </VBox>
