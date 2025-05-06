@@ -84,56 +84,57 @@
       </VBox>
       <VBox fx:id="section_teams" prefHeight="1055.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
-            <HBox alignment="CENTER" prefHeight="54.0" spacing="180.0" style="-fx-background-color: #9ab8d6">
+            <HBox alignment="CENTER" prefHeight="54.0" style="-fx-background-color: #9ab8d6">
                <children>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="1650.0" spacing="200.0">
                      <children>
-                        <Text fx:id="clasificationText" fill="#2C3E50" text="CLASIFICATION" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="clasificationText1" fill="#2C3E50" text="CLASIFICATION" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="resultsText1" fill="#2C3E50" text="RESULTS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="teamsText1" fill="#2C3E50" text="TEAMS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
                      </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
-                     <children>
-                        <Text fx:id="resultsText" fill="#2C3E50" text="RESULTS" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
-                     <children>
-                        <Text fx:id="teamsText" fill="#2C3E50" text="TEAMS" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
+                  </HBox>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="25.0" left="140.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                   </ImageView>
                </children>
-               <padding>
-                  <Insets left="120.0" />
-               </padding>
             </HBox>
 
             <!-- Tabla de equipos -->
