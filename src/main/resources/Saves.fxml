@@ -82,70 +82,71 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_saves" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1080.0" style="-fx-background-color: #ECF0F1;">
+      <VBox fx:id="section_saves" style="-fx-background-color: #ECF0F1;">
          <children>
-            <HBox alignment="CENTER" prefHeight="54.0" spacing="160.0" style="-fx-background-color: #9ab8d6">
+            <HBox alignment="TOP_RIGHT" prefHeight="54.0" style="-fx-background-color: #9ab8d6">
                <children>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                  <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="1653.0" spacing="200.0">
                      <children>
-                        <Text fx:id="scores" fill="#2C3E50" text="SCORES" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="scores" fill="#2C3E50" text="SCORES" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="assists" fill="#2C3E50" text="ASSISTS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="cards" fill="#2C3E50" text="CARDS" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
+                        <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
+                           <children>
+                              <Text fx:id="saves" fill="#2C3E50" text="SAVES" textAlignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets bottom="20.0" top="20.0" />
+                           </HBox.margin>
+                        </StackPane>
                      </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
-                     <children>
-                        <Text fx:id="assists" fill="#2C3E50" text="ASSISTS" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
-                     <children>
-                        <Text fx:id="cards" fill="#2C3E50" text="CARDS" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
-                  <StackPane style="-fx-background-color: #f4f4f4; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #cccccc; -fx-padding: 5 15;">
-                     <children>
-                        <Text fx:id="saves" fill="#2C3E50" text="SAVES" textAlignment="CENTER">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
-                     <HBox.margin>
-                        <Insets bottom="20.0" top="20.0" />
-                     </HBox.margin>
-                  </StackPane>
+                  </HBox>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@images/logo.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                   </ImageView>
                </children>
-               <padding>
-                  <Insets left="120.0" />
-               </padding>
             </HBox>
             <HBox alignment="CENTER" maxWidth="-Infinity" prefHeight="600.0" prefWidth="1178.0">
                <children>
