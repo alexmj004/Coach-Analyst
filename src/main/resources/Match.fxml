@@ -85,13 +85,13 @@
             <Insets top="25.0" />
          </padding>
       </VBox>
-      <VBox fx:id="section_match" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="1080.0" prefWidth="1720.0" spacing="20.0" style="-fx-background-color: #ECF0F1;">
+      <VBox fx:id="section_match" spacing="20.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <HBox alignment="CENTER_RIGHT" prefHeight="54.0" prefWidth="370.0" style="-fx-background-color: #9ab8d6;">
                <children>
                   <Text fill="#2C3E50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-style: italic;" text="CREATE YOUR LINEUP" textAlignment="CENTER">
                      <font>
-                        <Font name="Arial Bold" size="30.0" />
+                        <Font name="Arial Bold" size="36.0" />
                      </font>
                      <HBox.margin>
                         <Insets right="400.0" />
@@ -99,7 +99,7 @@
                   </Text>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
@@ -110,7 +110,7 @@
                   <Insets />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="64.0" prefWidth="1370.0" spacing="5.0">
+            <HBox alignment="TOP_CENTER" prefHeight="64.0" prefWidth="1370.0" spacing="5.0">
                <children>
                   <ComboBox fx:id="box_gk" prefHeight="40.0" prefWidth="250.0" promptText="Goalkeepers" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);" />
                   <ComboBox fx:id="box_df" prefHeight="40.0" prefWidth="250.0" promptText="Defenders" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);" />
@@ -118,7 +118,7 @@
                   <ComboBox fx:id="box_pivot" prefHeight="40.0" prefWidth="250.0" promptText="Pivots" style="-fx-background-color: white; -fx-background-radius: 5; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.1), 3, 0, 0, 1);" />
                </children>
                <VBox.margin>
-                  <Insets left="100.0" />
+                  <Insets />
                </VBox.margin>
             </HBox>
             <Group>
@@ -157,7 +157,7 @@
                   </Label>
                </children>
                <VBox.margin>
-                  <Insets />
+                  <Insets left="70.0" />
                </VBox.margin>
             </Group>
          </children>
