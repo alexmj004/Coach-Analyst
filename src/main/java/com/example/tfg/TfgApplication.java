@@ -398,30 +398,52 @@ public class TfgApplication extends Application {
 	// Definir el stage de la interfaz menú.
 	public void showMenu(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
-		var menuScene = new Scene(fxmlLoader.load());
+		Parent root = fxmlLoader.load();
+
+		// Guardar estado actual antes de cambiar
+		boolean wasMaximized = stage.isMaximized();
+		double currentWidth = stage.getWidth();
+		double currentHeight = stage.getHeight();
+
+		Scene menuScene = new Scene(root);
 		stage.setScene(menuScene);
 
-		setMenuClickListener(menuScene);  // Reutilizamos el mismo método para agregar la funcionalidad a esta escena
-		setOutClickListener(menuScene);
+		// Restaurar estado
+		if (wasMaximized) {
+			stage.setMaximized(true);
+		} else {
+			stage.setWidth(currentWidth);
+			stage.setHeight(currentHeight);
+		}
 
+		// Configuración de eventos y elementos
+		setMenuClickListener(menuScene);
+		setOutClickListener(menuScene);
 		updateCoachNameLabel(menuScene);
 
 		Button trainingButton = (Button) menuScene.lookup("#training_btn");
-		trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
+		if (trainingButton != null) {
+			trainingButton.setOnAction(e -> handleTrainingButtonAction(stage));
+		}
 
 		Button matchButton = (Button) menuScene.lookup("#match_btn");
-		matchButton.setOnAction(e -> handleMatchButtonAction(stage));
+		if (matchButton != null) {
+			matchButton.setOnAction(e -> handleMatchButtonAction(stage));
+		}
 
 		Button analystButton = (Button) menuScene.lookup("#analyst_btn");
-		analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
+		if (analystButton != null) {
+			analystButton.setOnAction(e -> handleAnalystButtonAction(stage));
+		}
 
 		Button tournamentButton = (Button) menuScene.lookup("#tournament_btn");
-		tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
+		if (tournamentButton != null) {
+			tournamentButton.setOnAction(e -> handleTournamentButtonAction(stage));
+		}
 
 		stage.setTitle("Menú");
 		stage.show();
 	}
-
 
 	// *** INTERFAZ VIDEOS ***
 	public void showVideosScene(Stage stage) throws IOException {

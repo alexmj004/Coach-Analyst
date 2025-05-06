@@ -87,7 +87,7 @@
                <children>
                   <ImageView fitHeight="50.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
-                        <Insets bottom="25.0" right="400.0" top="25.0" />
+                        <Insets bottom="25.0" right="25.0" top="25.0" />
                      </HBox.margin>
                      <image>
                         <Image url="@images/logo.png" />
@@ -100,7 +100,7 @@
             </HBox>
 
             <!-- Opciones del menú -->
-            <VBox alignment="CENTER" prefHeight="1026.0" prefWidth="1720.0">
+            <VBox alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" prefHeight="277.0" prefWidth="1370.0" spacing="50.0">
                      <children>
@@ -167,12 +167,12 @@
                         </VBox>
                      </children>
                      <VBox.margin>
-                        <Insets bottom="250.0" />
+                        <Insets />
                      </VBox.margin>
                   </HBox>
                </children>
                <VBox.margin>
-                  <Insets right="350.0" />
+                  <Insets />
                </VBox.margin>
             </VBox>
          </children>
