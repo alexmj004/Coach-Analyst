@@ -180,7 +180,7 @@
                   <Insets left="40.0" />
                </padding>
                <VBox.margin>
-                  <Insets right="350.0" />
+                  <Insets left="100.0" />
                </VBox.margin>
             </VBox>
          </children>
