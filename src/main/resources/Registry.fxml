@@ -14,9 +14,9 @@
 
 <SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: red;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <items>
-      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="80.0" style="-fx-background-color: #9ab8d6;">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0" style="-fx-background-color: #9ab8d6;">
          <children>
-            <ImageView fitHeight="491.0" fitWidth="503.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="579.0" fitWidth="596.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@images/logo.png" />
                </image>
@@ -46,11 +46,8 @@
                </children>
             </HBox>
          </children>
-         <padding>
-            <Insets top="10.0" />
-         </padding>
       </VBox>
-      <VBox style="-fx-background-color: #ECF0F1;">
+      <VBox prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: #ECF0F1;">
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
@@ -143,7 +140,7 @@
             </HBox>
          </children>
          <padding>
-            <Insets left="50.0" top="100.0" />
+            <Insets left="200.0" top="150.0" />
          </padding>
       </VBox>
    </items>
