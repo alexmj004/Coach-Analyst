@@ -131,7 +131,7 @@ public class ResultsController {
         matchPanel.setSpacing(15);
         matchPanel.setMaxWidth(1000);
 
-        // Fecha y hora del partido (centrada)
+        // Fecha y hora del partido
         LocalDateTime dateTime = match.getDateTime().toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         Text dateTimeText = new Text(dateTime.format(formatter));
@@ -147,7 +147,7 @@ public class ResultsController {
         resultPanel.setAlignment(Pos.CENTER);
         resultPanel.setSpacing(15);
 
-        // Nombre del equipo local (alineado a la derecha)
+        // Nombre del equipo local
         Text homeTeamText = new Text(match.getHomeTeam().getName());
         homeTeamText.setFont(Font.font("Arial", FontWeight.BOLD, 22));
         homeTeamText.setFill(Color.valueOf("#2C3E50"));
@@ -157,7 +157,7 @@ public class ResultsController {
         homeTeamBox.setPrefWidth(400);
         HBox.setHgrow(homeTeamBox, Priority.ALWAYS);
 
-        // Resultado del partido (centrado)
+        // Resultado del partido
         Text scoreText = new Text(match.getHomeScore() + " - " + match.getAwayScore());
         scoreText.setFont(Font.font("Arial", FontWeight.BOLD, 30));
         scoreText.setFill(Color.valueOf("#2C3E50"));
@@ -166,7 +166,7 @@ public class ResultsController {
         scoreBox.setAlignment(Pos.CENTER);
         scoreBox.setPrefWidth(100);
 
-        // Nombre del equipo visitante (alineado a la izquierda)
+        // Nombre del equipo visitante
         Text awayTeamText = new Text(match.getAwayTeam().getName());
         awayTeamText.setFont(Font.font("Arial", FontWeight.BOLD, 22));
         awayTeamText.setFill(Color.valueOf("#2C3E50"));

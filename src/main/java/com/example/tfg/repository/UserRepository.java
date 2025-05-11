@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    // Método comprobación credenciales.
+    // Método comprobación credenciales de un usuario
     @Query("SELECT u FROM User u WHERE u.email = :email AND u.password = :password")
     User findByNameAndPassword(@Param("email") String email, @Param("password") String password);
 

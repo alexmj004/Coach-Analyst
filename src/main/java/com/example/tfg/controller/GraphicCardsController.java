@@ -52,7 +52,7 @@ public class GraphicCardsController {
 
     private void configureCardsChart(StackedBarChart<String, Number> cardsChart, User loggedInUser) {
         try {
-            // Obtener los jugadores según el equipo del usuario logueado
+            // Obtener los jugadores según el equipo del usuario que ha iniciado sesión
             List<Player> players;
             if (loggedInUser != null && loggedInUser.getTeam() != null) {
                 Team team = loggedInUser.getTeam();
@@ -68,7 +68,7 @@ public class GraphicCardsController {
                 return;
             }
 
-            // Ordenar jugadores por cantidad total de tarjetas (amarillas + rojas) de mayor a menor
+            // Ordenar jugadores por cantidad total de tarjetas de mayor a menor
             players.sort(Comparator.comparingInt(player ->
                     -(player.getYellowCards() + player.getRedCards())));
 
@@ -82,7 +82,7 @@ public class GraphicCardsController {
 
             // Agregar datos de cada jugador
             for (Player player : players) {
-                // Formato del nombre: "Apellido, D#" (donde # es el dorsal)
+
                 String displayName = String.format("%s, %d",
                         player.getApodo(),
                         player.getDorsal());
@@ -107,7 +107,7 @@ public class GraphicCardsController {
     }
 
     private void configureChartLayout(StackedBarChart<String, Number> cardsChart) {
-        // Configuración del eje X color de fuente negro
+        // Configuración del eje X
         CategoryAxis xAxis = (CategoryAxis) cardsChart.getXAxis();
         xAxis.setLabel("Players");
         xAxis.setTickLabelRotation(25);
@@ -117,7 +117,7 @@ public class GraphicCardsController {
 
 
 
-        // Configuración del eje Y para mostrar solo números enteros sin duplicados
+        // Configuración del eje Y
         NumberAxis yAxis = (NumberAxis) cardsChart.getYAxis();
         yAxis.setLabel("Cards");
         yAxis.setAutoRanging(false); // Desactivar autoajuste
@@ -139,14 +139,14 @@ public class GraphicCardsController {
             if (upperBound == maxValue) upperBound++; // Añadir uno más si es exacto
 
             yAxis.setUpperBound(upperBound);
-            yAxis.setTickUnit(1.0); // Exactamente 1 unidad entre marcas
+            yAxis.setTickUnit(1.0);
 
             // Forzar marcas solo en valores enteros
             yAxis.setMinorTickCount(0);
             yAxis.setMinorTickVisible(false);
         });
 
-// Formatear números como enteros
+// Numeros como enteros
         yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis) {
             @Override
             public String toString(Number object) {
@@ -156,7 +156,6 @@ public class GraphicCardsController {
 
 
 
-        // Establecer valores fijos más moderados
         cardsChart.setPrefWidth(1200);
         cardsChart.setPrefHeight(700);
 

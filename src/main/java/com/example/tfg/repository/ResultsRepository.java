@@ -14,6 +14,7 @@ public interface ResultsRepository  extends JpaRepository<Match, Integer> {
     List<Match> findByDateTime(Timestamp dateTime);
 
     //QUery para encontrar los partidos que se han jugado en un torneo dandole solamente el id de uun equipo
+    // através de la tabla teams_tournaments
     @Query(value = "SELECT m.* FROM `match` m " +
             "JOIN teams h ON m.home_team_id = h.id " +
             "JOIN teams a ON m.away_team_id = a.id " +

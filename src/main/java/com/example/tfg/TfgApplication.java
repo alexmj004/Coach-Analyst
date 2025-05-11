@@ -124,7 +124,7 @@ public class TfgApplication extends Application {
 		Scene loginScene = new Scene(root);
 		stage.setScene(loginScene);
 
-		// Restaurar el estado anterior (DESCOMENTA ESTO Y ELIMINA EL setMaximized(true))
+		// Restaurar el estado anterior
 		if (wasMaximized) {
 			stage.setMaximized(true);
 		} else {
@@ -132,7 +132,7 @@ public class TfgApplication extends Application {
 			stage.setHeight(currentHeight);
 		}
 
-		// El resto de tu código para manejar los botones...
+
 		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
 		VBox vbox = (VBox) hbox.getChildren().get(1);
 
@@ -291,7 +291,7 @@ public class TfgApplication extends Application {
 	}
 
 
-// Métodos similares para PasswordField y Button
+// Métodos para PasswordField y Button
 	/**
 	 * Busca un PasswordField dentro de un VBox por su ID
 	 */
@@ -637,7 +637,7 @@ public class TfgApplication extends Application {
 
 	private void handleMatchButtonAction(Stage stage) {
 		try {
-			showMatchScene(stage);  // Llama a la escena de partidos
+			showMatchScene(stage);  // Llama a la escena de match
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -655,7 +655,7 @@ public class TfgApplication extends Application {
 			case "RW":
 				return "Right Winger";
 			default:
-				return positionCode; // Si no coincide con ninguno, devuelve el código original
+				return positionCode;
 		}
 	}
 	private void setupMatchComboboxes(Scene matchScene) {
@@ -750,7 +750,7 @@ public class TfgApplication extends Application {
 			// Buscar el jugador por su apodo para obtener el dorsal
 			Player player = playerServiceImpl.findByApodo(selectedApodo);
 			if (player != null) {
-				// Mostrar "Apodo (Dorsal)" en el Label
+				// Actualizar el label con el apodo y dorsal
 				label.setText(String.format("%s (%d)", player.getApodo(), player.getDorsal()));
 			}
 		}
@@ -758,7 +758,7 @@ public class TfgApplication extends Application {
 	private void updateWardsLabel(ComboBox<String> comboBox, Label labelLw, Label labelRw) {
 		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedPlayer != null) {
-			// Extraer solo el apodo (eliminando "(LW)" o "(RW)")
+			// Extraer solo el apodo sin la posición
 			String apodo = selectedPlayer.replace(" (LW)", "").replace(" (RW)", "");
 
 			// Buscar el jugador completo
@@ -821,10 +821,10 @@ public class TfgApplication extends Application {
 					playerServiceImpl.findByTeamName(team) :
 					playerServiceImpl.findAll();
 
-			// Ordenar por goles (de mayor a menor) - SIN LÍMITE
+			// Ordenar por goles
 			players.sort(Comparator.comparingInt(Player::getGoals).reversed());
 
-			// Añadir datos al gráfico - TODOS los jugadores
+			// Añadir datos al gráfico
 			for (Player player : players) {
 				String displayName = String.format("%s (%d)",
 						player.getApodo().length() > 6 ?
@@ -877,7 +877,7 @@ public class TfgApplication extends Application {
 		xAxis.setTickLabelFont(Font.font(16));
 		xAxis.setTickLabelFill(Color.BLACK);
 
-		// Configuración del eje Y (0-40, incrementos de 5 con líneas intermedias)
+		// Configuración del eje Y
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Goals");
 		yAxis.setAutoRanging(false);
@@ -1041,7 +1041,7 @@ public class TfgApplication extends Application {
 		xAxis.setTickLabelFont(Font.font(16));
 		xAxis.setTickLabelFill(Color.BLACK);
 
-		// Configuración del eje Y (0-30, incrementos de 5 con líneas intermedias)
+		// Configuración del eje Y
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Assists");
 		yAxis.setAutoRanging(false);
@@ -1181,7 +1181,7 @@ public class TfgApplication extends Application {
 	            return getExampleSavesData();
 	        }
 
-	        // Filtrar jugadores nulos y ordenar por paradas (de mayor a menor)
+	        // Filtrar jugadores nulos y ordenar por paradas
 	        goalkeepers.sort((p1, p2) -> {
 	            // Manejo seguro de valores nulos
 	            int saves1 = p1.getSaves() != null ? p1.getSaves() : 0;
@@ -1254,7 +1254,7 @@ public class TfgApplication extends Application {
 		xAxis.setTickLabelFont(Font.font(16));
 		xAxis.setTickLabelFill(Color.BLACK);
 
-		// Configuración del eje Y (0-100, incrementos de 10 con líneas intermedias)
+		// Configuración del eje Y 
 		NumberAxis yAxis = (NumberAxis) barChart.getYAxis();
 		yAxis.setLabel("Saves");
 		yAxis.setTickLabelFont(Font.font(20));

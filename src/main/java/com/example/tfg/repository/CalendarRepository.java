@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface CalendarRepository extends JpaRepository<Calendar, Integer> {
 
-    // Método para buscar eventos entre dos fechas
+    // Método de selección para buscar eventos comprendidos entre dos fechas
     @Query("SELECT c FROM Calendar c WHERE c.start >= :startDate AND c.start < :endDate")
     List<Calendar> findByStartBetween(@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 

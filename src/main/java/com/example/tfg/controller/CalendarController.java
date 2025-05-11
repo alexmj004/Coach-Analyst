@@ -90,7 +90,7 @@ public class CalendarController {
                 });
             }
 
-            // Limpiar campos independientemente de si hay fecha seleccionada
+            // Limpiar campos después de eliminar
             appointmentField.clear();
             startTImeBox.setValue(null);
             endTimeBox.setValue(null);
@@ -129,7 +129,7 @@ public class CalendarController {
         try {
             List<Calendar> events = calendarService.findByDay(date);
 
-            // Ordenar los eventos por hora de inicio (de más temprano a más tarde)
+            // Ordenar los eventos por hora de inicio
             events.sort((event1, event2) -> {
                 LocalTime time1 = event1.getStart().toLocalDateTime().toLocalTime();
                 LocalTime time2 = event2.getStart().toLocalDateTime().toLocalTime();
