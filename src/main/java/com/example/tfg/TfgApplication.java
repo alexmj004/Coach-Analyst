@@ -48,6 +48,9 @@ public class TfgApplication extends Application {
 
 	@Autowired
 	private VideosController videosController;
+	@Autowired
+	private TournamentService tournamentService;
+
 	// Propiedades.
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
 	private static ConfigurableApplicationContext context;
@@ -62,8 +65,7 @@ public class TfgApplication extends Application {
 	private TeamServImpl teamServ;
 	private TournamentServiceImp tournamentServ;
 	private ResultsController resultsController;
-    @Autowired
-    private TournamentService tournamentService;
+
 	//variables interfaz match
 	private String selectedGk;
 	private String selectedDf;
@@ -102,13 +104,14 @@ public class TfgApplication extends Application {
 		videosController = context.getBean(VideosController.class);
 	}
 
-	//obtener el id del equipo logueado
+	// Obtener el id del equipo logueado.
 	public int obtenerIdEquipo(){
 		if ( loggedInUser != null && loggedInUser.getTeam() != null){
 			return loggedInUser.getTeam().getId();
 		}
 		throw new NullPointerException("El usuario no está logueado o no tiene equipo asignado");
 	}
+
 
 	// *** INTERFAZ LOGIN ***
 	// Definir el stage de la interfaz login.
@@ -164,7 +167,8 @@ public class TfgApplication extends Application {
 
 		stage.setTitle("Inicio de sesión");
 		stage.show();
-	}	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
+	}
+	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
 		inputUserName = userField.getText();
 		inputPassword = passField.getText();
 
@@ -190,39 +194,6 @@ public class TfgApplication extends Application {
 
 	// *** INTERFAZ REGISTRY ***
 	// Definir el stage de la interfaz registry.
-	public void showRegistryScene(Stage stage) throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
-		Parent root = fxmlLoader.load();
-		Scene registryScene = new Scene(root);
-
-		// Obtener referencias a los campos directamente desde la escena
-		TextField nameField = (TextField) registryScene.lookup("#name_field");
-		TextField surnameField = (TextField) registryScene.lookup("#surname_field");
-		TextField emailField = (TextField) registryScene.lookup("#email_field");
-		TextField usernameField = (TextField) registryScene.lookup("#username_field");
-		PasswordField passwordField = (PasswordField) registryScene.lookup("#password_field");
-
-		// Configurar botón de registro
-		Button registryButton = (Button) registryScene.lookup("#registry_btn");
-		registryButton.setOnAction(e -> handleRegistryButtonAction(
-				nameField, surnameField, emailField, usernameField, passwordField, stage
-		));
-
-		// Configurar botón de cancelar
-		Button cancelButton = (Button) registryScene.lookup("#cancel_btn");
-		cancelButton.setOnAction(e -> {
-			try {
-				showLoginScene(stage);
-			} catch (IOException ex) {
-				ex.printStackTrace();
-				showAlert("Error", "No se pudo cargar la pantalla de login");
-			}
-		});
-
-		stage.setScene(registryScene);
-		stage.setTitle("Registro de Usuario");
-		stage.show();
-	}
 	private void handleNewUserButtonAction(Stage stage) throws IOException {
 		// 1. Cargar el FXML
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
@@ -276,7 +247,7 @@ public class TfgApplication extends Application {
 
 		stage.setTitle("Registro de Usuario");
 		stage.show();
-	}	// Métodos auxiliares específicos para buscar en VBox
+	}
 	private TextField findTextFieldInVBox(VBox vbox, String id) {
 		for (Node node : vbox.getChildren()) {
 			if (node instanceof HBox) {
@@ -289,9 +260,7 @@ public class TfgApplication extends Application {
 		}
 		throw new RuntimeException("No se encontró el TextField con id: " + id);
 	}
-
-
-// Métodos para PasswordField y Button
+	// Métodos para PasswordField y Button
 	/**
 	 * Busca un PasswordField dentro de un VBox por su ID
 	 */
@@ -307,7 +276,6 @@ public class TfgApplication extends Application {
 		}
 		throw new RuntimeException("No se encontró el PasswordField con id: " + id);
 	}
-
 	/**
 	 * Busca un Button dentro de un VBox por su ID
 	 */
@@ -323,34 +291,7 @@ public class TfgApplication extends Application {
 		}
 		throw new RuntimeException("No se encontró el Button con id: " + id);
 	}
-
-	private Button lookupButton(Parent root, String selector) {
-		Button button = (Button) root.lookup(selector);
-		if (button == null) {
-			logger.error("No se encontró el botón: " + selector);
-			printNodeHierarchy(root, 0);
-			throw new RuntimeException("Botón no encontrado: " + selector);
-		}
-		return button;
-	}
-
-	// Método para depuración de la jerarquía de nodos
-	private void printNodeHierarchy(Node node, int level) {
-		StringBuilder indent = new StringBuilder();
-		for (int i = 0; i < level; i++) {
-			indent.append("  ");
-		}
-
-		System.out.println(indent + node.getClass().getSimpleName() +
-				" - ID: " + node.getId() +
-				" - StyleClass: " + node.getStyleClass());
-
-		if (node instanceof Parent) {
-			for (Node child : ((Parent) node).getChildrenUnmodifiable()) {
-				printNodeHierarchy(child, level + 1);
-			}
-		}
-	}	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
+	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
 		String name = nameField.getText();
 		String surname = surnameField.getText();
 		String email = emailField.getText();
@@ -445,6 +386,7 @@ public class TfgApplication extends Application {
 		stage.show();
 	}
 
+
 	// *** INTERFAZ VIDEOS ***
 	public void showVideosScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Videos.fxml"));
@@ -467,6 +409,8 @@ public class TfgApplication extends Application {
 		stage.setTitle("Video Library");
 		stage.show();
 	}
+
+
 	// *** INTERFAZ CALENDAR ***
 	// Definir el stage de la interfaz calendar.
 	public void showCalendarScene(Stage stage) throws IOException {
@@ -538,8 +482,7 @@ public class TfgApplication extends Application {
 		stage.setTitle("Partidos");
 		stage.show();
 	}
-
-	// metodo para configurar los listeners que guardan las selecciones
+	// Método para configurar los listeners que guardan las selecciones
 	private void setupSelectionListeners(Scene scene) {
 		ComboBox<String> gkComboBox = (ComboBox<String>) scene.lookup("#box_gk");
 		if (gkComboBox != null) {
@@ -581,7 +524,6 @@ public class TfgApplication extends Application {
 			});
 		}
 	}
-
 	// Metodo para restaurar las selecciones guardadas
 	private void restoreMatchSelections(Scene scene) {
 		// Restaurar portero
