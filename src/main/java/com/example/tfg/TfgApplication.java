@@ -46,34 +46,55 @@ import java.util.Map;
 @SpringBootApplication
 public class TfgApplication extends Application {
 
+	/** Controlador para manejar la navegación y lógica de la vista de vídeos. */
 	@Autowired
 	private VideosController videosController;
+	/** Servicio para gestionar torneos, como cargar clasificaciones o equipos por torneo. */
 	@Autowired
 	private TournamentService tournamentService;
 
-	// Propiedades.
+	/** Logger para registrar información, advertencias y errores de la aplicación. */
 	private static final Logger logger = LoggerFactory.getLogger(TfgApplication.class);
+	/** Contexto configurable de la aplicación Spring Boot, utilizado para cerrar o reiniciar el contexto. */
 	private static ConfigurableApplicationContext context;
+	/** Nombre de usuario introducido en la pantalla de login. */
 	private String inputUserName;
+	/** Contraseña introducida en la pantalla de login. */
 	@FXML
 	private String inputPassword;
+	/** Servicio para operaciones relacionadas con jugadores (crear, listar, buscar, etc.). */
 	private PlayerServiceImpl playerServiceImpl;
+	/** Servicio para gestionar eventos y lógica relacionada con el calendario. */
 	private CalendarService calendarService;
+	/** Servicio para gestionar entrenamientos del equipo. */
 	private TrainingService trainingService;
+	/** Usuario actualmente logueado en la aplicación. */
 	private User loggedInUser;
+	/** Servicio para obtener y mostrar los resultados de los partidos. */
 	private ResultsService resultsService;
+	/** Servicio para operaciones con equipos (listar, buscar por torneo, etc.). */
 	private TeamServImpl teamServ;
+	/** Implementación del servicio de torneos, posiblemente con lógica adicional específica. */
 	private TournamentServiceImp tournamentServ;
+	/** Controlador encargado de manejar la lógica y vista de resultados. */
 	private ResultsController resultsController;
 
-	//variables interfaz match
+	/** Portero seleccionado en la interfaz de creación de partidos. */
 	private String selectedGk;
+	/** Defensa seleccionado en la interfaz de creación de partidos. */
 	private String selectedDf;
+	/** Pívot seleccionado en la interfaz de creación de partidos. */
 	private String selectedPiv;
+	/** Lateral izquierdo seleccionado en la interfaz de creación de partidos. */
 	private String selectedLw;
+	/** Lateral derecho seleccionado en la interfaz de creación de partidos. */
 	private String selectedRw;
 
-
+	/**
+	 * Método principal que inicia la aplicación.
+	 * - Primero arranca el contexto de Spring Boot para cargar la configuración y los beans.
+	 * - Luego lanza la aplicación JavaFX.
+	 */
 	public static void main(String[] args) {
 		// Primero, iniciar Spring Boot y luego JavaFX.
 		context = SpringApplication.run(TfgApplication.class, args);
@@ -81,6 +102,13 @@ public class TfgApplication extends Application {
 	}
 
 
+	/**
+	 * Método start() de JavaFX: configura la ventana principal (Stage).
+	 * - Carga la escena de Login como pantalla inicial.
+	 * - Maximiza la ventana automáticamente al iniciar.
+	 *
+	 * @param stage Ventana principal proporcionada por JavaFX.
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
 		// Cargar la pantalla de Login al iniciar la aplicación.
@@ -91,6 +119,11 @@ public class TfgApplication extends Application {
 	}
 
 
+	/**
+	 * Método init() de JavaFX: inicializa los servicios y controladores.
+	 * - Obtiene las instancias de los beans de Spring después de que el contexto esté listo.
+	 * - Aquí se inyectan las dependencias necesarias para toda la aplicación.
+	 */
 	@Override
 	public void init() throws Exception {
 		playerServiceImpl = context.getBean(PlayerServiceImpl.class);
@@ -104,30 +137,33 @@ public class TfgApplication extends Application {
 		videosController = context.getBean(VideosController.class);
 	}
 
-	// Obtener el id del equipo logueado.
-	public int obtenerIdEquipo(){
-		if ( loggedInUser != null && loggedInUser.getTeam() != null){
-			return loggedInUser.getTeam().getId();
-		}
-		throw new NullPointerException("El usuario no está logueado o no tiene equipo asignado");
-	}
 
+// ==================== INTERFAZ LOGIN ====================
 
-	// *** INTERFAZ LOGIN ***
-	// Definir el stage de la interfaz login.
+	/**
+	 * Configura y muestra la escena de Login.
+	 * - Carga el FXML y configura los elementos de la interfaz.
+	 * - Mantiene el estado de la ventana (tamaño/maximizado) al cambiar de escena.
+	 * - Configura los eventos para los botones de login y registro.
+	 *
+	 * @param stage Ventana principal donde se cargará la escena
+	 * @throws IOException Si hay error al cargar el archivo FXML
+	 */
 	public void showLoginScene(Stage stage) throws IOException {
+		// Carga el archivo FXML que define la interfaz de login
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Login.fxml"));
 		Parent root = fxmlLoader.load();
 
-		// Guardar el estado actual de la ventana
+		// Guarda el estado actual de la ventana antes de modificarla
 		boolean wasMaximized = stage.isMaximized();
 		double currentWidth = stage.getWidth();
 		double currentHeight = stage.getHeight();
 
+		// Crea y establece la nueva escena
 		Scene loginScene = new Scene(root);
 		stage.setScene(loginScene);
 
-		// Restaurar el estado anterior
+		// Restaura el estado anterior de la ventana
 		if (wasMaximized) {
 			stage.setMaximized(true);
 		} else {
@@ -135,10 +171,11 @@ public class TfgApplication extends Application {
 			stage.setHeight(currentHeight);
 		}
 
-
+		// Obtiene referencias a los elementos de la interfaz mediante la jerarquía de nodos
 		HBox hbox = (HBox) root.getChildrenUnmodifiable().get(2);
 		VBox vbox = (VBox) hbox.getChildren().get(1);
 
+		// Busca el botón de nuevo usuario
 		Button newUserButton = null;
 		for (Node node : vbox.getChildren()) {
 			if (node instanceof Button && "newUser".equals(node.getId())) {
@@ -147,10 +184,12 @@ public class TfgApplication extends Application {
 			}
 		}
 
+		// Validación crítica del botón
 		if (newUserButton == null) {
 			throw new RuntimeException("Error crítico: No se encontró el botón 'newUser' en la jerarquía");
 		}
 
+		// Configura el evento para el botón de nuevo usuario
 		newUserButton.setOnAction(e -> {
 			try {
 				handleNewUserButtonAction(stage);
@@ -159,15 +198,29 @@ public class TfgApplication extends Application {
 			}
 		});
 
+		// Obtiene referencias a los campos de texto y botón de login
 		TextField userField = (TextField) vbox.lookup("#user");
 		PasswordField passField = (PasswordField) vbox.lookup("#pass");
 		Button loginButton = (Button) vbox.lookup("#login_btn");
 
+		// Configura el evento para el botón de login
 		loginButton.setOnAction(e -> handleLoginButtonAction(userField, passField, stage));
 
 		stage.setTitle("Inicio de sesión");
 		stage.show();
 	}
+
+	/**
+	 * Maneja la acción del botón de login:
+	 * - Valida que los campos no estén vacíos
+	 * - Verifica las credenciales con el servicio de usuarios
+	 * - Si son válidas, guarda el usuario logueado y muestra el menú principal
+	 * - Si no son válidas, muestra un mensaje de error
+	 *
+	 * @param userField Campo de texto con el nombre de usuario
+	 * @param passField Campo de contraseña
+	 * @param stage Ventana principal
+	 */
 	private void handleLoginButtonAction(TextField userField, PasswordField passField, Stage stage) {
 		inputUserName = userField.getText();
 		inputPassword = passField.getText();
@@ -179,9 +232,9 @@ public class TfgApplication extends Application {
 			User user = userService.findByUserName(inputUserName);
 
 			if (user != null && user.getPassword().equals(inputPassword)) {
-				this.loggedInUser = user; // Guardar el usuario logueado
+				this.loggedInUser = user; // Guarda el usuario logueado
 				try {
-					showMenu(stage);
+					showMenu(stage); // Navega al menú principal
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -191,26 +244,46 @@ public class TfgApplication extends Application {
 		}
 	}
 
+	/**
+	 * Obtiene el ID del equipo asociado al usuario logueado.
+	 *
+	 * @return ID del equipo
+	 * @throws NullPointerException Si el usuario no está logueado o no tiene equipo
+	 */
+	public int obtenerIdEquipo(){
+		if (loggedInUser != null && loggedInUser.getTeam() != null){
+			return loggedInUser.getTeam().getId();
+		}
+		throw new NullPointerException("El usuario no está logueado o no tiene equipo asignado");
+	}
 
-	// *** INTERFAZ REGISTRY ***
-	// Definir el stage de la interfaz registry.
+
+	// ==================== INTERFAZ REGISTRO ====================
+
+	/**
+	 * Maneja la acción del botón para nuevo usuario:
+	 * - Carga la interfaz de registro
+	 * - Configura todos los campos y botones
+	 * - Maneja la navegación entre pantallas
+	 *
+	 * @param stage Ventana principal
+	 * @throws IOException Si hay error al cargar el FXML
+	 */
 	private void handleNewUserButtonAction(Stage stage) throws IOException {
-		// 1. Cargar el FXML
+		// Carga la interfaz de registro desde FXML
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Registry.fxml"));
 		Parent root = fxmlLoader.load();
 
-		// Obtener el tamaño actual de la ventana antes de cambiar la escena
+		// Guarda el estado actual de la ventana
 		boolean wasMaximized = stage.isMaximized();
 		double currentWidth = stage.getWidth();
 		double currentHeight = stage.getHeight();
 
-		// 2. Acceder al SplitPane (root es un SplitPane en Registry.fxml)
+		// Obtiene referencias a los elementos del formulario
 		SplitPane splitPane = (SplitPane) root;
-
-		// 3. Acceder al VBox derecho (segundo elemento del SplitPane)
 		VBox rightVBox = (VBox) splitPane.getItems().get(1);
 
-		// 4. Buscar todos los componentes necesarios
+		// Busca todos los campos del formulario
 		TextField nameField = findTextFieldInVBox(rightVBox, "name_field");
 		TextField surnameField = findTextFieldInVBox(rightVBox, "surname_field");
 		TextField emailField = findTextFieldInVBox(rightVBox, "email_field");
@@ -219,25 +292,25 @@ public class TfgApplication extends Application {
 		Button registryButton = findButtonInVBox(rightVBox, "registry_btn");
 		Button cancelButton = findButtonInVBox(rightVBox, "cancel_btn");
 
-		// 5. Configurar acciones de los botones
+		// Configura los eventos de los botones
 		registryButton.setOnAction(e -> handleRegistryButtonAction(
 				nameField, surnameField, emailField, usernameField, passwordField, stage
 		));
 
 		cancelButton.setOnAction(e -> {
 			try {
-				showLoginScene(stage);
+				showLoginScene(stage); // Vuelve al login
 			} catch (IOException ex) {
 				logger.error("Error al cargar login", ex);
 				showAlert("Error", "No se pudo cargar la pantalla de login");
 			}
 		});
 
-		// Crear nueva escena y configurar stage
+		// Muestra la nueva escena
 		Scene registryScene = new Scene(root);
 		stage.setScene(registryScene);
 
-		// Restaurar el tamaño anterior o maximizar
+		// Restaura el estado de la ventana
 		if (wasMaximized) {
 			stage.setMaximized(true);
 		} else {
@@ -248,6 +321,15 @@ public class TfgApplication extends Application {
 		stage.setTitle("Registro de Usuario");
 		stage.show();
 	}
+
+	/**
+	 * Busca un TextField dentro de un VBox por su ID
+	 *
+	 * @param vbox Contenedor donde buscar
+	 * @param id ID del campo a buscar
+	 * @return Referencia al TextField encontrado
+	 * @throws RuntimeException Si no encuentra el campo
+	 */
 	private TextField findTextFieldInVBox(VBox vbox, String id) {
 		for (Node node : vbox.getChildren()) {
 			if (node instanceof HBox) {
@@ -291,6 +373,20 @@ public class TfgApplication extends Application {
 		}
 		throw new RuntimeException("No se encontró el Button con id: " + id);
 	}
+	/**
+	 * Maneja el registro de un nuevo usuario:
+	 * - Valida que todos los campos estén completos
+	 * - Crea un nuevo objeto User con los datos
+	 * - Intenta guardarlo mediante el servicio
+	 * - Muestra feedback al usuario
+	 *
+	 * @param nameField Campo con el nombre
+	 * @param surnameField Campo con el apellido
+	 * @param emailField Campo con el email
+	 * @param usernameField Campo con el nombre de usuario
+	 * @param passwordField Campo con la contraseña
+	 * @param stage Ventana principal
+	 */
 	private void handleRegistryButtonAction(TextField nameField, TextField surnameField, TextField emailField, TextField usernameField, PasswordField passwordField, Stage stage) {
 		String name = nameField.getText();
 		String surname = surnameField.getText();
@@ -335,8 +431,17 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ MENÚ ***
-	// Definir el stage de la interfaz menú.
+// ==================== INTERFAZ MENÚ PRINCIPAL ====================
+
+	/**
+	 * Muestra la interfaz del menú principal:
+	 * - Carga el FXML del menú
+	 * - Configura todos los botones de navegación
+	 * - Actualiza la información del usuario logueado
+	 *
+	 * @param stage Ventana principal
+	 * @throws IOException Si hay error al cargar el FXML
+	 */
 	public void showMenu(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Menu.fxml"));
 		Parent root = fxmlLoader.load();
@@ -387,7 +492,19 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ VIDEOS ***
+	// ==================== INTERFAZ VIDEOS ====================
+
+	/**
+	 * Muestra la escena de gestión de videos:
+	 * - Carga el layout desde el archivo FXML
+	 * - Configura el controlador usando el contexto de Spring
+	 * - Establece los listeners para el menú y logout
+	 * - Actualiza la información del entrenador logueado
+	 * - Gestiona la liberación de recursos al cerrar la ventana
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 * @throws IOException Si hay error al cargar el archivo FXML
+	 */
 	public void showVideosScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Videos.fxml"));
 		fxmlLoader.setControllerFactory(context::getBean);
@@ -411,8 +528,18 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ CALENDAR ***
-	// Definir el stage de la interfaz calendar.
+// ==================== INTERFAZ CALENDARIO ====================
+
+	/**
+	 * Muestra la interfaz de calendario:
+	 * - Carga el layout desde FXML
+	 * - Configura los componentes del calendario
+	 * - Establece los listeners comunes
+	 * - Actualiza la información del usuario
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 * @throws IOException Si hay error al cargar el archivo FXML
+	 */
 	public void showCalendarScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Calendar.fxml"));
 		var calendarScene = new Scene(fxmlLoader.load());
@@ -431,8 +558,18 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ TRAINING ***
-	// Definir el stage de la interfaz training.
+	// ==================== INTERFAZ ENTRENAMIENTOS ====================
+
+	/**
+	 * Muestra la interfaz de gestión de entrenamientos:
+	 * - Carga el layout desde FXML
+	 * - Obtiene el controlador desde el contexto de Spring
+	 * - Configura los componentes específicos de entrenamientos
+	 * - Establece los listeners comunes
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 * @throws IOException Si hay error al cargar el archivo FXML
+	 */
 	public void showTrainingScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Training.fxml"));
 		var trainingScene = new Scene(fxmlLoader.load());
@@ -449,7 +586,13 @@ public class TfgApplication extends Application {
 		stage.setTitle("Entrenamientos");
 		stage.show();
 	}
-	// Funcionalidad evento btn training.
+	/**
+	 * Maneja el evento del botón de entrenamientos:
+	 * - Navega a la escena de gestión de entrenamientos
+	 * - Captura y loguea cualquier error durante la transición
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 */
 	private void handleTrainingButtonAction(Stage stage) {
 		try {
 			showTrainingScene(stage);  // Llama a la escena de entrenamiento
@@ -459,8 +602,19 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ MATCH ***
-	// Definir el stage de la interfaz match.
+	// ==================== INTERFAZ PARTIDOS ====================
+
+	/**
+	 * Muestra la escena de gestión de partidos:
+	 * - Carga el layout desde FXML
+	 * - Configura los ComboBox con jugadores por posición
+	 * - Restaura selecciones previas de alineación
+	 * - Establece listeners para guardar selecciones
+	 * - Configura elementos comunes de la interfaz
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 * @throws IOException Si hay error al cargar el archivo FXML
+	 */
 	public void showMatchScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Match.fxml"));
 		var matchScene = new Scene(fxmlLoader.load());
@@ -482,8 +636,13 @@ public class TfgApplication extends Application {
 		stage.setTitle("Partidos");
 		stage.show();
 	}
-	// Método para configurar los listeners que guardan las selecciones
-	private void setupSelectionListeners(Scene scene) {
+	/**
+	 * Configura listeners para guardar las selecciones de jugadores:
+	 * - Guarda en variables de clase las selecciones actuales
+	 * - Actualiza cuando cambia la selección en los ComboBox
+	 *
+	 * @param scene Escena actual que contiene los ComboBox
+	 */	private void setupSelectionListeners(Scene scene) {
 		ComboBox<String> gkComboBox = (ComboBox<String>) scene.lookup("#box_gk");
 		if (gkComboBox != null) {
 			gkComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
@@ -524,8 +683,13 @@ public class TfgApplication extends Application {
 			});
 		}
 	}
-	// Metodo para restaurar las selecciones guardadas
-	private void restoreMatchSelections(Scene scene) {
+	/**
+	 * Restaura las selecciones guardadas de jugadores:
+	 * - Recupera las selecciones de variables de clase
+	 * - Actualiza los ComboBox y labels correspondientes
+	 *
+	 * @param scene Escena actual donde se restaurarán las selecciones
+	 */	private void restoreMatchSelections(Scene scene) {
 		// Restaurar portero
 		if (selectedGk != null) {
 			ComboBox<String> gkComboBox = (ComboBox<String>) scene.lookup("#box_gk");
@@ -575,8 +739,13 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
-
-
+	/**
+	 * Maneja el evento del botón de partidos:
+	 * - Navega a la escena de gestión de partidos
+	 * - Captura y loguea cualquier error durante la transición
+	 *
+	 * @param stage Ventana principal donde se mostrará la escena
+	 */
 	private void handleMatchButtonAction(Stage stage) {
 		try {
 			showMatchScene(stage);  // Llama a la escena de match
@@ -584,6 +753,13 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Obtiene el nombre completo de una posición a partir de su código:
+	 * - Convierte códigos como "GK" a "Goalkeepers"
+	 *
+	 * @param positionCode Código de posición (GK, DF, PIV, etc.)
+	 * @return Nombre completo de la posición
+	 */
 	private String getPositionName(String positionCode) {
 		switch (positionCode) {
 			case "GK":
@@ -600,6 +776,14 @@ public class TfgApplication extends Application {
 				return positionCode;
 		}
 	}
+	/**
+	 * Configura todos los ComboBox de la interfaz de partidos:
+	 * - Inicializa el servicio de jugadores si es necesario
+	 * - Obtiene el equipo del usuario logueado
+	 * - Configura cada ComboBox por posición
+	 *
+	 * @param matchScene Escena actual que contiene los ComboBox
+	 */
 	private void setupMatchComboboxes(Scene matchScene) {
 		if (playerServiceImpl == null) {
 			playerServiceImpl = context.getBean(PlayerServiceImpl.class);
@@ -626,6 +810,18 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
+	/**
+	 * Configura un ComboBox para una posición específica:
+	 * - Establece el texto de prompt
+	 * - Carga los jugadores para esa posición
+	 * - Configura el evento para actualizar el label asociado
+	 *
+	 * @param scene Escena actual
+	 * @param comboId ID del ComboBox
+	 * @param position Posición a cargar (GK, DF, etc.)
+	 * @param labelId ID del label asociado
+	 * @param team Equipo para filtrar jugadores
+	 */
 	private void setupPositionComboBox(Scene scene, String comboId, String position, String labelId, Team team) {
 		ComboBox<String> comboBox = (ComboBox<String>) scene.lookup(comboId);
 		if (comboBox != null) {
@@ -638,6 +834,15 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
+	/**
+	 * Carga jugadores extremos (LW/RW) en un ComboBox:
+	 * - Combina jugadores de ambas posiciones
+	 * - Marca cada jugador con su posición
+	 * - Filtra por equipo si se especifica
+	 *
+	 * @param comboBox ComboBox a llenar
+	 * @param team Equipo para filtrar (null para todos)
+	 */
 	private void loadWardsPlayers(ComboBox<String> comboBox, Team team) {
 		try {
 			List<Player> lwPlayers = team != null ?
@@ -666,6 +871,15 @@ public class TfgApplication extends Application {
 			comboBox.setPromptText("Error loading wingers");
 		}
 	}
+	/**
+	 * Carga jugadores para una posición específica:
+	 * - Filtra por equipo si se especifica
+	 * - Maneja errores y muestra feedback en el ComboBox
+	 *
+	 * @param comboBox ComboBox a llenar
+	 * @param position Posición a cargar
+	 * @param team Equipo para filtrar (null para todos)
+	 */
 	private void loadPlayersByPosition(ComboBox<String> comboBox, String position, Team team) {
 		try {
 			List<Player> players = team != null ?
@@ -686,6 +900,13 @@ public class TfgApplication extends Application {
 			comboBox.setPromptText("Error loading " + getPositionName(position));
 		}
 	}
+	/**
+	 * Actualiza un label con la selección actual de un ComboBox:
+	 * - Muestra el apodo y dorsal del jugador seleccionado
+	 *
+	 * @param comboBox ComboBox con la selección
+	 * @param label Label a actualizar
+	 */
 	private void updateLabel(ComboBox<String> comboBox, Label label) {
 		String selectedApodo = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedApodo != null && label != null) {
@@ -697,6 +918,16 @@ public class TfgApplication extends Application {
 			}
 		}
 	}
+	/**
+	 * Actualiza los labels de extremos (LW/RW):
+	 * - Detecta la posición del jugador seleccionado
+	 * - Previene duplicados en ambas posiciones
+	 * - Actualiza el label correspondiente
+	 *
+	 * @param comboBox ComboBox de extremos
+	 * @param labelLw Label para extremo izquierdo
+	 * @param labelRw Label para extremo derecho
+	 */
 	private void updateWardsLabel(ComboBox<String> comboBox, Label labelLw, Label labelRw) {
 		String selectedPlayer = comboBox.getSelectionModel().getSelectedItem();
 		if (selectedPlayer != null) {
@@ -727,8 +958,16 @@ public class TfgApplication extends Application {
 		}
 	}
 
+	// ==================== INTERFAZ ANALYST ====================
 
-	// *** INTERFAZ ANALYST ***
+	/**
+	 * Muestra la escena del panel de análisis (goleadores) en el stage proporcionado.
+	 * Carga la interfaz desde el archivo FXML, configura los elementos de navegación
+	 * y genera un gráfico de barras con los máximos goleadores.
+	 *
+	 * @param stage la ventana principal donde se mostrará la escena
+	 * @throws IOException si ocurre un error al cargar el archivo FXML
+	 */
 	public void showAnalystScene(Stage stage) throws IOException {
 		try {
 			// Cargar la escena FXML
@@ -752,6 +991,14 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de análisis");
 		}
 	}
+
+	/**
+	 * Carga los datos de goles de los jugadores, ordenados de mayor a menor.
+	 * Si hay un equipo asignado al usuario logueado, se filtra por ese equipo.
+	 * En caso de error, carga datos de ejemplo.
+	 *
+	 * @return una serie de datos para el gráfico de barras
+	 */
 	private XYChart.Series<String, Number> loadPlayerData() {
 		XYChart.Series<String, Number> series = new XYChart.Series<>();
 		series.setName("Goals");
@@ -789,6 +1036,12 @@ public class TfgApplication extends Application {
 
 		return series;
 	}
+	/**
+	 * Configura el gráfico de barras de goleadores en la escena.
+	 * Personaliza ejes, estilos, animaciones y carga la serie de datos correspondiente.
+	 *
+	 * @param scene la escena que contiene el gráfico
+	 */
 	private void configureBarChart(Scene scene) {
 		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_scores");
 		if (barChart == null) {
@@ -874,6 +1127,12 @@ public class TfgApplication extends Application {
 			barChart.requestLayout();
 		});
 	}
+	/**
+	 * Maneja la acción del botón para acceder a la interfaz Analyst.
+	 * Llama al método encargado de cargar y mostrar dicha escena.
+	 *
+	 * @param stage la ventana actual en la que se mostrará la escena
+	 */
 	private void handleAnalystButtonAction(Stage stage) {
 		try {
 			showAnalystScene(stage);  // Llama a la escena de analistas
@@ -881,6 +1140,12 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Maneja el clic en el texto "Goleadores" desde otras escenas.
+	 * Carga la escena de goleadores en la misma ventana.
+	 *
+	 * @param event el evento de clic del mouse
+	 */
 	public void handleScoresClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Goleadores!");
 		try {
@@ -891,7 +1156,16 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ ASSISTS ***
+	// ==================== INTERFAZ ASISTENCIAS ====================
+
+	/**
+	 * Muestra la escena de asistencias en el stage proporcionado.
+	 * Carga el archivo FXML, configura la interfaz y genera el gráfico de barras
+	 * con los jugadores con más asistencias.
+	 *
+	 * @param stage la ventana donde se mostrará la escena
+	 * @throws IOException si ocurre un error al cargar la interfaz
+	 */
 	public void showAssistsScene(Stage stage) throws IOException {
 		try {
 			// Cargar la escena FXML
@@ -915,6 +1189,13 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de asistencias");
 		}
 	}
+	/**
+	 * Carga los datos de asistencias de los jugadores, ordenados de mayor a menor.
+	 * Si hay un equipo asignado al usuario logueado, se filtra por ese equipo.
+	 * En caso de error, carga datos de ejemplo.
+	 *
+	 * @return una serie de datos con las asistencias
+	 */
 	private XYChart.Series<String, Number> loadAssistsData() {
 		XYChart.Series<String, Number> series = new XYChart.Series<>();
 		series.setName("Assists");
@@ -952,6 +1233,12 @@ public class TfgApplication extends Application {
 
 		return series;
 	}
+	/**
+	 * Configura el gráfico de barras para mostrar los máximos asistentes.
+	 * Personaliza ejes, estilo visual y carga la serie de datos correspondiente.
+	 *
+	 * @param scene la escena donde se encuentra el gráfico
+	 */
 	private void configureAssistsBarChart(Scene scene) {
 		BarChart<String, Number> barChart = (BarChart<String, Number>) scene.lookup("#grafic_assists");
 		if (barChart == null) {
@@ -1036,6 +1323,12 @@ public class TfgApplication extends Application {
 			barChart.requestLayout();
 		});
 	}
+	/**
+	 * Maneja el clic sobre el texto "Asistencias" desde otras interfaces.
+	 * Carga la escena de asistencias.
+	 *
+	 * @param event el evento de clic del mouse
+	 */
 	public void handleAssistsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Asistencias!");
 		try {
@@ -1046,7 +1339,16 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ CARDS ***
+	// ==================== INTERFAZ TARJETAS ====================
+
+	/**
+	 * Muestra la escena de tarjetas en el stage proporcionado.
+	 * Carga el archivo FXML, actualiza elementos de interfaz y llama al
+	 * controlador especializado para configurar el gráfico de tarjetas.
+	 *
+	 * @param stage la ventana principal donde se mostrará la escena
+	 * @throws IOException si ocurre un error al cargar la interfaz
+	 */
 	public void showCardsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Cards.fxml"));
 		var cardsScene = new Scene(fxmlLoader.load());
@@ -1064,6 +1366,12 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tarjetas");
 		stage.show();
 	}
+	/**
+	 * Maneja el clic sobre el texto "Tarjetas".
+	 * Llama al método que muestra la escena de tarjetas.
+	 *
+	 * @param event el evento de clic del mouse
+	 */
 	public void handleCardsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Tarjetas!");
 		try {
@@ -1074,7 +1382,16 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ SAVES ***
+	// ==================== INTERFAZ PARADAS ====================
+
+	/**
+	 * Muestra la escena de paradas de portero.
+	 * Carga el archivo FXML, actualiza la interfaz, configura navegación entre escenas
+	 * y genera el gráfico de barras con los datos de paradas.
+	 *
+	 * @param stage la ventana principal donde se mostrará la escena
+	 * @throws IOException si ocurre un error al cargar la escena
+	 */
 	public void showSavesScene(Stage stage) throws IOException {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Saves.fxml"));
@@ -1106,6 +1423,12 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de paradas");
 		}
 	}
+	/**
+	 * Carga los datos de paradas de los porteros, filtrando por el equipo del usuario logueado.
+	 * Si no hay porteros disponibles, puede cargar datos de prueba.
+	 *
+	 * @return una serie con los datos de paradas de los porteros
+	 */
 	private XYChart.Series<String, Number> loadSavesData() {
 	    XYChart.Series<String, Number> series = new XYChart.Series<>();
 	    series.setName("Saves");
@@ -1250,6 +1573,13 @@ public class TfgApplication extends Application {
 			barChart.requestLayout();
 		});
 	}
+	/**
+	 * Maneja el clic sobre el texto "Paradas".
+	 * Este método no está incluido en tu código pero es recomendable añadir uno
+	 * similar a los de goles/asistencias/tarjetas para navegación.
+	 *
+	 * @param event el evento de clic del mouse
+	 */
 	public void handleSavesClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Paradas!");
 		try {
@@ -1260,7 +1590,14 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ TOURNAMENT ***
+	// ==================== INTERFAZ TOURNAMENT ====================
+	/**
+	 * Muestra la escena del torneo en el stage proporcionado.
+	 * Carga la interfaz desde Tournament.fxml, actualiza elementos y muestra la tabla de clasificación.
+	 *
+	 * @param stage la ventana principal donde se mostrará la escena del torneo
+	 * @throws IOException si ocurre un error al cargar el archivo FXML
+	 */
 	public void showTournamentScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Tournament.fxml"));
 		var tournamentScene = new Scene(fxmlLoader.load());
@@ -1279,6 +1616,12 @@ public class TfgApplication extends Application {
 		stage.setTitle("Tournament");
 		stage.show();
 	}
+	/**
+	 * Maneja el evento del botón que accede a la interfaz de torneo.
+	 * Llama al método que muestra la escena del torneo.
+	 *
+	 * @param stage la ventana actual donde se mostrará la escena
+	 */
 	private void handleTournamentButtonAction(Stage stage) {
 		try {
 			showTournamentScene(stage);  // Llama a la escena del torneo
@@ -1286,6 +1629,13 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+
+	/**
+	 * Maneja el clic en el texto "Clasificación".
+	 * Carga y muestra la escena del torneo.
+	 *
+	 * @param event el evento de clic del mouse sobre el texto
+	 */
 	public void handleClasificationClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Clasificación!");
 		try {
@@ -1295,6 +1645,13 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la clasificación");
 		}
 	}
+	/**
+	 * Configura las columnas de la tabla de clasificación.
+	 * Asigna las propiedades de los equipos a las columnas correspondientes
+	 * y carga los datos en la tabla.
+	 *
+	 * @param scene la escena que contiene la tabla de clasificación
+	 */
 	private void configurarTablaClasificacion(Scene scene) {
 		TableView<Team> tablaClasificacion = (TableView<Team>) scene.lookup("#tablaClasificacion");
 
@@ -1320,6 +1677,12 @@ public class TfgApplication extends Application {
 			cargarClasificacionEnTabla(tablaClasificacion);
 		}
 	}
+	/**
+	 * Carga los equipos del torneo asociados al equipo del usuario logueado
+	 * y los muestra en la tabla de clasificación.
+	 *
+	 * @param tablaClasificacion la tabla donde se mostrarán los datos de clasificación
+	 */
 	private void cargarClasificacionEnTabla(TableView<Team> tablaClasificacion) {
 		try {
 			Team team = loggedInUser.getTeam();
@@ -1331,6 +1694,17 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la clasificación");
 		}
 	}
+
+
+	// ==================== INTERFAZ RESULTS ====================
+	/**
+	 * Muestra la escena de resultados en el stage proporcionado.
+	 * Carga la interfaz desde Results.fxml, actualiza datos del coach,
+	 * y muestra los partidos del equipo logueado o todos si no hay equipo asignado.
+	 *
+	 * @param stage la ventana donde se mostrará la escena de resultados
+	 * @throws IOException si ocurre un error al cargar el archivo FXML
+	 */
 	public void showResultsScene(Stage stage) throws IOException {
 	    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Results.fxml"));
 	    var resultsScene = new Scene(fxmlLoader.load());
@@ -1360,7 +1734,15 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** INTERFAZ TEAMS ***
+	// ==================== INTERFAZ TEAMS ====================
+	/**
+	 * Muestra la escena de equipos en el stage proporcionado.
+	 * Carga Teams.fxml, actualiza el nombre del coach, configura la tabla de equipos
+	 * y asigna eventos de navegación.
+	 *
+	 * @param stage la ventana donde se mostrará la escena de equipos
+	 * @throws IOException si ocurre un error al cargar el archivo FXML
+	 */
 	public void showTeamsScene(Stage stage) throws IOException {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/Teams.fxml"));
 		var teamsScene = new Scene(fxmlLoader.load());
@@ -1376,6 +1758,12 @@ public class TfgApplication extends Application {
 		stage.setTitle("Equipos");
 		stage.show();
 	}
+	/**
+	 * Maneja el clic sobre el texto "Equipos".
+	 * Llama al método que muestra la escena de equipos.
+	 *
+	 * @param event el evento de clic del mouse sobre el texto
+	 */
 	public void handleTeamsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Equipos!");
 		try {
@@ -1385,6 +1773,13 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar los equipos");
 		}
 	}
+
+	/**
+	 * Configura la tabla de equipos para mostrar el nombre de cada equipo.
+	 * Asigna las propiedades necesarias y llama a la carga de datos.
+	 *
+	 * @param tablaEquipos la tabla donde se configurarán las columnas
+	 */
 	private void configurarTablaEquipos(TableView<Team> tablaEquipos) {
 		// Configurar la columna de la tabla
 		TableColumn<Team, String> colEquipo = (TableColumn<Team, String>) tablaEquipos.getColumns().get(0);
@@ -1393,6 +1788,13 @@ public class TfgApplication extends Application {
 		// Cargar los equipos desde el servicio
 		cargarEquiposEnTabla(tablaEquipos);
 	}
+
+	/**
+	 * Carga los equipos del torneo asociado al equipo del usuario logueado
+	 * y los muestra en la tabla de equipos.
+	 *
+	 * @param tablaEquipos la tabla donde se mostrarán los equipos
+	 */
 	private void cargarEquiposEnTabla(TableView<Team> tablaEquipos) {
 		try {
 			Team team = loggedInUser.getTeam();
@@ -1406,8 +1808,13 @@ public class TfgApplication extends Application {
 	}
 
 
-	// *** MÉTODOS ***
-	// Método para actualizar el nombre_usuario del login en cada interfaz.
+
+
+	/**
+	 * Actualiza la etiqueta con el nombre del usuario (coach) logueado en la escena actual.
+	 *
+	 * @param scene la escena en la que se actualizará la etiqueta con el nombre del coach
+	 */
 	private void updateCoachNameLabel(Scene scene) {
 		if (scene == null || loggedInUser == null) return;
 
@@ -1416,7 +1823,11 @@ public class TfgApplication extends Application {
 			nombreCoachLabel.setText(loggedInUser.getUserName()); // O usa getUsername() según tu modelo User
 		}
 	}
-	// Método para establecer la navegación a través de los Text.
+	/**
+	 * Establece los eventos de navegación para los distintos textos de la interfaz (clasificación, resultados, equipos, etc.).
+	 *
+	 * @param scene la escena en la que se asociarán los eventos de navegación
+	 */
 	public void setNavigationClickListeners(Scene scene) {
 		// Asocia los eventos de clic a los textos correspondientes
 		Text clasificationText = (Text) scene.lookup("#clasificationText");
@@ -1456,6 +1867,11 @@ public class TfgApplication extends Application {
 
 
 	}
+	/**
+	 * Maneja el clic en el texto "Resultados" y muestra la escena correspondiente.
+	 *
+	 * @param event el evento de clic sobre el texto "Resultados"
+	 */
 	@FXML
 	private void handleResultsClick(MouseEvent event) {
 		System.out.println("¡Se hizo clic en Resultados!");
@@ -1466,12 +1882,21 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de resultados");
 		}
 	}
-	// Métodos para manejar los eventos acceso a menu.fxml, log_out.fxml, calendar.fxml.
+	/**
+	 * Establece los listeners para los iconos del menú, calendario y vídeos.
+	 *
+	 * @param scene la escena en la que se buscarán los ImageView para asignar los eventos
+	 */
 	public void setMenuClickListener(Scene scene) {
 		setImageClickListener(scene, "#img_menu", this::handleImgMenuClick);
 		setImageClickListener(scene, "#img_calendar", this::handleImgCalendarClick);
 		setImageClickListener(scene, "#img_films", this::handleImgFilmsClick);
 	}
+	/**
+	 * Maneja el clic sobre el icono de vídeos y navega a la escena correspondiente.
+	 *
+	 * @param event el evento de clic sobre el icono de vídeos
+	 */
 	public void handleImgFilmsClick(MouseEvent event) {
 		try {
 			showVideosScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
@@ -1480,6 +1905,11 @@ public class TfgApplication extends Application {
 			showAlert("Error", "No se pudo cargar la pantalla de videos");
 		}
 	}
+	/**
+	 * Maneja el clic sobre el icono del menú y muestra la pantalla del menú.
+	 *
+	 * @param event el evento de clic sobre el icono del menú
+	 */
 	public void handleImgMenuClick(MouseEvent event) {
 		try {
 			showMenu((Stage) ((ImageView) event.getSource()).getScene().getWindow());
@@ -1487,6 +1917,11 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Maneja el clic sobre el icono del calendario y muestra la pantalla del calendario.
+	 *
+	 * @param event el evento de clic sobre el icono del calendario
+	 */
 	public void handleImgCalendarClick(MouseEvent event) {
 		try {
 			showCalendarScene((Stage) ((ImageView) event.getSource()).getScene().getWindow());
@@ -1494,18 +1929,36 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * Asigna un `EventHandler` de clic a una `ImageView` de la escena especificada por su fx:id.
+	 *
+	 * @param scene la escena en la que se buscará la `ImageView`
+	 * @param fxId el identificador del nodo (por ejemplo, "#img_menu")
+	 * @param handler el manejador de eventos que se asignará al clic
+	 */
 	public void setImageClickListener(Scene scene, String fxId, EventHandler<MouseEvent> handler) {
 		ImageView imageView = (ImageView) scene.lookup(fxId);
 		if (imageView != null) {
 			imageView.setOnMouseClicked(handler);
 		}
 	}
+	/**
+	 * Asigna el evento de cerrar sesión al icono correspondiente.
+	 *
+	 * @param scene la escena en la que se encuentra el icono de cerrar sesión
+	 */
 	public void setOutClickListener(Scene scene) {
 		ImageView imgOut = (ImageView) scene.lookup("#img_out");
 		if (imgOut != null) {
 			imgOut.setOnMouseClicked(this::handleImgOutClick);
 		}
 	}
+	/**
+	 * Maneja el clic sobre el icono de cerrar sesión.
+	 * Reinicia variables globales, limpia selecciones de partido y vuelve a la pantalla de login.
+	 *
+	 * @param event el evento de clic sobre el icono de salir
+	 */
 	public void handleImgOutClick(MouseEvent event) {
 		try {
 			//reniniciar variables
@@ -1524,7 +1977,12 @@ public class TfgApplication extends Application {
 			e.printStackTrace();
 		}
 	}
-	// Método para mostrar ventanas de alertas.
+	/**
+	 * Muestra una ventana emergente de alerta con un mensaje y un título especificado.
+	 *
+	 * @param title el título de la alerta
+	 * @param message el mensaje que se mostrará en la alerta
+	 */
 	private void showAlert(String title, String message) {
 		Alert alert = new Alert(Alert.AlertType.WARNING);
 		alert.setTitle(title);
@@ -1533,7 +1991,10 @@ public class TfgApplication extends Application {
 		alert.showAndWait();
 	}
 
-
+	/**
+	 * Cierra el contexto de la aplicación al detenerla.
+	 * Método sobreescrito del ciclo de vida de JavaFX.
+	 */
 	@Override
 	public void stop() {
 		if (context != null) {
